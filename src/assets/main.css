@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    @apply bg-theme-bg-light dark:bg-theme-bg-dark;
+}
+
+body {
+    @apply antialiased overflow-x-hidden font-poppins text-sm text-slate-800;
+}
+
+main {
+    @apply flex flex-wrap;
+}
+
+.login {
+    @apply relative overflow-hidden;
+}
+.login-before {
+    content: '';
+    @apply before:w-[57%] before:-mt-[28%] before:-mb-[15%] before:-ml-[13%] before:absolute before:inset-y-0 before:left-0 before:transform before:rotate-[-4deg] before:bg-slate-600/40 before:rounded-[100%];
+}
+.login-after {
+    content: '';
+    @apply after:w-[57%] after:-mt-[20%] after:-mb-[12%] after:-ml-[13%] after:absolute after:inset-y-0 after:left-0 transform after:bg-slate-600 after:rounded-[100%]
+}
+.login__input {
+        @apply xl:min-w-full min-w-[350px];
+    }
