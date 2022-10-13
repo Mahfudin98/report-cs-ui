@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require("tailwindcss/colors");
+const { fontFamily } = require("tailwindcss/defaultTheme");
 module.exports = {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
@@ -29,10 +32,21 @@ module.exports = {
           "warning-dark": "#A25C06",
           "error-dark": "#F53D50",
         },
+        cyan: colors.cyan,
+        fuchsia: colors.fuchsia,
+        lime: colors.lime,
+        orange: colors.orange,
+        "light-blue": colors.sky,
+        "litepie-primary": colors.emerald,
+        "litepie-secondary": colors.coolGray,
       },
       fontFamily: {
         roboto: ["Roboto"],
         poppins: ["Poppins"],
+        sans: ["Inter", ...fontFamily.sans],
+      },
+      opacity: {
+        85: "0.85",
       },
       container: {
         center: true,
@@ -53,6 +67,11 @@ module.exports = {
   },
   plugins: [require("tailwind-scrollbar"), require("flowbite/plugin")],
   variants: {
-    scrollbar: ["rounded"],
+    extend: {
+      cursor: ["disabled"],
+      textOpacity: ["disabled"],
+      textColor: ["disabled"],
+      scrollbar: ["rounded"],
+    },
   },
 };
