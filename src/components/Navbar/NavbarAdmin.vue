@@ -1,16 +1,12 @@
 <script setup>
-import { RouterLink } from "vue-router"
+import { RouterLink } from "vue-router";
 </script>
 <template>
   <nav class="">
     <ul>
       <router-link to="/dashboard" v-slot="{ href, navigate, isActive }">
         <li
-          :class="[
-            isActive
-              ? 'bg-slate-100 drop-shadow-lg relative rounded-l-full rounded-br-lg mt-3 mb-3'
-              : '',
-          ]"
+          :class="[isActive ? 'nav-active' : '']"
           class="ml-5 py-3 flex items-center self-center"
         >
           <a
@@ -32,11 +28,7 @@ import { RouterLink } from "vue-router"
       </router-link>
       <router-link to="/report-cs" v-slot="{ href, navigate, isActive }">
         <li
-          :class="[
-            isActive
-              ? 'bg-slate-100 drop-shadow-lg relative rounded-l-full rounded-br-lg mt-3 mb-3'
-              : '',
-          ]"
+          :class="[isActive ? 'nav-active' : '']"
           class="ml-5 py-3 flex items-center self-center"
         >
           <a
@@ -58,11 +50,7 @@ import { RouterLink } from "vue-router"
       </router-link>
       <router-link to="/member" v-slot="{ href, navigate, isActive }">
         <li
-          :class="[
-            isActive
-              ? 'bg-slate-100 drop-shadow-lg relative rounded-l-full rounded-br-lg mt-3 mb-3'
-              : '',
-          ]"
+          :class="[isActive ? 'nav-active' : '']"
           class="ml-5 py-3 flex items-center self-center"
         >
           <a
@@ -84,11 +72,7 @@ import { RouterLink } from "vue-router"
       </router-link>
       <router-link to="/product" v-slot="{ href, navigate, isActive }">
         <li
-          :class="[
-            isActive
-              ? 'bg-slate-100 drop-shadow-lg relative rounded-l-full rounded-br-lg mt-3 mb-3'
-              : '',
-          ]"
+          :class="[isActive ? 'nav-active' : '']"
           class="ml-5 py-3 flex items-center self-center"
         >
           <a
@@ -110,11 +94,7 @@ import { RouterLink } from "vue-router"
       </router-link>
       <router-link to="/team" v-slot="{ href, navigate, isActive }">
         <li
-          :class="[
-            isActive
-              ? 'bg-slate-100 drop-shadow-lg relative rounded-l-full rounded-br-lg mt-3 mb-3'
-              : '',
-          ]"
+          :class="[isActive ? 'nav-active' : '']"
           class="ml-5 py-3 flex items-center self-center"
         >
           <a

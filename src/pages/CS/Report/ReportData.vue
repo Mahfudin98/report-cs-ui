@@ -1,6 +1,6 @@
 <script setup>
 import { mapActions, mapState } from "vuex";
-import DaterangeLayout from "../../../components/Widget/DateRange/DaterangeLayout.vue";
+import DaterangeLayout from "@/components/Widget/DateRange/DaterangeLayout.vue";
 import { ref } from "vue";
 </script>
 <template>
@@ -25,22 +25,34 @@ import { ref } from "vue";
           </router-link>
           <hr class="mb-3 opacity-20" />
           <button
+            v-on:click="dataFilterKey = 'all'"
             type="button"
-            class="flex gap-2 rounded-xl place-items-center drop-shadow-lg bg-slate-700/10 mx-3 py-3 px-3"
+            class="flex gap-2 rounded-xl place-items-center hover:bg-slate-700/10 mx-3 py-3 px-3"
+            :class="{
+              'drop-shadow-lg bg-slate-700/10': dataFilterKey == 'all',
+            }"
           >
             <i class="fa-solid fa-rectangle-list h-5 w-5"></i>
             <h2 class="font-normal text-base">All Report</h2>
           </button>
           <button
+            v-on:click="dataFilterKey = 'member'"
             type="button"
             class="flex gap-2 rounded-xl place-items-center hover:bg-slate-700/10 mx-3 py-3 px-3"
+            :class="{
+              'drop-shadow-lg bg-slate-700/10': dataFilterKey == 'member',
+            }"
           >
             <i class="fa-solid fa-users-rectangle w-5 h-5"></i>
             <h2 class="font-normal text-base">Member</h2>
           </button>
           <button
+            v-on:click="dataFilterKey = 'customer'"
             type="button"
             class="flex gap-2 rounded-xl place-items-center hover:bg-slate-700/10 mx-3 py-3 px-3"
+            :class="{
+              'drop-shadow-lg bg-slate-700/10': dataFilterKey == 'customer',
+            }"
           >
             <i class="fa-regular fa-circle-user w-5 h-5"></i>
             <h2 class="font-normal text-base">Customer</h2>
@@ -95,7 +107,7 @@ import { ref } from "vue";
               </thead>
               <tbody>
                 <tr
-                  v-for="(transaction, index) in transactions"
+                  v-for="(transaction, index) in dataFilter"
                   :key="index"
                   class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                 >
@@ -221,14 +233,34 @@ export default {
     this.getTransaction();
   },
   setup() {
-      const dateValue = ref([]);
-      
-      return {
-        dateValue
-      };
-    },
+    const dateValue = ref([]);
+    return {
+      dateValue,
+    };
+  },
+  data() {
+    return {
+      dataFilterKey: "all",
+    };
+  },
   computed: {
     ...mapState("transaction", { transactions: (state) => state.transactions }),
+    dataFilter() {
+      return this[this.dataFilterKey];
+    },
+    all() {
+      return this.transactions;
+    },
+    member() {
+      return this.transactions.filter((item) => {
+        return item.member.indexOf("member") > -1;
+      });
+    },
+    customer() {
+      return this.transactions.filter((item) => {
+        return item.member.indexOf("customer") > -1;
+      });
+    },
   },
   methods: {
     ...mapActions("transaction", ["getTransaction"]),

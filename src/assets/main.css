@@ -26,5 +26,8 @@ main {
     @apply after:w-[57%] after:-mt-[20%] after:-mb-[12%] after:-ml-[13%] after:absolute after:inset-y-0 after:left-0 transform after:bg-slate-600 after:rounded-[100%]
 }
 .login__input {
-        @apply xl:min-w-full min-w-[350px];
-    }
+    @apply xl:min-w-full min-w-[350px];
+}
+.nav-active {
+    @apply bg-slate-100 rounded-l-2xl relative before:absolute before:w-4 before:h-8 before:-top-8 before:rounded-br-xl before:right-0 before:shadow-inverse-top  after:absolute after:w-4 after:h-8 after:-bottom-8 after:rounded-tr-xl after:right-0 after:shadow-inverse-bottom;
+}
