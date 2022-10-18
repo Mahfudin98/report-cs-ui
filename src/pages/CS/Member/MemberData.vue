@@ -173,7 +173,7 @@ export default {
     ...mapActions("member", ["getIndexMember"]),
     showMore(page) {
       this.page = page;
-      this.transactions.current_page = page;
+      this.members.current_page = page;
     },
   },
 };

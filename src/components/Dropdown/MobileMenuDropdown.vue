@@ -49,7 +49,7 @@ import { RouterLink } from "vue-router"
         </a>
       </li>
     </router-link>
-    <router-link to="/member" v-slot="{ href, navigate, isActive }">
+    <router-link :to="{ name: 'member-data' }" v-slot="{ href, navigate, isActive }">
       <li
         :class="[
           isActive
