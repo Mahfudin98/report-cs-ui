@@ -1,20 +1,21 @@
 import { createRouter, createWebHistory } from "vue-router";
 import store from "@/store";
 
-import Login from "../pages/Auth/LoginPage.vue";
-import Dashboard from "../pages/Dashboard.vue";
-import Product from "../pages/Product.vue";
-import Teams from "../pages/Teams.vue";
+import Login from "@/pages/Auth/LoginPage.vue";
+import Dashboard from "@/pages/Dashboard.vue";
+import Product from "@/pages/Product.vue";
+import Teams from "@/pages/Teams.vue";
 
 // report cs
 import ReportCS from "@/pages/CS/Report/ReportIndex.vue";
 import ReportDataCS from "@/pages/CS/Report/ReportData.vue";
 import ReportFormCS from "@/pages/CS/Report/ReportForm.vue";
+import ReportDetailCS from "@/pages/CS/Report/ReportDetail.vue"
 
 // member
-import MemberIndex from "../pages/CS/Member/MemberIndex.vue";
-import MemberData from "../pages/CS/Member/MemberData.vue";
-import MemberForm from "../pages/CS/Member/MemberForm.vue";
+import MemberIndex from "@/pages/CS/Member/MemberIndex.vue";
+import MemberData from "@/pages/CS/Member/MemberData.vue";
+import MemberForm from "@/pages/CS/Member/MemberForm.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -71,12 +72,18 @@ const router = createRouter({
               component: ReportFormCS,
               meta: { title: "Report Form" },
             },
+            {
+              path: "/report-detail/:kode",
+              name: "report-detail-cs",
+              component: ReportDetailCS,
+              meta: { title: "Report Detail" },
+            },
           ],
         },
         // member
         {
-          path: "/member",
-          name: "member",
+          path: "/member-page",
+          name: "member-index",
           component: MemberIndex,
           children: [
             {

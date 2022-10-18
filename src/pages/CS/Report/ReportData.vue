@@ -1,7 +1,11 @@
 <script setup>
 import { mapActions, mapState } from "vuex";
-import DaterangeLayout from "@/components/Widget/DateRange/DaterangeLayout.vue";
-import { ref } from "vue";
+import DateRangeLayout from "@/components/Widget/DateRange/DaterangeLayout.vue";
+import moment from "moment";
+import Pagination from "@/components/Widget/PaginationWidget.vue";
+// import { ref } from "vue";
+
+// const date = ref([]);
 </script>
 <template>
   <main>
@@ -65,11 +69,11 @@ import { ref } from "vue";
         >
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 gap-y-5 px-4 pt-5">
             <form>
-              <DaterangeLayout v-model="dateValue"></DaterangeLayout>
+              <DateRangeLayout v-model="dateRange" />
             </form>
             <div class="flex justify-between lg:justify-end lg:gap-3">
               <div class="flex self-center gap-3">
-                1-50 of 1000
+                1 - {{ transactions.per_page }} of {{ transactions.total }}
                 <div class="flex gap-2">
                   <button>
                     <i class="fa-solid fa-chevron-left"></i>
@@ -95,21 +99,35 @@ import { ref } from "vue";
                 class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400"
               >
                 <tr>
-                  <th scope="col" class="py-3 px-6">Customer Data</th>
-                  <th scope="col" class="py-3 px-6">Membership</th>
-                  <th scope="col" class="py-3 px-6">Kode Transaksi</th>
-                  <th scope="col" class="py-3 px-6">Ongkir</th>
-                  <th scope="col" class="py-3 px-6">Tipe Transaksi</th>
-                  <th scope="col" class="py-3 px-6">Produk</th>
-                  <th scope="col" class="py-3 px-6">Tanggal Transaksi</th>
-                  <th scope="col" class="py-3 px-6">Aksi</th>
+                  <th scope="col" class="py-3 px-6 whitespace-nowrap">
+                    Customer Data
+                  </th>
+                  <th scope="col" class="py-3 px-6 whitespace-nowrap">
+                    Membership
+                  </th>
+                  <th scope="col" class="py-3 px-6 whitespace-nowrap">
+                    Kode Transaksi
+                  </th>
+                  <th scope="col" class="py-3 px-6 whitespace-nowrap">
+                    Ongkir
+                  </th>
+                  <th scope="col" class="py-3 px-6 whitespace-nowrap">
+                    Tipe Transaksi
+                  </th>
+                  <th scope="col" class="py-3 px-6 whitespace-nowrap">
+                    Produk
+                  </th>
+                  <th scope="col" class="py-3 px-6 whitespace-nowrap">
+                    Tanggal Transaksi
+                  </th>
+                  <th scope="col" class="py-3 px-6 whitespace-nowrap">Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 <tr
                   v-for="(transaction, index) in dataFilter"
                   :key="index"
-                  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 group"
                 >
                   <th
                     scope="row"
@@ -120,14 +138,24 @@ import { ref } from "vue";
                     >
                       <i
                         :class="{
-                          'fa-regular fa-face-laugh-squint w-8 h-8':
+                          'fa-regular fa-face-laugh-squint w-8 h-8 group-hover:hidden':
                             transaction.type_customer == 'Agen',
-                          'fa-regular fa-face-laugh-wink w-8 h-8':
+                          'fa-regular fa-face-laugh-wink w-8 h-8 group-hover:hidden':
                             transaction.type_customer == 'Reseller',
-                          'fa-regular fa-face-smile-beam w-8 h-8':
+                          'fa-regular fa-face-smile-beam w-8 h-8 group-hover:hidden':
                             transaction.type_customer == 'Customer',
                         }"
                       ></i>
+                      <router-link
+                        :to="{
+                          name: 'report-detail-cs',
+                          params: { kode: transaction.nomor_pesanan },
+                        }"
+                      >
+                        <i
+                          class="fa-solid fa-eyes hidden cursor-pointer group-hover:block w-8 h-8"
+                        ></i>
+                      </router-link>
                     </div>
                     <div class="pl-3">
                       <div class="text-base font-semibold">
@@ -138,21 +166,21 @@ import { ref } from "vue";
                       </div>
                     </div>
                   </th>
-                  <td class="py-3 px-6">
+                  <td class="py-3 px-6 whitespace-nowrap">
                     {{ transaction.type_customer }}
                   </td>
-                  <td class="py-3 px-6">
+                  <td class="py-3 px-6 whitespace-nowrap">
                     {{ transaction.nomor_pesanan }}
                   </td>
-                  <td class="py-3 px-6">
+                  <td class="py-3 px-6 whitespace-nowrap">
                     <div class="text-base font-semibold">
-                      Rp.{{ currency(transaction.ongkir) }}
+                      Rp. {{ currency(transaction.ongkir) }}
                     </div>
                     <div class="font-normal text-gray-500">
                       {{ transaction.expedisi }}
                     </div>
                   </td>
-                  <td class="py-3 px-6">
+                  <td class="py-3 px-6 whitespace-nowrap">
                     <div class="text-base font-semibold">
                       {{ transaction.type_transaction }}
                     </div>
@@ -160,18 +188,18 @@ import { ref } from "vue";
                       {{ transaction.origin_customer }}
                     </div>
                   </td>
-                  <td class="py-3 px-6">
+                  <td class="py-3 px-6 whitespace-nowrap">
                     <div class="text-base font-semibold">
-                      Rp.{{ currency(transaction.total_harga) }}
+                      Rp. {{ currency(transaction.total_harga) }}
                     </div>
                     <div class="font-normal text-gray-500">
                       {{ transaction.produk.length }} Produk
                     </div>
                   </td>
-                  <td class="py-3 px-6">
-                    {{ transaction.tanggal }}
+                  <td class="py-3 px-6 whitespace-nowrap">
+                    {{ moment(transaction.tanggal).format("MMM DD, YYYY") }}
                   </td>
-                  <td class="py-3 px-6">
+                  <td class="py-3 px-6 whitespace-nowrap">
                     <button
                       type="button"
                       class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
@@ -184,43 +212,16 @@ import { ref } from "vue";
             </table>
           </div>
           <!-- pagination -->
+
           <div class="grid mb-4">
-            <nav class="w-full sm:w-auto sm:mr-auto">
-              <ul class="inline-flex -space-x-px">
-                <li>
-                  <a href="" class="py-2 px-3 ml-0 leading-tight text-gray-500">
-                    <i class="fa-solid fa-angles-left"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="" class="py-2 px-3 ml-0 leading-tight text-gray-500">
-                    <i class="fa-solid fa-angle-left"></i>
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href=""
-                    class="py-2 px-3 ml-0 leading-tight text-gray-500"
-                    v-for="n in 10"
-                    :key="n"
-                  >
-                    {{ n }}
-                  </a>
-                </li>
-
-                <li>
-                  <a href="" class="py-2 px-3 ml-0 leading-tight text-gray-500">
-                    <i class="fa-solid fa-angle-right"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="" class="py-2 px-3 ml-0 leading-tight text-gray-500">
-                    <i class="fa-solid fa-angles-right"></i>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <Pagination
+              :total-pages="transactions.last_page"
+              :total="transactions.total"
+              :per-page="transactions.per_page"
+              :current-page="transactions.current_page"
+              :has-more-pages="hasMorePages"
+              @pagechanged="showMore"
+            />
           </div>
         </div>
       </div>
@@ -232,32 +233,49 @@ export default {
   created() {
     this.getTransaction();
   },
-  setup() {
-    const dateValue = ref([]);
-    return {
-      dateValue,
-    };
-  },
   data() {
     return {
       dataFilterKey: "all",
+      dateRange: [],
+      hasMorePages: true,
     };
+  },
+  watch: {
+    dateRange() {
+      this.getTransaction(
+        this.convert(this.dateRange[0]) +
+          "+-+" +
+          this.convert(this.dateRange[1])
+      );
+    },
+    page() {
+      this.getTransaction();
+    },
   },
   computed: {
     ...mapState("transaction", { transactions: (state) => state.transactions }),
+    // eslint-disable-next-line vue/no-dupe-keys
+    page: {
+      get() {
+        return this.$store.state.transaction.page;
+      },
+      set(val) {
+        this.$store.commit("transaction/SET_PAGE", val);
+      },
+    },
     dataFilter() {
       return this[this.dataFilterKey];
     },
     all() {
-      return this.transactions;
+      return this.transactions.data;
     },
     member() {
-      return this.transactions.filter((item) => {
+      return this.transactions.data.filter((item) => {
         return item.member.indexOf("member") > -1;
       });
     },
     customer() {
-      return this.transactions.filter((item) => {
+      return this.transactions.data.filter((item) => {
         return item.member.indexOf("customer") > -1;
       });
     },
@@ -268,6 +286,16 @@ export default {
       return new Intl.NumberFormat("id-ID", {
         maximumSignificantDigits: 6,
       }).format(data);
+    },
+    showMore(page) {
+      this.page = page;
+      this.transactions.current_page = page;
+    },
+    convert(str) {
+      var date = new Date(str),
+        mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+        day = ("0" + date.getDate()).slice(-2);
+      return [date.getFullYear(), mnth, day].join("-");
     },
   },
 };

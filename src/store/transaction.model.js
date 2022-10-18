@@ -2,19 +2,38 @@ import $axios from "../service/api";
 
 const state = () => ({
   transactions: [],
+  detailTR: "",
+  page: 1,
 });
 
 const mutations = {
   ASSIGN_TRANSACTION_LIST(state, payload) {
     state.transactions = payload;
   },
+  ASSIGN_DETAIL_TR(state, payload) {
+    state.detailTR = payload;
+  },
+  SET_PAGE(state, payload) {
+    state.page = payload;
+  },
 };
 
 const actions = {
-  getTransaction({ commit }) {
+  getTransaction({ commit, state }, payload) {
+    let dateRange = typeof payload != "undefined" ? payload : "";
     return new Promise((resolve) => {
-      $axios.get(`/transaction-index`).then((response) => {
-        commit("ASSIGN_TRANSACTION_LIST", response.data.data);
+      $axios
+        .get(`/transaction-index?page=${state.page}&date=${dateRange}`)
+        .then((response) => {
+          commit("ASSIGN_TRANSACTION_LIST", response.data);
+          resolve(response.data);
+        });
+    });
+  },
+  getDetailTR({ commit }, payload) {
+    return new Promise((resolve) => {
+      $axios.get(`/transaction-show/${payload}`).then((response) => {
+        commit("ASSIGN_DETAIL_TR", response.data.data);
         resolve(response.data);
       });
     });

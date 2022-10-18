@@ -4,7 +4,7 @@ import { RouterLink } from "vue-router";
 <template>
   <nav class="">
     <ul>
-      <router-link to="/dashboard" v-slot="{ href, navigate, isActive }">
+      <router-link :to="{ name: 'dashboard' }" v-slot="{ href, navigate, isActive }">
         <li
           :class="[isActive ? 'nav-active' : '']"
           class="ml-5 py-3 flex items-center self-center"
@@ -26,7 +26,7 @@ import { RouterLink } from "vue-router";
           </a>
         </li>
       </router-link>
-      <router-link to="/report-cs" v-slot="{ href, navigate, isActive }">
+      <router-link :to="{ name: 'report-data' }" v-slot="{ href, navigate, isActive }">
         <li
           :class="[isActive ? 'nav-active' : '']"
           class="ml-5 py-3 flex items-center self-center"
@@ -48,7 +48,7 @@ import { RouterLink } from "vue-router";
           </a>
         </li>
       </router-link>
-      <router-link to="/member" v-slot="{ href, navigate, isActive }">
+      <router-link :to="{ name: 'member-data' }" v-slot="{ href, navigate, isActive }">
         <li
           :class="[isActive ? 'nav-active' : '']"
           class="ml-5 py-3 flex items-center self-center"

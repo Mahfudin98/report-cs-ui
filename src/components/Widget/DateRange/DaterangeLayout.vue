@@ -298,7 +298,7 @@ export default /*#__PURE__*/ defineComponent({
     },
     i18n: {
       type: String,
-      default: "en",
+      default: "id",
     },
     disableDate: {
       type: [Boolean, Array, Function],
