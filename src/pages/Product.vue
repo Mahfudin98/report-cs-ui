@@ -57,15 +57,23 @@ import Pagination from "@/components/Widget/PaginationWidget.vue";
         </div>
         <!-- category -->
         <div class="grid grid-cols-12 gap-5 mt-5">
-          <div
-            class="col-span-12 sm:col-span-4 2xl:col-span-3 box p-5 cursor-pointer hover:scale-105 bg-theme-primary/80 rounded-lg shadow-lg shadow-black/10"
+          <button
+            v-on:click="dataFilterKey = 'all'"
+            class="col-span-12 sm:col-span-4 2xl:col-span-3 box p-5 cursor-pointer hover:scale-105 bg-white rounded-lg shadow-lg shadow-black/10"
+            :class="{
+              'bg-theme-primary/50': dataFilterKey == 'all',
+            }"
           >
-            <div class="font-medium text-base text-white">All</div>
-            <div class="text-slate-300">{{ products.data.length }} Items</div>
-          </div>
-          <div
+            <div class="font-medium text-base">All</div>
+            <div class="text-slate-300">{{ products.total }} Items</div>
+          </button>
+          <button
             v-for="(item, index) in categorys"
             :key="index"
+            v-on:click="dataFilterKey = item.code"
+            :class="{
+              'bg-theme-primary/50': dataFilterKey == item.code,
+            }"
             class="col-span-12 sm:col-span-4 2xl:col-span-3 box p-5 cursor-pointer hover:scale-105 bg-white rounded-lg shadow-lg shadow-black/10"
           >
             <div class="font-medium text-base">
@@ -76,13 +84,13 @@ import Pagination from "@/components/Widget/PaginationWidget.vue";
                 {{ item.type }}
               </span>
             </div>
-            <div class="text-slate-500">{{ item.product }} Items</div>
-          </div>
+            <div class="text-slate-300">{{ item.product }} Items</div>
+          </button>
         </div>
         <!-- list Produk -->
         <div class="grid grid-cols-12 gap-5 mt-5 pt-5 mb-8 border-t">
           <a
-            v-for="(item, index) in products.data"
+            v-for="(item, index) in dataFilter"
             :key="index"
             href="javascript:;"
             class="block col-span-12 sm:col-span-4 2xl:col-span-3"
@@ -186,6 +194,7 @@ export default {
     return {
       tooltipShow: false,
       search: "",
+      dataFilterKey: "all",
     };
   },
   computed: {
@@ -200,6 +209,21 @@ export default {
       set(val) {
         this.$store.commit("product/SET_PAGE", val);
       },
+    },
+    dataFilter() {
+      let data =
+        this.dataFilterKey == "all"
+          ? this[this.dataFilterKey]
+          : this.filterData;
+      return data;
+    },
+    all() {
+      return this.products.data;
+    },
+    filterData() {
+      return this.products.data.filter((item) => {
+        return item.category_code.indexOf(this.dataFilterKey) > -1;
+      });
     },
   },
   watch: {
