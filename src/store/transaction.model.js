@@ -56,6 +56,13 @@ const actions = {
         });
     });
   },
+  removeTransaction({ dispatch }, payload) {
+    return new Promise((resolve) => {
+      $axios.delete(`/transaction-delete/${payload}`).then(() => {
+        dispatch("getTransaction").then(() => resolve());
+      });
+    });
+  },
 };
 
 export default {

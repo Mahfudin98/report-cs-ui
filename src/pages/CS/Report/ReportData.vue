@@ -3,6 +3,8 @@ import { mapActions, mapState } from "vuex";
 import DateRangeLayout from "@/components/Widget/DateRange/DaterangeLayout.vue";
 import moment from "moment";
 import Pagination from "@/components/Widget/PaginationWidget.vue";
+
+import Swal from "sweetalert2";
 // import { ref } from "vue";
 
 // const date = ref([]);
@@ -201,6 +203,7 @@ import Pagination from "@/components/Widget/PaginationWidget.vue";
                   </td>
                   <td class="py-3 px-6 whitespace-nowrap">
                     <button
+                      @click="deleteData(transaction.nomor_pesanan)"
                       type="button"
                       class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                     >
@@ -281,7 +284,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("transaction", ["getTransaction"]),
+    ...mapActions("transaction", ["getTransaction", "removeTransaction"]),
     currency(data) {
       return new Intl.NumberFormat("id-ID", {
         maximumSignificantDigits: 6,
@@ -296,6 +299,22 @@ export default {
         mnth = ("0" + (date.getMonth() + 1)).slice(-2),
         day = ("0" + date.getDate()).slice(-2);
       return [date.getFullYear(), mnth, day].join("-");
+    },
+    deleteData(code) {
+      Swal.fire({
+        title: "Kamu Yakin?",
+        text: "Kamu tidak dapat mengembalikan ini!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, hapus!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.removeTransaction(code);
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        }
+      });
     },
   },
 };

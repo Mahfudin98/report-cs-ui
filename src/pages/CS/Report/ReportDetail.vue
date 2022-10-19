@@ -93,7 +93,9 @@ import moment from "moment";
             </tr>
           </tbody>
           <tfoot>
-            <tr class="font-semibold bg-slate-400/30 text-gray-900 dark:text-white">
+            <tr
+              class="font-semibold bg-slate-400/30 text-gray-900 dark:text-white"
+            >
               <th scope="row" class="py-3 px-6 text-base">Total</th>
               <td class="py-3 px-6">{{ data.produk.length }}</td>
               <th colspan="2"></th>

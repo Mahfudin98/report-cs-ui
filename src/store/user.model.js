@@ -6,6 +6,7 @@ const state = () => ({
     users: [],
     page: 1,
     edit: [],
+    profile: "",
 })
 
 const mutations = {
@@ -19,7 +20,11 @@ const mutations = {
 
     ASSIGN_EDIT_USER(state, payload) {
         state.edit = payload
-    },    
+    },
+
+    ASSIGN_PROFILE(state, payload) {
+        state.profile = payload
+    }
 }
 
 const actions = {
@@ -27,13 +32,22 @@ const actions = {
         let search = typeof payload != 'undefined' ? payload : ''
         return new Promise((resolve) => {
             $axios.get(`/user-list?page=${state.page}&q=${search}`).then((response) => {
-                commit('ASSIGN_USERS_LIST', response.data.data)
+                commit('ASSIGN_USERS_LIST', response.data)
                 resolve(response.data)
             })
         }).catch((error) => {
             if (error.response.status == 422) {
                 commit('SET_ERRORS', error.response.data.errors, { root: true })
             }
+        })
+    },
+
+    getUserDetail({ commit }, payload) {
+        return new Promise((resolve) => {
+            $axios.get(`/user-show/${payload}`).then((response) => {
+                commit('ASSIGN_PROFILE', response.data.data)
+                resolve(response.data)
+            })
         })
     },
 

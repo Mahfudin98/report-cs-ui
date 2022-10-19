@@ -10,12 +10,15 @@ import Teams from "@/pages/Teams.vue";
 import ReportCS from "@/pages/CS/Report/ReportIndex.vue";
 import ReportDataCS from "@/pages/CS/Report/ReportData.vue";
 import ReportFormCS from "@/pages/CS/Report/ReportForm.vue";
-import ReportDetailCS from "@/pages/CS/Report/ReportDetail.vue"
+import ReportDetailCS from "@/pages/CS/Report/ReportDetail.vue";
 
 // member
 import MemberIndex from "@/pages/CS/Member/MemberIndex.vue";
 import MemberData from "@/pages/CS/Member/MemberData.vue";
 import MemberForm from "@/pages/CS/Member/MemberForm.vue";
+
+// profile
+import Profile from "@/pages/Profile/ProfileIndex.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -53,6 +56,13 @@ const router = createRouter({
           name: "team",
           component: Teams,
           meta: { title: "Team" },
+        },
+        // profile
+        {
+          path: ":username",
+          name: "profile",
+          component: Profile,
+          meta: { title: "Profile Page" },
         },
         // report cs
         {
