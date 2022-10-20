@@ -5,7 +5,9 @@ import LoginPage from "../pages/Auth/LoginPage.vue";
 </script>
 <template>
   <div class="login">
-    <div class="absolute w-full h-screen login-before login-after hidden xl:block"></div>
+    <div
+      class="absolute w-full h-screen login-before login-after hidden xl:block"
+    ></div>
     <div class="relative overflow-hidden">
       <div class="container mx-auto sm:px-10">
         <div class="block xl:grid grid-cols-2 gap-4">

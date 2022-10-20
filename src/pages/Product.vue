@@ -126,7 +126,10 @@ import Pagination from "@/components/Widget/PaginationWidget.vue";
                 <img class="relative rounded-md" :src="item.image" alt="" />
               </div>
               <div class="relative text-white px-6 pb-6 mt-6">
-                <span class="block opacity-75 -mb-1">{{ item.category }}</span>
+                <div class="flex justify-between">
+                  <span class="block opacity-75 -mb-1">{{ item.category }}</span>
+                  <span class="block opacity-75 -mb-1">Stok {{ item.stock }}</span>
+                </div>
                 <span class="block font-semibold text-lg">{{
                   item.nama_produk
                 }}</span>

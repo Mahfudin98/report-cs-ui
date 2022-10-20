@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable prettier/prettier */
 import $axios from "../service/api";
 
 const state = () => ({
@@ -43,7 +43,7 @@ const actions = {
     });
   },
 
-  getProductSelect({ commit }, payload) {
+  getProductSelect({ commit }) {
     return new Promise((resolve) => {
       $axios.get(`/product-select`).then((response) => {
         commit("ASSIGN_PRODUCTS_SELECT", response.data.data);
@@ -57,7 +57,7 @@ const actions = {
   },
 
   getCategoryProduct({ commit }) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       $axios.get(`/product-category`).then((response) => {
         commit("ASSIGN_CATEGORY_PRODUCT", response.data.data);
         resolve(response.data);
