@@ -9,7 +9,11 @@ import { createPopper } from "@popperjs/core";
       v-on:click="toggleDropdown($event)"
       class="grid place-items-center justify-self-end rounded-full shadow-sm shadow-black/30 w-10 h-10"
     >
-      <img :src="image" class="object-cover object-center aspect-square rounded-full" alt="" />
+      <img
+        :src="image"
+        class="object-cover object-center aspect-square rounded-full"
+        alt=""
+      />
     </a>
     <!-- dropdown -->
     <div
@@ -26,7 +30,7 @@ import { createPopper } from "@popperjs/core";
       <ul class="border-t border-white/[0.10] py-2 mt-2">
         <li>
           <router-link
-            :to="{ name: 'profile', params: {username: `${user.username}`}}"
+            :to="{ name: 'profile', params: { username: `${user.username}` } }"
           >
             <a
               href="javascript:;"

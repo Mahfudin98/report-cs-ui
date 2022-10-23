@@ -1,4 +1,14 @@
 <!-- eslint-disable vue/multi-word-component-names -->
+<script setup>
+import StatusCard from "../components/Card/StatusCard.vue";
+import _ from "lodash";
+import moment from "moment";
+import LineChart from "../components/Chart/LineChart.vue";
+import DonutChart from "../components/Chart/DonutChart.vue";
+import DateRangeLayout from "../components/Widget/DateRange/DaterangeLayout.vue";
+import TableRangeCS from "../components/Table/TableRangeCS.vue";
+import { mapActions, mapState } from "vuex";
+</script>
 <template>
   <main>
     <div class="w-full flex justify-between py-3 px-4">
@@ -12,26 +22,157 @@
     </div>
 
     <!-- content -->
-    <div class="w-full grid grid-cols-12 gap-6 px-4">
+    <div class="w-full grid grid-cols-12 gap-6 px-4 pt-1">
       <div class="col-span-12 2xl:col-span-9">
-        <!-- card status layout -->
-        <div class="grid grid-cols-12 gap-6 pt-5">
-          <!-- card status -->
-          <div class="col-span-12 sm:col-span-6 xl:col-span-3" v-for="n in 4" :key="n">
+        <div class="grid grid-cols-12 gap-6">
+          <!-- BEGIN: General Report -->
+          <div class="col-span-12">
+            <div class="grid grid-cols-12 gap-6">
+              <StatusCard :title="'Data Jualan'" :data="'4.000'" :persen="10">
+                <template #icon>
+                  <svg
+                    class="w-7 h-7 text-theme-primary"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                    ></path>
+                  </svg>
+                </template>
+                <template #persen>
+                  <div
+                    class="bg-red-600 px-2 py-0.5 rounded-xl text-white font-normal text-xs"
+                  >
+                    10%
+                    <i class="fa-solid fa-chevron-up w-3 h-3 ml-0.5"></i>
+                  </div>
+                </template>
+              </StatusCard>
+              <StatusCard />
+              <StatusCard />
+              <StatusCard />
+            </div>
+          </div>
+
+          <div class="col-span-12 lg:col-span-6 mt-5">
+            <div class="block sm:flex items-center h-10">
+              <h2 class="text-lg font-medium truncate mr-5">Sales Report</h2>
+              <div class="sm:ml-auto mt-3 sm:mt-0 relative text-slate-500">
+                <select
+                  v-model="year"
+                  class="bg-gray-50 border w-full pr-10 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
+                  <option v-for="(y, i) in years" :key="i" :value="y">
+                    {{ y }}
+                  </option>
+                </select>
+              </div>
+            </div>
             <div
-              class="grid grid-cols-1 gap-3 bg-white rounded-lg shadow-md shadow-black/10 hover:shadow-lg hover:scale-105 px-5 py-5"
+              class="relative shadow-md shadow-slate-500/40 rounded-md bg-white p-5 mt-12 sm:mt-5"
             >
-              <div class="flex justify-between">
-                <i class="fa-solid fa-cart-plus w-8 h-8"></i>
-                <div class="flex gap-2 bg-theme-success rounded-xl py-1 px-3 text-base">
-                  {{n}}0%
-                  <i class="fa-solid fa-caret-up"></i>
+              <div class="flex flex-col xl:flex-row xl:items-center">
+                <div class="flex">
+                  <div>
+                    <div
+                      class="text-slate-500 dark:text-slate-300 text-lg xl:text-xl font-medium"
+                    >
+                      Omset
+                    </div>
+                    <div class="mt-0.5 text-slate-500">
+                      {{ moment(month).format("MMMM") }}
+                    </div>
+                  </div>
+                  <div
+                    class="w-px h-12 border border-r border-dashed border-slate-200 dark:border-darkmode-300 mx-4 xl:mx-5"
+                  ></div>
+                  <div class="flex self-center">
+                    <div class="text-slate-800 text-lg xl:text-xl font-medium">
+                      Rp. {{ currency(total) }}
+                    </div>
+                  </div>
+                </div>
+                <div class="dropdown xl:ml-auto mt-5 xl:mt-0">
+                  <select
+                    v-model="month"
+                    class="bg-gray-50 border w-fit border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option value="01">Januari</option>
+                    <option value="02">Februari</option>
+                    <option value="03">Maret</option>
+                    <option value="04">April</option>
+                    <option value="05">Mei</option>
+                    <option value="06">Juni</option>
+                    <option value="07">Juli</option>
+                    <option value="08">Agustus</option>
+                    <option value="09">September</option>
+                    <option value="10">Oktober</option>
+                    <option value="11">November</option>
+                    <option value="12">Desember</option>
+                  </select>
                 </div>
               </div>
-              <h2 class="font-bold text-2xl">Rp. {{ n }}.500.000</h2>
-              <h3 class="font-normal text-base text-slate-500">
-                Omset Bulanan
-              </h3>
+              <div class="pt-5">
+                <LineChart
+                  v-if="lineChart.length > 0"
+                  :data="transaction_data"
+                  :labels="labels"
+                  :legenda="'Data Transaksi'"
+                  :chartClass="'h-[280px]'"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-span-12 sm:col-span-6 lg:col-span-3 mt-5">
+            <div class="flex items-center h-10">
+              <h2 class="text-lg font-medium truncate mr-5">Produk Top</h2>
+              <a href="" class="ml-auto text-theme-primary truncate text-xs"
+                >Show More</a
+              >
+            </div>
+            <div
+              class="relative shadow-md shadow-slate-500/40 rounded-md bg-white p-5 mt-5"
+            >
+              <DonutChart :chartClass="'h-[280px]'" />
+            </div>
+          </div>
+
+          <div class="col-span-12 sm:col-span-6 lg:col-span-3 mt-5">
+            <div class="flex items-center h-10">
+              <h2 class="text-lg font-medium truncate mr-5">CS Top</h2>
+              <a href="" class="ml-auto text-theme-primary truncate text-xs"
+                >Show More</a
+              >
+            </div>
+            <div
+              class="relative shadow-md shadow-slate-500/40 rounded-md bg-white p-5 mt-5"
+            >
+              <DonutChart
+                v-if="topCS.length > 0"
+                :data="donutData"
+                :labels="donutLabels"
+                :legenda="'Top CS'"
+                :chartClass="'h-[280px]'"
+              />
+            </div>
+          </div>
+
+          <div class="col-span-12 xl:col-span-4 mt-6">
+            <div class="flex flex-wrap items-center h-10">
+              <h2 class="text-lg font-medium truncate w-1/2">Top 5 CS</h2>
+              <div class="w-1/2">
+                <DateRangeLayout v-model="dateRange" />
+              </div>
+            </div>
+            <div class="mt-5">
+              <TableRangeCS :items="topCS" />
             </div>
           </div>
         </div>
@@ -39,3 +180,96 @@
     </div>
   </main>
 </template>
+<script>
+export default {
+  created() {
+    this.getLineChart({
+      month: this.month,
+      year: this.year,
+    });
+    this.getTopCS();
+  },
+  data() {
+    return {
+      date: "",
+      dateRange: [],
+      month: moment().format("MM"),
+      year: moment().format("Y"),
+    };
+  },
+  watch: {
+    month() {
+      this.getLineChart({
+        month: this.month,
+        year: this.year,
+      });
+    },
+    year() {
+      this.getLineChart({
+        month: this.month,
+        year: this.year,
+      });
+    },
+    dateRange() {
+      this.getTopCS(
+        this.convert(this.dateRange[0]) +
+          "+-+" +
+          this.convert(this.dateRange[1])
+      );
+    },
+  },
+  computed: {
+    ...mapState("dashboard", {
+      lineChart: (state) => state.lineChart,
+      topCS: (state) => state.topCS,
+    }),
+    years() {
+      return _.range(2019, moment().add(1, "years").format("Y"));
+    },
+    labels() {
+      return _.map(this.lineChart, function (o) {
+        return moment(o.date).format("DD");
+      });
+    },
+    transaction_data() {
+      let total = _.map(this.lineChart, function (o) {
+        return o.total;
+      });
+      return total;
+    },
+    total() {
+      let data = _.map(this.lineChart, function (o) {
+        return o.total;
+      });
+      let total = data.reduce((a, i) => {
+        return a + parseInt(i);
+      }, 0);
+      return total;
+    },
+    donutLabels() {
+      return _.map(this.topCS, function (o) {
+        return o.nama;
+      });
+    },
+    donutData() {
+      return _.map(this.topCS, function (o) {
+        return o.omset;
+      });
+    },
+  },
+  methods: {
+    ...mapActions("dashboard", ["getLineChart", "getTopCS"]),
+    currency(data) {
+      return new Intl.NumberFormat("id-ID", {
+        maximumSignificantDigits: 6,
+      }).format(data);
+    },
+    convert(str) {
+      var date = new Date(str),
+        mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+        day = ("0" + date.getDate()).slice(-2);
+      return [date.getFullYear(), mnth, day].join("-");
+    },
+  },
+};
+</script>

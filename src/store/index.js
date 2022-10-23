@@ -7,6 +7,8 @@ import member from "./member.model";
 import ongkir from "./ongkir.model";
 import transaction from "./transaction.model";
 import dashboardPR from "./dashboard/profile.model";
+import dashboard from "./dashboard/dashboard.model";
+import activity from "./dashboard/activity.model";
 const store = createStore({
     modules: {
         auth,
@@ -15,7 +17,9 @@ const store = createStore({
         member,
         ongkir,
         transaction,
-        dashboardPR
+        dashboardPR,
+        dashboard,
+        activity
     },
     state: {
         token: localStorage.getItem('token'),

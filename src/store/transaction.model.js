@@ -21,7 +21,7 @@ const mutations = {
 
 const actions = {
   getTransaction({ commit, state }, payload) {
-    let dateRange = typeof payload != "undefined" ? payload : "";
+    let dateRange = typeof payload != "undefined" && payload != "NaN-aN-aN+-+NaN-aN-aN" ? payload : "";
     return new Promise((resolve) => {
       $axios
         .get(`/transaction-index?page=${state.page}&date=${dateRange}`)

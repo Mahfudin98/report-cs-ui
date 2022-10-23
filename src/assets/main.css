@@ -31,3 +31,8 @@ main {
 .nav-active {
     @apply bg-slate-100 rounded-l-2xl relative before:absolute before:w-4 before:h-8 before:-top-8 before:rounded-br-xl before:right-0 before:shadow-inverse-top  after:absolute after:w-4 after:h-8 after:-bottom-8 after:rounded-tr-xl after:right-0 after:shadow-inverse-bottom;
 }
+
+.box-before {
+    content: '';
+    @apply before:h-10 before:absolute before:left-2 before:right-2 before:-bottom-1 before:bg-gray-200 before:rounded-md;
+}

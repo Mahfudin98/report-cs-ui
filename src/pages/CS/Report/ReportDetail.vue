@@ -97,7 +97,7 @@ import moment from "moment";
               class="font-semibold bg-slate-400/30 text-gray-900 dark:text-white"
             >
               <th scope="row" class="py-3 px-6 text-base">Total</th>
-              <td class="py-3 px-6">{{ data.produk.length }}</td>
+              <td class="py-3 px-6">{{ totalQty }} Produk</td>
               <th colspan="2"></th>
               <td class="py-3 px-6">Rp. {{ currency(data.total_harga) }}</td>
             </tr>
@@ -137,6 +137,12 @@ export default {
     ...mapState("transaction", {
       data: (state) => state.detailTR,
     }),
+    totalQty() {
+      var data = this.data.produk
+      return data.reduce((a, i) => {
+        return a + parseInt(i.qty);
+      }, 0);
+    }
   },
   methods: {
     ...mapActions("transaction", ["getDetailTR"]),

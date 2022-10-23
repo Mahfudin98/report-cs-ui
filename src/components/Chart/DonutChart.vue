@@ -45,7 +45,7 @@ export default {
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            display: false,
+            display: true,
           },
         },
         cutoutPercentage: 80,

@@ -16,7 +16,6 @@ import DonutChart from "../../../components/Chart/DonutChart.vue";
       >
         <h2 class="font-medium text-base mr-auto">User Activity</h2>
         <form class="sm:flex items-center">
-          <label for="simple-search" class="sr-only">Search</label>
           <div class="relative w-full">
             <div
               class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
@@ -26,6 +25,7 @@ import DonutChart from "../../../components/Chart/DonutChart.vue";
               ></i>
             </div>
             <input
+              v-model="date"
               type="date"
               id="simple-search"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -40,7 +40,7 @@ import DonutChart from "../../../components/Chart/DonutChart.vue";
         class="p-5 pb-0 scrollbar hover:scrollbar-thin hover:scrollbar-thumb-blue-700 hover:scrollbar-track-blue-300 h-[300px] hover:overflow-y-scroll"
       >
         <ol class="relative border-l border-gray-200 dark:border-gray-700">
-          <li class="mb-10 ml-6" v-for="n in 100" :key="n">
+          <li class="mb-10 ml-6" v-for="row in activitys" :key="row">
             <span
               class="flex absolute -left-3 justify-center items-center w-6 h-6 bg-blue-200 rounded-full ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900"
             >
@@ -51,21 +51,22 @@ import DonutChart from "../../../components/Chart/DonutChart.vue";
             <h3
               class="flex items-center mb-1 text-md font-semibold text-gray-900 dark:text-white"
             >
-              http://127.0.0.1:8000/product-controller
+              {{ row.method }}
             </h3>
             <time
               class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
-              >Released on January 13th, 2022</time
+              >Created on {{ moment(row.date).format("MMM DD, YYYY") }} at {{ moment(row.date).format("LT") }}</time
             >
             <p
               class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400"
             >
-              administator Edit user
+              {{ row.activity }}
             </p>
           </li>
         </ol>
       </div>
     </div>
+
     <div
       class="block bg-white shadow-md shadow-black/40 rounded-md col-span-12 lg:col-span-6"
     >
@@ -196,9 +197,14 @@ export default {
       month: this.month,
       year: this.year,
     });
+    this.getActivity({
+      username: this.$route.params.username,
+      date: this.date,
+    });
   },
   data() {
     return {
+      date: "",
       month: moment().format("MM"),
       year: moment().format("Y"),
     };
@@ -218,9 +224,16 @@ export default {
         year: this.year,
       });
     },
+    date() {
+      this.getActivity({
+        username: this.$route.params.username,
+        date: this.date,
+      });
+    },
   },
   computed: {
     ...mapState("dashboardPR", { barProfile: (state) => state.barProfile }),
+    ...mapState("activity", { activitys: state => state.activitys }),
     years() {
       return _.range(2019, moment().add(1, "years").format("Y"));
     },
@@ -238,6 +251,7 @@ export default {
   },
   methods: {
     ...mapActions("dashboardPR", ["getBarProfile"]),
+    ...mapActions("activity", ["getActivity"])
   },
 };
 </script>
