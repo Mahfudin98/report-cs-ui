@@ -5,6 +5,7 @@ import _ from "lodash";
 import moment from "moment";
 import LineChart from "../components/Chart/LineChart.vue";
 import DonutChart from "../components/Chart/DonutChart.vue";
+import PieChart from "../components/Chart/PieChart.vue";
 import DateRangeLayout from "../components/Widget/DateRange/DaterangeLayout.vue";
 import TableRangeCS from "../components/Table/TableRangeCS.vue";
 import { mapActions, mapState } from "vuex";
@@ -140,7 +141,13 @@ import { mapActions, mapState } from "vuex";
             <div
               class="relative shadow-md shadow-slate-500/40 rounded-md bg-white p-5 mt-5"
             >
-              <DonutChart :chartClass="'h-[280px]'" />
+              <PieChart
+                v-if="topProduct.length > 0"
+                :data="pieData"
+                :labels="pieLabels"
+                :legenda="'Top Product'"
+                :chartClass="'h-[280px]'"
+              />
             </div>
           </div>
 
@@ -188,6 +195,7 @@ export default {
       year: this.year,
     });
     this.getTopCS();
+    this.getTopProduct();
   },
   data() {
     return {
@@ -222,6 +230,7 @@ export default {
     ...mapState("dashboard", {
       lineChart: (state) => state.lineChart,
       topCS: (state) => state.topCS,
+      topProduct: (state) => state.topProduct,
     }),
     years() {
       return _.range(2019, moment().add(1, "years").format("Y"));
@@ -256,9 +265,19 @@ export default {
         return o.omset;
       });
     },
+    pieLabels() {
+      return _.map(this.topProduct, function (o) {
+        return o.produk
+      })
+    },
+    pieData() {
+      return _.map(this.topProduct, function (o) {
+        return o.qty
+      })
+    }
   },
   methods: {
-    ...mapActions("dashboard", ["getLineChart", "getTopCS"]),
+    ...mapActions("dashboard", ["getLineChart", "getTopCS", "getTopProduct"]),
     currency(data) {
       return new Intl.NumberFormat("id-ID", {
         maximumSignificantDigits: 6,

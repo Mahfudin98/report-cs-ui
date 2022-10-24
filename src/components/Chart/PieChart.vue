@@ -1,5 +1,5 @@
 <script setup>
-import { Doughnut } from "vue-chartjs";
+import { Pie } from "vue-chartjs";
 import {
   Chart as ChartJS,
   Title,
@@ -8,11 +8,12 @@ import {
   ArcElement,
   CategoryScale,
 } from "chart.js";
+import { bottom } from "@popperjs/core";
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
 </script>
 <template>
-  <Doughnut
+  <Pie
     :class="chartClass"
     :chart-data="chartData"
     :chart-options="optionsChart"
@@ -45,7 +46,18 @@ export default {
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            display: false,
+            labels: {
+              usePointStyle: true,
+              pointStyle: "rectRounded",
+              font: {
+                family: "Poppins",
+                weight: "semibold",
+              },
+              color: "#64748b",
+            },
+            position: bottom,
+            align: "start",
+            display: true,
           },
         },
         cutoutPercentage: 80,

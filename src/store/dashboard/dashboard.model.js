@@ -4,6 +4,7 @@ import $axios from "../../service/api";
 const state = () => ({
   lineChart: [],
   topCS: [],
+  topProduct: [],
 });
 
 const mutations = {
@@ -12,6 +13,9 @@ const mutations = {
   },
   ASSIGN_DATA_TOP_CS(state, payload) {
     state.topCS = payload
+  },
+  ASSIGN_DATA_TOP_PRODUK(state, payload) {
+    state.topProduct = payload
   }
 };
 
@@ -39,6 +43,14 @@ const actions = {
         });
     });
   },
+  getTopProduct({ commit }) {
+    return new Promise((resolve) => {
+      $axios.get(`/top-product`).then((response) => {
+        commit("ASSIGN_DATA_TOP_PRODUK", response.data.data)
+        resolve(response.data)
+      })
+    })
+  }
 };
 
 export default {
