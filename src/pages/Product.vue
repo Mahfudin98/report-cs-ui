@@ -127,8 +127,12 @@ import Pagination from "@/components/Widget/PaginationWidget.vue";
               </div>
               <div class="relative text-white px-6 pb-6 mt-6">
                 <div class="flex justify-between">
-                  <span class="block opacity-75 -mb-1">{{ item.category }}</span>
-                  <span class="block opacity-75 -mb-1">Stok {{ item.stock }}</span>
+                  <span class="block opacity-75 -mb-1">{{
+                    item.category
+                  }}</span>
+                  <span class="block opacity-75 -mb-1"
+                    >Stok {{ item.stock }}</span
+                  >
                 </div>
                 <span class="block font-semibold text-lg">{{
                   item.nama_produk

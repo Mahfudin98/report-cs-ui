@@ -1,4 +1,4 @@
-import component from './DaterangeLayout.vue';
+import component from "./DaterangeLayout.vue";
 
 // Default export is installable instance of component.
 // IIFE injects install function into component, allowing component
@@ -8,8 +8,8 @@ export default /*#__PURE__*/ (() => {
   const installable = component;
 
   // Attach install function executed by Vue.use()
-  installable.install = app => {
-    app.component('DateRangeLayout', installable);
+  installable.install = (app) => {
+    app.component("DateRangeLayout", installable);
   };
   return installable;
 })();

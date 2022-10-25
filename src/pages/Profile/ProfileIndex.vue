@@ -161,7 +161,7 @@
 <script setup>
 import { mapActions, mapState } from "vuex";
 import moment from "moment";
-import DashboardUser from "./components/DashboardUser.vue"
+import DashboardUser from "./components/DashboardUser.vue";
 </script>
 <script>
 export default {

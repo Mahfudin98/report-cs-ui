@@ -138,11 +138,11 @@ export default {
       data: (state) => state.detailTR,
     }),
     totalQty() {
-      var data = this.data.produk
+      var data = this.data.produk;
       return data.reduce((a, i) => {
         return a + parseInt(i.qty);
       }, 0);
-    }
+    },
   },
   methods: {
     ...mapActions("transaction", ["getDetailTR"]),

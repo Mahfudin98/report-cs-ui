@@ -34,7 +34,7 @@ export default {
               "#e11d48",
               "#eab308",
               "#16a34a",
-              "#4f46e5"
+              "#4f46e5",
             ],
             borderWidth: 3,
             hoverOffset: 4,

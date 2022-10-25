@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink } from "vue-router"
+import { RouterLink } from "vue-router";
 </script>
 <template>
   <div>
@@ -49,7 +49,10 @@ import { RouterLink } from "vue-router"
         </a>
       </li>
     </router-link>
-    <router-link :to="{ name: 'member-data' }" v-slot="{ href, navigate, isActive }">
+    <router-link
+      :to="{ name: 'member-data' }"
+      v-slot="{ href, navigate, isActive }"
+    >
       <li
         :class="[
           isActive

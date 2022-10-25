@@ -55,7 +55,8 @@ import DonutChart from "../../../components/Chart/DonutChart.vue";
             </h3>
             <time
               class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
-              >Created on {{ moment(row.date).format("MMM DD, YYYY") }} at {{ moment(row.date).format("LT") }}</time
+              >Created on {{ moment(row.date).format("MMM DD, YYYY") }} at
+              {{ moment(row.date).format("LT") }}</time
             >
             <p
               class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400"
@@ -233,7 +234,7 @@ export default {
   },
   computed: {
     ...mapState("dashboardPR", { barProfile: (state) => state.barProfile }),
-    ...mapState("activity", { activitys: state => state.activitys }),
+    ...mapState("activity", { activitys: (state) => state.activitys }),
     years() {
       return _.range(2019, moment().add(1, "years").format("Y"));
     },
@@ -251,7 +252,7 @@ export default {
   },
   methods: {
     ...mapActions("dashboardPR", ["getBarProfile"]),
-    ...mapActions("activity", ["getActivity"])
+    ...mapActions("activity", ["getActivity"]),
   },
 };
 </script>

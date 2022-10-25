@@ -1,2 +1,1 @@
-import $axios from "../service/api"
-
+import $axios from "../service/api";
