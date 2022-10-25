@@ -30,10 +30,13 @@ export default {
             label: this.legenda,
             data: this.data,
             backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
+              "#0284c7",
+              "#e11d48",
+              "#eab308",
+              "#16a34a",
+              "#4f46e5"
             ],
+            borderWidth: 3,
             hoverOffset: 4,
           },
         ],
@@ -45,7 +48,14 @@ export default {
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            display: false,
+            labels: {
+              usePointStyle: true,
+              pointStyle: "rectRounded",
+              color: "#64748b",
+            },
+            position: "bottom",
+            align: "start",
+            display: true,
           },
         },
         cutoutPercentage: 80,

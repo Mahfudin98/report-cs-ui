@@ -31,10 +31,13 @@ export default {
             label: this.legenda,
             data: this.data,
             backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
+              "#0284c7",
+              "#e11d48",
+              "#eab308",
+              "#16a34a",
+              "#4f46e5"
             ],
+            borderWidth: 3,
             hoverOffset: 4,
           },
         ],
@@ -49,10 +52,6 @@ export default {
             labels: {
               usePointStyle: true,
               pointStyle: "rectRounded",
-              font: {
-                family: "Poppins",
-                weight: "semibold",
-              },
               color: "#64748b",
             },
             position: bottom,

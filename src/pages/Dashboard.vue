@@ -29,7 +29,10 @@ import { mapActions, mapState } from "vuex";
           <!-- BEGIN: General Report -->
           <div class="col-span-12">
             <div class="grid grid-cols-12 gap-6">
-              <StatusCard :title="'Data Jualan'" :data="'4.000'" :persen="10">
+              <StatusCard
+                :title="'Omset Hari Ini'"
+                :data="currency(cardStatus.today.omset)"
+              >
                 <template #icon>
                   <svg
                     class="w-7 h-7 text-theme-primary"
@@ -48,16 +51,120 @@ import { mapActions, mapState } from "vuex";
                 </template>
                 <template #persen>
                   <div
-                    class="bg-red-600 px-2 py-0.5 rounded-xl text-white font-normal text-xs"
+                    class="px-2 py-0.5 rounded-xl text-white font-normal text-xs"
+                    :class="{
+                      'bg-green-500':
+                        cardStatus.today.omset >= cardStatus.yesterday.omset,
+                      'bg-red-500':
+                        cardStatus.today.omset <= cardStatus.yesterday.omset,
+                    }"
                   >
-                    10%
-                    <i class="fa-solid fa-chevron-up w-3 h-3 ml-0.5"></i>
+                    {{ cardStatus.today.produk }} Produk
                   </div>
                 </template>
               </StatusCard>
-              <StatusCard />
-              <StatusCard />
-              <StatusCard />
+              <StatusCard
+                :title="'Omset Kemarin'"
+                :data="currency(cardStatus.yesterday.omset)"
+              >
+                <template #icon>
+                  <svg
+                    class="w-7 h-7 text-theme-primary"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                    ></path>
+                  </svg>
+                </template>
+                <template #persen>
+                  <div
+                    class="px-2 py-0.5 rounded-xl text-white font-normal text-xs"
+                    :class="{
+                      'bg-green-500':
+                        cardStatus.yesterday.omset <= cardStatus.today.omset,
+                      'bg-red-500':
+                        cardStatus.yesterday.omset >= cardStatus.today.omset,
+                    }"
+                  >
+                    {{ cardStatus.yesterday.produk }} Produk
+                  </div>
+                </template>
+              </StatusCard>
+              <StatusCard
+                :title="'Minggu Ini'"
+                :data="currency(cardStatus.thisWeek.omset)"
+              >
+                <template #icon>
+                  <svg
+                    class="w-7 h-7 text-theme-primary"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                    ></path>
+                  </svg>
+                </template>
+                <template #persen>
+                  <div
+                    class="px-2 py-0.5 rounded-xl text-white font-normal text-xs"
+                    :class="{
+                      'bg-green-500':
+                        cardStatus.thisWeek.omset <= cardStatus.lastWeek.omset,
+                      'bg-red-500':
+                        cardStatus.thisWeek.omset >= cardStatus.lastWeek.omset,
+                    }"
+                  >
+                    {{ cardStatus.thisWeek.produk }} Produk
+                  </div>
+                </template>
+              </StatusCard>
+              <StatusCard
+                :title="'Minggu Kemarin'"
+                :data="currency(cardStatus.lastWeek.omset)"
+              >
+                <template #icon>
+                  <svg
+                    class="w-7 h-7 text-theme-primary"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                    ></path>
+                  </svg>
+                </template>
+                <template #persen>
+                  <div
+                    class="px-2 py-0.5 rounded-xl text-white font-normal text-xs"
+                    :class="{
+                      'bg-green-500':
+                        cardStatus.lastWeek.omset >= cardStatus.thisWeek.omset,
+                      'bg-red-500':
+                        cardStatus.lastWeek.omset <= cardStatus.thisWeek.omset,
+                    }"
+                  >
+                    {{ cardStatus.lastWeek.produk }} Produk
+                  </div>
+                </template>
+              </StatusCard>
             </div>
           </div>
 
@@ -146,7 +253,7 @@ import { mapActions, mapState } from "vuex";
                 :data="pieData"
                 :labels="pieLabels"
                 :legenda="'Top Product'"
-                :chartClass="'h-[280px]'"
+                :chartClass="'h-[350px]'"
               />
             </div>
           </div>
@@ -166,7 +273,7 @@ import { mapActions, mapState } from "vuex";
                 :data="donutData"
                 :labels="donutLabels"
                 :legenda="'Top CS'"
-                :chartClass="'h-[280px]'"
+                :chartClass="'h-[350px]'"
               />
             </div>
           </div>
@@ -196,6 +303,7 @@ export default {
     });
     this.getTopCS();
     this.getTopProduct();
+    this.getCardStatus();
   },
   data() {
     return {
@@ -231,6 +339,7 @@ export default {
       lineChart: (state) => state.lineChart,
       topCS: (state) => state.topCS,
       topProduct: (state) => state.topProduct,
+      cardStatus: (state) => state.cardStatus,
     }),
     years() {
       return _.range(2019, moment().add(1, "years").format("Y"));
@@ -267,17 +376,22 @@ export default {
     },
     pieLabels() {
       return _.map(this.topProduct, function (o) {
-        return o.produk
-      })
+        return o.produk;
+      });
     },
     pieData() {
       return _.map(this.topProduct, function (o) {
-        return o.qty
-      })
-    }
+        return o.qty;
+      });
+    },
   },
   methods: {
-    ...mapActions("dashboard", ["getLineChart", "getTopCS", "getTopProduct"]),
+    ...mapActions("dashboard", [
+      "getLineChart",
+      "getTopCS",
+      "getTopProduct",
+      "getCardStatus",
+    ]),
     currency(data) {
       return new Intl.NumberFormat("id-ID", {
         maximumSignificantDigits: 6,

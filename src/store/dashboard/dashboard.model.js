@@ -5,6 +5,7 @@ const state = () => ({
   lineChart: [],
   topCS: [],
   topProduct: [],
+  cardStatus: [],
 });
 
 const mutations = {
@@ -16,6 +17,9 @@ const mutations = {
   },
   ASSIGN_DATA_TOP_PRODUK(state, payload) {
     state.topProduct = payload
+  },
+  ASSIGN_DATA_CARD_STATUS(state, payload) {
+    state.cardStatus = payload
   }
 };
 
@@ -47,6 +51,14 @@ const actions = {
     return new Promise((resolve) => {
       $axios.get(`/top-product`).then((response) => {
         commit("ASSIGN_DATA_TOP_PRODUK", response.data.data)
+        resolve(response.data)
+      })
+    })
+  },
+  getCardStatus({ commit }) {
+    return new Promise((resolve) => {
+      $axios.get(`/card-status`).then((response) => {
+        commit("ASSIGN_DATA_CARD_STATUS", response.data)
         resolve(response.data)
       })
     })
