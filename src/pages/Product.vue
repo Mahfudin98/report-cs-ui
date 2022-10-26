@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
 import { mapActions, mapState } from "vuex";
-import Tooltip from "../components/Elements/Tooltip.vue";
+import ProductCard from "../components/Card/ProductCard.vue";
 </script>
 <template>
   <main>
@@ -58,7 +58,7 @@ import Tooltip from "../components/Elements/Tooltip.vue";
         <div class="grid grid-cols-12 gap-5 mt-5">
           <button
             v-on:click="dataFilterKey = 'all'"
-            class="col-span-12 sm:col-span-4 2xl:col-span-3 box p-5 cursor-pointer hover:scale-105 bg-white rounded-lg shadow-lg shadow-black/10"
+            class="col-span-12 sm:col-span-4 2xl:col-span-3 box p-2 cursor-pointer hover:scale-105 bg-white rounded-lg shadow-lg shadow-black/10"
             :class="{
               'bg-theme-primary/50': dataFilterKey == 'all',
             }"
@@ -73,12 +73,12 @@ import Tooltip from "../components/Elements/Tooltip.vue";
             :class="{
               'bg-theme-primary/50': dataFilterKey == item.code,
             }"
-            class="col-span-12 sm:col-span-4 2xl:col-span-3 box p-5 cursor-pointer hover:scale-105 bg-white rounded-lg shadow-lg shadow-black/10"
+            class="col-span-12 sm:col-span-4 2xl:col-span-3 p-2 cursor-pointer hover:scale-105 bg-white rounded-lg shadow-lg shadow-black/10"
           >
-            <div class="font-medium text-base">
+            <div class="font-medium text-md">
               {{ item.category }}
               <span
-                class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800"
+                class="bg-blue-100 text-blue-800 text-xs font-normal mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800"
               >
                 {{ item.type }}
               </span>
@@ -88,76 +88,7 @@ import Tooltip from "../components/Elements/Tooltip.vue";
         </div>
         <!-- list Produk -->
         <div class="grid grid-cols-12 gap-5 mt-5 pt-5 mb-8 border-t">
-          <a
-            v-for="(item, index) in dataFilter"
-            :key="index"
-            href="javascript:;"
-            class="block col-span-12 sm:col-span-4 2xl:col-span-3"
-          >
-            <div
-              class="flex-shrink-0 relative overflow-hidden bg-theme-bg-light rounded-lg max-w-xs shadow-sm shadow-black/60"
-            >
-              <svg
-                class="absolute bottom-0 left-0 mb-8"
-                viewBox="0 0 375 283"
-                fill="none"
-                style="transform: scale(1.5); opacity: 0.1"
-              >
-                <rect
-                  x="159.52"
-                  y="175"
-                  width="152"
-                  height="152"
-                  rx="8"
-                  transform="rotate(-45 159.52 175)"
-                  fill="white"
-                />
-                <rect
-                  y="107.48"
-                  width="152"
-                  height="152"
-                  rx="8"
-                  transform="rotate(-45 0 107.48)"
-                  fill="white"
-                />
-              </svg>
-              <div class="relative pt-4 px-4 flex items-center justify-center">
-                <img class="relative rounded-md" :src="item.image" alt="" />
-              </div>
-              <div class="relative text-white px-6 pb-6 mt-6">
-                <div class="flex justify-between">
-                  <span class="block opacity-75 -mb-1">{{
-                    item.category
-                  }}</span>
-                  <span class="block opacity-75 -mb-1"
-                    >Stok {{ item.stock }}</span
-                  >
-                </div>
-                <span class="block font-semibold text-lg">{{
-                  item.nama_produk
-                }}</span>
-                <div
-                  class="flex justify-between pt-2"
-                  ref="btnRef"
-                  v-on:mouseenter="toggleTooltip()"
-                  v-on:mouseleave="toggleTooltip()"
-                >
-                  <Tooltip
-                    :button="'Rp. ' + item.harga_agen"
-                    :title="'Harga Agen'"
-                  />
-                  <Tooltip
-                    :button="'Rp. ' + item.harga_reseller"
-                    :title="'Harga Reseller'"
-                  />
-                  <Tooltip
-                    :button="'Rp. ' + item.harga_end_user"
-                    :title="'Harga End User'"
-                  />
-                </div>
-              </div>
-            </div>
-          </a>
+          <ProductCard :items="dataFilter" />
         </div>
       </div>
     </div>
@@ -200,10 +131,10 @@ export default {
     search() {
       this.getProducts(this.search);
     },
+    deep: true,
   },
   methods: {
     ...mapActions("product", ["getCategoryProduct", "getProducts"]),
   },
-  components: { Tooltip },
 };
 </script>
