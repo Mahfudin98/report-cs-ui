@@ -1,8 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
 import { mapActions, mapState } from "vuex";
-import { createPopper } from "@popperjs/core";
-import Pagination from "@/components/Widget/PaginationWidget.vue";
+import Tooltip from "../components/Elements/Tooltip.vue";
 </script>
 <template>
   <main>
@@ -65,7 +64,7 @@ import Pagination from "@/components/Widget/PaginationWidget.vue";
             }"
           >
             <div class="font-medium text-base">All</div>
-            <div class="text-slate-300">{{ products.total }} Items</div>
+            <div class="text-slate-300">{{ products.length }} Items</div>
           </button>
           <button
             v-for="(item, index) in categorys"
@@ -143,49 +142,22 @@ import Pagination from "@/components/Widget/PaginationWidget.vue";
                   v-on:mouseenter="toggleTooltip()"
                   v-on:mouseleave="toggleTooltip()"
                 >
-                  <span
-                    class="block bg-white rounded-full text-theme-bg-light text-xs font-bold px-3 py-2 leading-none items-center"
-                    >Rp. {{ item.harga_agen }}</span
-                  >
-                  <span
-                    class="block bg-white rounded-full text-theme-bg-light text-xs font-bold px-3 py-2 leading-none items-center"
-                    >Rp. {{ item.harga_reseller }}</span
-                  >
-                  <span
-                    class="block bg-white rounded-full text-theme-bg-light text-xs font-bold px-3 py-2 leading-none items-center"
-                    >Rp. {{ item.harga_end_user }}</span
-                  >
-                </div>
-                <div
-                  ref="tooltipRef"
-                  v-bind:class="{
-                    'invisible opacity-0 transition-opacity': !tooltipShow,
-                    block: tooltipShow,
-                  }"
-                  role="tooltip"
-                  class="inline-block items-center absolute top-0 right-2 left-2 z-10 py-2 text-xs font-medium text-center text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700"
-                >
-                  <div>Harga Agen | Harga Reseller | Harga Customer</div>
-                  <div class="absolute right-0 left-0 text-gray-900">
-                    <i class="fa-solid fa-play h-5 w-5 rotate-90"></i>
-                  </div>
+                  <Tooltip
+                    :button="'Rp. ' + item.harga_agen"
+                    :title="'Harga Agen'"
+                  />
+                  <Tooltip
+                    :button="'Rp. ' + item.harga_reseller"
+                    :title="'Harga Reseller'"
+                  />
+                  <Tooltip
+                    :button="'Rp. ' + item.harga_end_user"
+                    :title="'Harga End User'"
+                  />
                 </div>
               </div>
             </div>
           </a>
-        </div>
-        <!-- pagination -->
-        <div
-          class="col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
-        >
-          <Pagination
-            :total-pages="products.last_page"
-            :total="products.total"
-            :per-page="products.per_page"
-            :current-page="products.current_page"
-            :has-more-pages="hasMorePages"
-            @pagechanged="showMore"
-          />
         </div>
       </div>
     </div>
@@ -199,7 +171,6 @@ export default {
   },
   data() {
     return {
-      tooltipShow: false,
       search: "",
       dataFilterKey: "all",
     };
@@ -209,14 +180,6 @@ export default {
       categorys: (state) => state.categoryProduct,
       products: (state) => state.products,
     }),
-    page: {
-      get() {
-        return this.$store.state.product.page;
-      },
-      set(val) {
-        this.$store.commit("product/SET_PAGE", val);
-      },
-    },
     dataFilter() {
       let data =
         this.dataFilterKey == "all"
@@ -225,38 +188,22 @@ export default {
       return data;
     },
     all() {
-      return this.products.data;
+      return this.products;
     },
     filterData() {
-      return this.products.data.filter((item) => {
+      return this.products.filter((item) => {
         return item.category_code.indexOf(this.dataFilterKey) > -1;
       });
     },
   },
   watch: {
-    page() {
-      this.getProducts();
-    },
     search() {
       this.getProducts(this.search);
     },
   },
   methods: {
     ...mapActions("product", ["getCategoryProduct", "getProducts"]),
-    toggleTooltip: function () {
-      if (this.tooltipShow) {
-        this.tooltipShow = false;
-      } else {
-        this.tooltipShow = true;
-        createPopper(this.$refs.btnRef, this.$refs.tooltipRef, {
-          placement: "top",
-        });
-      }
-    },
-    showMore(page) {
-      this.page = page;
-      this.products.current_page = page;
-    },
   },
+  components: { Tooltip },
 };
 </script>

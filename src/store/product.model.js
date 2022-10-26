@@ -27,13 +27,13 @@ const mutations = {
 };
 
 const actions = {
-  getProducts({ commit, state }, payload) {
+  getProducts({ commit }, payload) {
     let search = typeof payload != "undefined" ? payload : "";
     return new Promise((resolve) => {
       $axios
-        .get(`/product-index?page=${state.page}&q=${search}`)
+        .get(`/product-index?q=${search}`)
         .then((response) => {
-          commit("ASSIGN_PRODUCTS_LIST", response.data);
+          commit("ASSIGN_PRODUCTS_LIST", response.data.data);
           resolve(response.data);
         });
     }).catch((error) => {

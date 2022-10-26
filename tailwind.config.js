@@ -72,11 +72,11 @@ module.exports = {
   },
   plugins: [require("tailwind-scrollbar"), require("flowbite/plugin")],
   variants: {
+    scrollbar: ["rounded"],
     extend: {
       cursor: ["disabled"],
       textOpacity: ["disabled"],
       textColor: ["disabled"],
-      scrollbar: ["rounded"],
     },
   },
 };

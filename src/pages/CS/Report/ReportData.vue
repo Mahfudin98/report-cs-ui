@@ -93,7 +93,9 @@ import Swal from "sweetalert2";
             </div>
           </div>
           <!-- table -->
-          <div class="overflow-x-auto relative">
+          <div
+            class="overflow-x-scroll relative scrollbar hover:scrollbar-thin hover:scrollbar-thumb-slate-700 hover:scrollbar-track-transparent h-[650px] hover:overflow-y-scroll hover:scrollbar-thumb-rounded-full hover:scrollbar-track-rounded-full"
+          >
             <table
               class="w-full text-xs text-left text-gray-500 dark:text-gray-400 border-t"
             >
