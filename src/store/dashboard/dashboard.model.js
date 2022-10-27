@@ -5,7 +5,7 @@ const state = () => ({
   lineChart: [],
   topCS: [],
   topProduct: [],
-  cardStatus: [],
+  cardStatus: "",
 });
 
 const mutations = {

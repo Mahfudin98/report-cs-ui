@@ -31,7 +31,7 @@ import { mapActions, mapState } from "vuex";
             <div class="grid grid-cols-12 gap-6">
               <StatusCard
                 :title="'Omset Hari Ini'"
-                :data="currency(cardStatus.today.omset)"
+                :data="currency(cardStatus.today_omset)"
               >
                 <template #icon>
                   <svg
@@ -54,18 +54,18 @@ import { mapActions, mapState } from "vuex";
                     class="px-2 py-0.5 rounded-xl text-white font-normal text-xs"
                     :class="{
                       'bg-green-500':
-                        cardStatus.today.omset >= cardStatus.yesterday.omset,
+                        cardStatus.today_omset >= cardStatus.yesterday_omset,
                       'bg-red-500':
-                        cardStatus.today.omset <= cardStatus.yesterday.omset,
+                        cardStatus.today_omset <= cardStatus.yesterday_omset,
                     }"
                   >
-                    {{ cardStatus.today.produk }} Produk
+                    {{ cardStatus.today_produk }} Produk
                   </div>
                 </template>
               </StatusCard>
               <StatusCard
                 :title="'Omset Kemarin'"
-                :data="currency(cardStatus.yesterday.omset)"
+                :data="currency(cardStatus.yesterday_omset)"
               >
                 <template #icon>
                   <svg
@@ -88,18 +88,18 @@ import { mapActions, mapState } from "vuex";
                     class="px-2 py-0.5 rounded-xl text-white font-normal text-xs"
                     :class="{
                       'bg-green-500':
-                        cardStatus.yesterday.omset <= cardStatus.today.omset,
+                        cardStatus.yesterday_omset <= cardStatus.today_omset,
                       'bg-red-500':
-                        cardStatus.yesterday.omset >= cardStatus.today.omset,
+                        cardStatus.yesterday_omset >= cardStatus.today_omset,
                     }"
                   >
-                    {{ cardStatus.yesterday.produk }} Produk
+                    {{ cardStatus.yesterday_omset }} Produk
                   </div>
                 </template>
               </StatusCard>
               <StatusCard
                 :title="'Minggu Ini'"
-                :data="currency(cardStatus.thisWeek.omset)"
+                :data="currency(cardStatus.thisWeek_omset)"
               >
                 <template #icon>
                   <svg
@@ -122,18 +122,18 @@ import { mapActions, mapState } from "vuex";
                     class="px-2 py-0.5 rounded-xl text-white font-normal text-xs"
                     :class="{
                       'bg-green-500':
-                        cardStatus.thisWeek.omset <= cardStatus.lastWeek.omset,
+                        cardStatus.thisWeek_omset <= cardStatus.lastWeek_omset,
                       'bg-red-500':
-                        cardStatus.thisWeek.omset >= cardStatus.lastWeek.omset,
+                        cardStatus.thisWeek_omset >= cardStatus.lastWeek_omset,
                     }"
                   >
-                    {{ cardStatus.thisWeek.produk }} Produk
+                    {{ cardStatus.thisWeek_produk }} Produk
                   </div>
                 </template>
               </StatusCard>
               <StatusCard
                 :title="'Minggu Kemarin'"
-                :data="currency(cardStatus.lastWeek.omset)"
+                :data="currency(cardStatus.lastWeek_omset)"
               >
                 <template #icon>
                   <svg
@@ -156,12 +156,12 @@ import { mapActions, mapState } from "vuex";
                     class="px-2 py-0.5 rounded-xl text-white font-normal text-xs"
                     :class="{
                       'bg-green-500':
-                        cardStatus.lastWeek.omset >= cardStatus.thisWeek.omset,
+                        cardStatus.lastWeek_omset >= cardStatus.thisWeek_omset,
                       'bg-red-500':
-                        cardStatus.lastWeek.omset <= cardStatus.thisWeek.omset,
+                        cardStatus.lastWeek_omset <= cardStatus.thisWeek_omset,
                     }"
                   >
-                    {{ cardStatus.lastWeek.produk }} Produk
+                    {{ cardStatus.lastWeek_produk }} Produk
                   </div>
                 </template>
               </StatusCard>
@@ -194,7 +194,7 @@ import { mapActions, mapState } from "vuex";
                       Omset
                     </div>
                     <div class="mt-0.5 text-slate-500">
-                      {{ moment(month).format("MMMM") }}
+                      {{ moment().format("MMMM") }}
                     </div>
                   </div>
                   <div

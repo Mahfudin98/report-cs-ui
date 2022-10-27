@@ -333,6 +333,7 @@ export default /*#__PURE__*/ defineComponent({
     },
     modelValue: {
       type: [Array, Object, String],
+      // eslint-disable-next-line vue/require-valid-default-prop
       default: [],
     },
     startFrom: {
@@ -900,10 +901,13 @@ export default /*#__PURE__*/ defineComponent({
     };
 
     // TODO: Working with date time
+    // eslint-disable-next-line no-unused-vars
     const setHours = (asNext = false) => {};
 
+    // eslint-disable-next-line no-unused-vars
     const setMinutes = (asNext = false) => {};
 
+    // eslint-disable-next-line no-unused-vars
     const setSeconds = (asNext = false) => {};
 
     const applyDate = () => {
@@ -1407,11 +1411,11 @@ export default /*#__PURE__*/ defineComponent({
     });
 
     watchEffect(() => {
-      const locale = props.i18n;
+      // const locale = props.i18n;
       nextTick(() => {
-        import(`./locale/${locale}.js`)
+        import("dayjs/locale/de")
           .then(() => {
-            dayjs.locale(locale);
+            dayjs.locale("id");
             let s, e;
             if (asRange()) {
               if (useArray()) {
