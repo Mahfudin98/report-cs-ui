@@ -43,6 +43,23 @@ const actions = {
       }
     });
   },
+  submitMember({ commit, dispatch }, payload) {
+    return new Promise((resolve) => {
+      $axios.post(`/member-store`, payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }).then((response) => {
+        resolve(response.data);
+        dispatch("getIndexMember").then(() => resolve());
+      })
+      .catch((error) => {
+        if (error.response.status == 422) {
+          commit("SET_ERRORS", error.response.data.errors, { root: true });
+        }
+      });
+    })
+  }
 };
 
 export default {
