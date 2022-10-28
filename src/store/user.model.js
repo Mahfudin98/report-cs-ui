@@ -31,7 +31,7 @@ const actions = {
     getUsers({ commit, state }, payload) {
         let search = typeof payload != 'undefined' ? payload : ''
         return new Promise((resolve) => {
-            $axios.get(`/user-list?page=${state.page}&q=${search}`).then((response) => {
+            $axios.get(`/user-list?page=${state.page}&search=${search}`).then((response) => {
                 commit('ASSIGN_USERS_LIST', response.data)
                 resolve(response.data)
             })

@@ -173,7 +173,7 @@ import { mapActions, mapState } from "vuex";
               <h2 class="text-lg font-medium truncate mr-5">Sales Report</h2>
               <div class="sm:ml-auto mt-3 sm:mt-0 relative text-slate-500">
                 <select
-                  v-model="year"
+                  v-model="data.year"
                   class="bg-gray-50 border w-full pr-10 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                   <option v-for="(y, i) in years" :key="i" :value="y">
@@ -208,7 +208,7 @@ import { mapActions, mapState } from "vuex";
                 </div>
                 <div class="dropdown xl:ml-auto mt-5 xl:mt-0">
                   <select
-                    v-model="month"
+                    v-model="data.month"
                     class="bg-gray-50 border w-fit border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
                     <option value="01">Januari</option>
@@ -282,7 +282,7 @@ import { mapActions, mapState } from "vuex";
             <div class="flex flex-wrap items-center h-10">
               <h2 class="text-lg font-medium truncate w-1/2">Top 5 CS</h2>
               <div class="w-1/2">
-                <DateRangeLayout v-model="dateRange" />
+                <DateRangeLayout v-model="data.dateRange" />
               </div>
             </div>
             <div class="mt-5">
@@ -298,8 +298,8 @@ import { mapActions, mapState } from "vuex";
 export default {
   created() {
     this.getLineChart({
-      month: this.month,
-      year: this.year,
+      month: this.data.month,
+      year: this.data.year,
     });
     this.getTopCS();
     this.getTopProduct();
@@ -307,30 +307,32 @@ export default {
   },
   data() {
     return {
-      date: "",
-      dateRange: [],
-      month: moment().format("MM"),
-      year: moment().format("Y"),
+      data: {
+        date: "",
+        dateRange: [],
+        month: moment().format("MM"),
+        year: moment().format("Y"),
+      },
     };
   },
   watch: {
     month() {
       this.getLineChart({
-        month: this.month,
-        year: this.year,
+        month: this.data.month,
+        year: this.data.year,
       });
     },
     year() {
       this.getLineChart({
-        month: this.month,
-        year: this.year,
+        month: this.data.month,
+        year: this.data.year,
       });
     },
     dateRange() {
       this.getTopCS(
-        this.convert(this.dateRange[0]) +
+        this.convert(this.data.dateRange[0]) +
           "+-+" +
-          this.convert(this.dateRange[1])
+          this.convert(this.data.dateRange[1])
       );
     },
   },
@@ -341,6 +343,18 @@ export default {
       topProduct: (state) => state.topProduct,
       cardStatus: (state) => state.cardStatus,
     }),
+    // reactivity
+    year() {
+      return this.data.year;
+    },
+    month() {
+      return this.data.month;
+    },
+    dateRange() {
+      return this.data.dateRange;
+    },
+
+    // end reactivity
     years() {
       return _.range(2019, moment().add(1, "years").format("Y"));
     },

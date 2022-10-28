@@ -48,14 +48,14 @@ import Pagination from "@/components/Widget/PaginationWidget.vue";
                 id="simple-search"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search"
-                v-model="search"
+                v-model="data.search"
                 required
               />
             </div>
           </div>
           <div>
             <select
-              v-model="filterKey"
+              v-model="data.filterKey"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option value="all">All</option>
@@ -134,8 +134,10 @@ export default {
   },
   data() {
     return {
-      search: "",
-      filterKey: "all",
+      data: {
+        search: "",
+        filterKey: "all",
+      },
     };
   },
   computed: {
@@ -149,7 +151,7 @@ export default {
       },
     },
     dataFilter() {
-      return this[this.filterKey];
+      return this[this.data.filterKey];
     },
     all() {
       return this.members.data;
@@ -164,13 +166,16 @@ export default {
         return item.type.indexOf("Reseller") > -1;
       });
     },
+    search() {
+      return this.data.search;
+    }
   },
   watch: {
     page() {
       this.getIndexMember();
     },
     search() {
-      this.getIndexMember(this.search);
+      this.getIndexMember(this.data.search);
     },
   },
   methods: {

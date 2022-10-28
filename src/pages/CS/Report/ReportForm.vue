@@ -33,9 +33,7 @@ import Swal from "sweetalert2";
           >
             <div class="rounded-t bg-slate-800 mb-0 px-6 py-6">
               <div class="text-center flex justify-between">
-                <h6 class="text-blueGray-700 text-xl font-bold">
-                  Pilih Customer
-                </h6>
+                <h6 class="text-white text-xl font-semibold">Pilih Customer</h6>
               </div>
             </div>
 
@@ -90,9 +88,7 @@ import Swal from "sweetalert2";
           >
             <div class="rounded-t bg-slate-800 mb-0 px-6 py-6">
               <div class="text-center flex justify-between">
-                <h6 class="text-blueGray-700 text-xl font-bold">
-                  Data Reseller
-                </h6>
+                <h6 class="text-white text-xl font-semibold">Data Reseller</h6>
               </div>
             </div>
 
@@ -190,7 +186,7 @@ import Swal from "sweetalert2";
           >
             <div class="rounded-t bg-slate-800 mb-0 px-6 py-6">
               <div class="text-center flex justify-between">
-                <h6 class="text-blueGray-700 text-xl font-bold">Data Agen</h6>
+                <h6 class="text-white text-xl font-semibold">Data Agen</h6>
               </div>
             </div>
 
@@ -288,9 +284,7 @@ import Swal from "sweetalert2";
           >
             <div class="rounded-t bg-slate-800 mb-0 px-6 py-6">
               <div class="text-center flex justify-between">
-                <h6 class="text-blueGray-700 text-xl font-bold">
-                  Data Customer
-                </h6>
+                <h6 class="text-white text-xl font-semibold">Data Customer</h6>
               </div>
             </div>
 
@@ -427,11 +421,9 @@ import Swal from "sweetalert2";
           >
             <div class="rounded-t bg-slate-800 mb-0 px-6 py-6">
               <div class="text-center flex justify-between">
-                <h6 class="text-blueGray-700 text-xl font-bold">
-                  Pilih Produk
-                </h6>
+                <h6 class="text-white text-xl font-semibold">Pilih Produk</h6>
                 <button
-                  class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  class="bg-emerald-500 text-white active:bg-emerald-600 font-semibold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="button"
                   @click="addProduct"
                 >
@@ -583,9 +575,7 @@ import Swal from "sweetalert2";
           >
             <div class="rounded-t bg-slate-800 mb-0 px-6 py-6">
               <div class="text-center flex justify-between">
-                <h6 class="text-blueGray-700 text-xl font-bold">
-                  Data Transaksi
-                </h6>
+                <h6 class="text-white text-xl font-semibold">Data Transaksi</h6>
               </div>
             </div>
 

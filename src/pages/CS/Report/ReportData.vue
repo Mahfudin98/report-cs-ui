@@ -71,7 +71,7 @@ import Swal from "sweetalert2";
         >
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 gap-y-5 px-4 pt-5">
             <form>
-              <DateRangeLayout v-model="dateRange" />
+              <DateRangeLayout v-model="data.dateRange" />
             </form>
             <div class="flex justify-between lg:justify-end lg:gap-3">
               <div class="flex self-center gap-3">
@@ -241,16 +241,18 @@ export default {
   data() {
     return {
       dataFilterKey: "all",
-      dateRange: [],
+      data: {
+        dateRange: [],
+      },
       hasMorePages: true,
     };
   },
   watch: {
     dateRange() {
       this.getTransaction(
-        this.convert(this.dateRange[0]) +
+        this.convert(this.data.dateRange[0]) +
           "+-+" +
-          this.convert(this.dateRange[1])
+          this.convert(this.data.dateRange[1])
       );
     },
     page() {
@@ -260,6 +262,9 @@ export default {
   computed: {
     ...mapState("transaction", { transactions: (state) => state.transactions }),
     // eslint-disable-next-line vue/no-dupe-keys
+    dateRange() {
+      return this.data.dateRange;
+    },
     page: {
       get() {
         return this.$store.state.transaction.page;

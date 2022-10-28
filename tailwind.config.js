@@ -38,7 +38,7 @@ module.exports = {
         orange: colors.orange,
         "light-blue": colors.sky,
         "litepie-primary": colors.emerald,
-        "litepie-secondary": colors.coolGray,
+        "litepie-secondary": colors.gray,
       },
       fontFamily: {
         roboto: ["Roboto"],
