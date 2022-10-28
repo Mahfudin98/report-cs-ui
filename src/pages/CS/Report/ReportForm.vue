@@ -462,7 +462,7 @@ import Swal from "sweetalert2";
                     <div class="relative w-full mb-5">
                       <label
                         for="product_weight"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        class="block mb-2 text-sm font-medium text-white dark:text-gray-300"
                         >Pilih Produk</label
                       >
                       <select
@@ -491,7 +491,7 @@ import Swal from "sweetalert2";
                     <div class="relative w-full mb-5">
                       <label
                         for="qty"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        class="block mb-2 text-sm font-medium text-white dark:text-gray-300"
                         >Jumlah Produk</label
                       >
                       <input
@@ -508,7 +508,7 @@ import Swal from "sweetalert2";
                     <div class="relative w-full mb-5">
                       <label
                         for="product_price"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        class="block mb-2 text-sm font-medium text-white dark:text-gray-300"
                         >Harga Produk</label
                       >
                       <input
@@ -526,7 +526,7 @@ import Swal from "sweetalert2";
                     <div class="relative w-full mb-5">
                       <label
                         for="product_weight"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        class="block mb-2 text-sm font-medium text-white dark:text-gray-300"
                         >Berat Produk</label
                       >
                       <input
@@ -544,7 +544,7 @@ import Swal from "sweetalert2";
                     <div class="relative w-full mb-5">
                       <label
                         for="discount"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        class="block mb-2 text-sm font-medium text-white dark:text-gray-300"
                         >Diskon Produk</label
                       >
                       <input
@@ -605,12 +605,12 @@ import Swal from "sweetalert2";
                     id="countries"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     v-model="transaction.expedisi"
-                    @click="setOngkir()"
+                    @change="setOngkir($event)"
                     required
                   >
                     <option value="">Pilih Expedisi</option>
                     <option value="jne">JNE</option>
-                    <option value="j&t">J&T</option>
+                    <option value="jnt">J&T</option>
                     <option value="sicepat">SICEPAT</option>
                     <option value="ninja">NINJA</option>
                     <option value="anteraja">ANTER AJA</option>
@@ -623,7 +623,7 @@ import Swal from "sweetalert2";
                     >Harga Ongkir</label
                   >
                   <input
-                    type="number"
+                    type="text"
                     id="product_price"
                     aria-label="disabled input"
                     class="bg-gray-100 border border-slate-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -965,7 +965,7 @@ export default {
       this.getKecamatan(event.target.value);
     },
 
-    setOngkir() {
+    setOngkir(event) {
       var form = new FormData();
       if (this.transaction.type_customer == 0) {
         form.append("destination", this.reseller.district_id);
@@ -975,8 +975,8 @@ export default {
         form.append("destination", this.ongkir.kecamatan);
       }
       form.append("weight", this.getWeight);
-      form.append("courier", this.transaction.expedisi);
-
+      form.append("courier", event.target.value);
+      this.transaction.ongkir = "loading..."
       this.getOngkir(form).then(() => {
         this.transaction.ongkir = this.cost.data;
       });
