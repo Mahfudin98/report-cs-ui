@@ -3,6 +3,7 @@
 import { mapActions, mapState } from "vuex";
 import ProductCard from "../components/Card/ProductCard.vue";
 import SearchInputVue from "@/components/Elements/SearchInput.vue";
+import LoadingScreenVue from "../components/Widget/LoadingScreen.vue";
 </script>
 <template>
   <main>
@@ -65,6 +66,11 @@ import SearchInputVue from "@/components/Elements/SearchInput.vue";
         </div>
         <!-- list Produk -->
         <div class="grid grid-cols-12 gap-5 mt-5 pt-5 mb-8 border-t">
+          <LoadingScreenVue
+            v-if="all == ''"
+            :styles="'relative col-span-12 bg-transparent text-slate-600'"
+            :text="'Sabar dulu ya teman-teman, ini lagi ngambil data dulu.'"
+          />
           <ProductCard :items="dataFilter" />
         </div>
       </div>

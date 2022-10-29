@@ -7,14 +7,17 @@
       <div
         class="relative bg-white shadow-md shadow-slate-500/40 rounded-md p-5"
       >
-        <div class="flex">
+        <slot name="loading" v-if="data == 'NaN'" />
+        <div class="flex" v-if="data != 'NaN'">
           <slot name="icon" />
           <div class="ml-auto">
             <slot name="persen" />
           </div>
         </div>
-        <div class="text-3xl font-medium leading-8 mt-6">{{ data }}</div>
-        <div class="text-base text-slate-500 mt-1">{{ title }}</div>
+        <div v-if="data != 'NaN'">
+          <div class="text-3xl font-medium leading-8 mt-6">{{ data }}</div>
+          <div class="text-base text-slate-500 mt-1">{{ title }}</div>
+        </div>
       </div>
     </div>
   </div>

@@ -8,6 +8,7 @@ import DonutChart from "../components/Chart/DonutChart.vue";
 import PieChart from "../components/Chart/PieChart.vue";
 import DateRangeLayout from "../components/Widget/DateRange/DaterangeLayout.vue";
 import TableRangeCS from "../components/Table/TableRangeCS.vue";
+import LoadingScreenVue from "../components/Widget/LoadingScreen.vue";
 import { mapActions, mapState } from "vuex";
 </script>
 <template>
@@ -33,6 +34,13 @@ import { mapActions, mapState } from "vuex";
                 :title="'Omset Hari Ini'"
                 :data="currency(cardStatus.today_omset)"
               >
+                <template #loading>
+                  <div class="text-center p-5">
+                    <i
+                      class="fa-solid fa-spinner w-10 h-10 text-theme-bg-light animate-spin"
+                    ></i>
+                  </div>
+                </template>
                 <template #icon>
                   <svg
                     class="w-7 h-7 text-theme-primary"
@@ -67,6 +75,13 @@ import { mapActions, mapState } from "vuex";
                 :title="'Omset Kemarin'"
                 :data="currency(cardStatus.yesterday_omset)"
               >
+                <template #loading>
+                  <div class="text-center p-5">
+                    <i
+                      class="fa-solid fa-spinner w-10 h-10 text-theme-bg-light animate-spin"
+                    ></i>
+                  </div>
+                </template>
                 <template #icon>
                   <svg
                     class="w-7 h-7 text-theme-primary"
@@ -93,7 +108,7 @@ import { mapActions, mapState } from "vuex";
                         cardStatus.yesterday_omset >= cardStatus.today_omset,
                     }"
                   >
-                    {{ cardStatus.yesterday_omset }} Produk
+                    {{ cardStatus.yesterday_produk }} Produk
                   </div>
                 </template>
               </StatusCard>
@@ -101,6 +116,13 @@ import { mapActions, mapState } from "vuex";
                 :title="'Minggu Ini'"
                 :data="currency(cardStatus.thisWeek_omset)"
               >
+                <template #loading>
+                  <div class="text-center p-5">
+                    <i
+                      class="fa-solid fa-spinner w-10 h-10 text-theme-bg-light animate-spin"
+                    ></i>
+                  </div>
+                </template>
                 <template #icon>
                   <svg
                     class="w-7 h-7 text-theme-primary"
@@ -135,6 +157,13 @@ import { mapActions, mapState } from "vuex";
                 :title="'Minggu Kemarin'"
                 :data="currency(cardStatus.lastWeek_omset)"
               >
+                <template #loading>
+                  <div class="text-center p-5">
+                    <i
+                      class="fa-solid fa-spinner w-10 h-10 text-theme-bg-light animate-spin"
+                    ></i>
+                  </div>
+                </template>
                 <template #icon>
                   <svg
                     class="w-7 h-7 text-theme-primary"
@@ -167,8 +196,12 @@ import { mapActions, mapState } from "vuex";
               </StatusCard>
             </div>
           </div>
-
-          <div class="col-span-12 lg:col-span-6 mt-5">
+          <LoadingScreenVue
+            v-if="pieData == ''"
+            :styles="'relative col-span-12 bg-transparent text-slate-600'"
+            :text="'Sabar dulu ya teman-teman, ini lagi ngambil data dulu.'"
+          />
+          <div class="col-span-12 lg:col-span-6 mt-5" v-if="pieData != ''">
             <div class="block sm:flex items-center h-10">
               <h2 class="text-lg font-medium truncate mr-5">Sales Report</h2>
               <div class="sm:ml-auto mt-3 sm:mt-0 relative text-slate-500">
@@ -238,7 +271,10 @@ import { mapActions, mapState } from "vuex";
             </div>
           </div>
 
-          <div class="col-span-12 sm:col-span-6 lg:col-span-3 mt-5">
+          <div
+            class="col-span-12 sm:col-span-6 lg:col-span-3 mt-5"
+            v-if="pieData != ''"
+          >
             <div class="flex items-center h-10">
               <h2 class="text-lg font-medium truncate mr-5">Produk Top</h2>
               <a href="" class="ml-auto text-theme-primary truncate text-xs"
@@ -258,7 +294,10 @@ import { mapActions, mapState } from "vuex";
             </div>
           </div>
 
-          <div class="col-span-12 sm:col-span-6 lg:col-span-3 mt-5">
+          <div
+            class="col-span-12 sm:col-span-6 lg:col-span-3 mt-5"
+            v-if="pieData != ''"
+          >
             <div class="flex items-center h-10">
               <h2 class="text-lg font-medium truncate mr-5">CS Top</h2>
               <a href="" class="ml-auto text-theme-primary truncate text-xs"
@@ -278,7 +317,7 @@ import { mapActions, mapState } from "vuex";
             </div>
           </div>
 
-          <div class="col-span-12 xl:col-span-4 mt-6">
+          <div class="col-span-12 xl:col-span-4 mt-6" v-if="pieData != ''">
             <div class="flex flex-wrap items-center h-10">
               <h2 class="text-lg font-medium truncate w-1/2">Top 5 CS</h2>
               <div class="w-1/2">

@@ -3,6 +3,7 @@
 import { mapActions, mapState } from "vuex";
 import Pagination from "@/components/Widget/PaginationWidget.vue";
 import SearchInputVue from "@/components/Elements/SearchInput.vue";
+import LoadingScreenVue from "../components/Widget/LoadingScreen.vue";
 // import { ref } from "vue";
 </script>
 <template>
@@ -22,7 +23,11 @@ import SearchInputVue from "@/components/Elements/SearchInput.vue";
         </div>
         <SearchInputVue v-model="data.search" />
       </div>
-
+      <LoadingScreenVue
+        v-if="users == ''"
+        :styles="'relative col-span-12 bg-transparent text-slate-600'"
+        :text="'Sabar dulu ya teman-teman, ini lagi ngambil data dulu.'"
+      />
       <!-- team list -->
       <div
         class="col-span-12 md:col-span-6 lg:col-span-4"

@@ -3,7 +3,7 @@ import { mapActions, mapState } from "vuex";
 import DateRangeLayout from "@/components/Widget/DateRange/DaterangeLayout.vue";
 import moment from "moment";
 import Pagination from "@/components/Widget/PaginationWidget.vue";
-
+import LoadingScreenVue from "../../../components/Widget/LoadingScreen.vue";
 import Swal from "sweetalert2";
 // import { ref } from "vue";
 
@@ -97,6 +97,7 @@ import Swal from "sweetalert2";
             class="overflow-x-scroll relative scrollbar hover:scrollbar-thin hover:scrollbar-thumb-slate-700 hover:scrollbar-track-transparent h-[650px] hover:overflow-y-scroll hover:scrollbar-thumb-rounded-full hover:scrollbar-track-rounded-full"
           >
             <table
+              v-if="all != undefined"
               class="w-full text-xs text-left text-gray-500 dark:text-gray-400 border-t"
             >
               <thead
@@ -213,13 +214,30 @@ import Swal from "sweetalert2";
                     </button>
                   </td>
                 </tr>
+                <tr
+                  v-if="transactions.data == ''"
+                  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 group"
+                >
+                  <td
+                    colspan="9"
+                    class="py-3 px-6 whitespace-nowrap font-semibold text-lg text-center"
+                  >
+                    Data Kosong
+                  </td>
+                </tr>
               </tbody>
             </table>
+            <LoadingScreenVue
+              v-if="all == undefined"
+              :styles="'relative bg-white text-slate-600'"
+              :text="'Ditunggu ya.'"
+            />
           </div>
           <!-- pagination -->
 
           <div class="grid mb-4">
             <Pagination
+              v-if="all != undefined"
               :total-pages="transactions.last_page"
               :total="transactions.total"
               :per-page="transactions.per_page"

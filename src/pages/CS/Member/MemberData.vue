@@ -2,6 +2,7 @@
 <script setup>
 import { mapActions, mapState } from "vuex";
 import Pagination from "@/components/Widget/PaginationWidget.vue";
+import LoadingScreenVue from "../../../components/Widget/LoadingScreen.vue";
 </script>
 <template>
   <main>
@@ -108,7 +109,11 @@ import Pagination from "@/components/Widget/PaginationWidget.vue";
           </div>
         </div>
       </div>
-
+      <LoadingScreenVue
+        v-if="all == undefined"
+        :styles="'relative col-span-12 bg-transparent text-slate-600'"
+        :text="'Sabar dulu ya teman-teman, ini lagi ngambil data dulu.'"
+      />
       <!-- pagination -->
       <div
         class="col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
@@ -168,7 +173,7 @@ export default {
     },
     search() {
       return this.data.search;
-    }
+    },
   },
   watch: {
     page() {

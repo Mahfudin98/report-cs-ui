@@ -174,8 +174,8 @@ import Swal from "sweetalert2";
                     required
                   >
                     <option value="">Pilih Tipe Member</option>
-                    <option value="0">Agen</option>
-                    <option value="1">Reseller</option>
+                    <option value="1">Agen</option>
+                    <option value="0">Reseller</option>
                   </select>
                 </div>
                 <!-- image state -->

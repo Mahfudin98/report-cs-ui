@@ -118,11 +118,7 @@ const router = createRouter({
     if (savePosition) {
       return savePosition;
     } else {
-      return {
-        x: 0,
-        y: 0,
-        behavior: "smooth",
-      };
+      window.scrollTo(0, 0);
     }
   },
 });
