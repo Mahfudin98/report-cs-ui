@@ -5,6 +5,8 @@ const state = () => ({
   select_member: [],
   member_index: [],
   page: 1,
+  id: '',
+  member_edit: ''
 });
 
 const mutations = {
@@ -17,6 +19,12 @@ const mutations = {
   SET_PAGE(state, payload) {
     state.page = payload;
   },
+  SET_ID_UPDATE(state, payload) {
+    state.id = payload;
+  },
+  ASSIGN_MEMBER_EDIT_DATA(state, payload) {
+    state.member_edit = payload;
+  }
 };
 
 const actions = {
@@ -59,7 +67,26 @@ const actions = {
         }
       });
     })
-  }
+  },
+  // eslint-disable-next-line no-unused-vars
+  getMemberEdit( { commit }, payload) {
+    return new Promise((resolve) => {
+      $axios.get(`/member-edit/${payload}`).then((response) => {
+        resolve(response.data)
+      })
+    })
+  },
+  updateMember({ state }, payload) {
+    return new Promise((resolve) => {
+      $axios.post(`/member-update/${state.id}`, payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }).then((response) => {
+        resolve(response.data);
+      })
+    })
+  },
 };
 
 export default {

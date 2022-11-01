@@ -15,7 +15,8 @@ import ReportDetailCS from "@/pages/CS/Report/ReportDetail.vue";
 // member
 import MemberIndex from "@/pages/CS/Member/MemberIndex.vue";
 import MemberData from "@/pages/CS/Member/MemberData.vue";
-import MemberForm from "@/pages/CS/Member/MemberForm.vue";
+import MemberAdd from "@/pages/CS/Member/MemberAdd.vue";
+import MemberEdit from "@/pages/CS/Member/MemberEdit.vue";
 
 // profile
 import Profile from "@/pages/Profile/ProfileIndex.vue";
@@ -103,10 +104,16 @@ const router = createRouter({
               meta: { title: "Member" },
             },
             {
-              path: "/member-form",
-              name: "member-form",
-              component: MemberForm,
-              meta: { title: "Member Form" },
+              path: "/member-add",
+              name: "member-add",
+              component: MemberAdd,
+              meta: { title: "Member Form Add" },
+            },
+            {
+              path: "/member-edit/:id",
+              name: "member-edit",
+              component: MemberEdit,
+              meta: { title: "Member Form Edit" },
             },
           ],
         },

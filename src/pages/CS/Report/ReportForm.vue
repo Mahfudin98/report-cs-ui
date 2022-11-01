@@ -976,7 +976,7 @@ export default {
       }
       form.append("weight", this.getWeight);
       form.append("courier", event.target.value);
-      this.transaction.ongkir = "loading..."
+      this.transaction.ongkir = "loading...";
       this.getOngkir(form).then(() => {
         this.transaction.ongkir = this.cost.data;
       });
