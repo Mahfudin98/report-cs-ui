@@ -507,6 +507,24 @@ import Swal from "sweetalert2";
                   <div class="w-full lg:w-6/12 px-4">
                     <div class="relative w-full mb-5">
                       <label
+                        for="product_weight"
+                        class="block mb-2 text-sm font-medium text-white dark:text-gray-300"
+                        >Berat Produk</label
+                      >
+                      <input
+                        type="number"
+                        id="product_weight"
+                        aria-label="disabled input"
+                        class="mb-6 bg-gray-100 border border-slate-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        v-model="product.product_weight[index]"
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  <div class="w-full lg:w-12/12 px-4">
+                    <div class="relative w-full mb-5">
+                      <label
                         for="product_price"
                         class="block mb-2 text-sm font-medium text-white dark:text-gray-300"
                         >Harga Produk</label
@@ -525,24 +543,6 @@ import Swal from "sweetalert2";
                   <div class="w-full lg:w-6/12 px-4">
                     <div class="relative w-full mb-5">
                       <label
-                        for="product_weight"
-                        class="block mb-2 text-sm font-medium text-white dark:text-gray-300"
-                        >Berat Produk</label
-                      >
-                      <input
-                        type="number"
-                        id="product_weight"
-                        aria-label="disabled input"
-                        class="mb-6 bg-gray-100 border border-slate-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        v-model="product.product_weight[index]"
-                        disabled
-                      />
-                    </div>
-                  </div>
-
-                  <div class="w-full lg:w-6/12 px-4">
-                    <div class="relative w-full mb-5">
-                      <label
                         for="discount"
                         class="block mb-2 text-sm font-medium text-white dark:text-gray-300"
                         >Diskon Produk</label
@@ -552,6 +552,24 @@ import Swal from "sweetalert2";
                         id="discount"
                         class="bg-gray-50 border border-slate-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         v-model="product.discount[index]"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="w-full lg:w-6/12 px-4">
+                    <div class="relative w-full mb-5">
+                      <label
+                        for="addition"
+                        class="block mb-2 text-sm font-medium text-white dark:text-gray-300"
+                        >Addition Produk</label
+                      >
+                      <input
+                        type="number"
+                        id="addition"
+                        class="bg-gray-50 border border-slate-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        v-model="product.addition[index]"
+                        required
                       />
                     </div>
                   </div>
@@ -777,6 +795,7 @@ export default {
         product_price: [0],
         qty: [0],
         discount: [0],
+        addition: [0],
       },
       ongkir: {
         provinsi: "",
@@ -876,6 +895,7 @@ export default {
         product_price: [0],
         qty: [0],
         discount: [0],
+        addition: [0],
         total: [0],
       };
       this.productArr.splice(index, 1);
@@ -1014,12 +1034,14 @@ export default {
         let product_price = this.product.product_price[i];
         let qty = this.product.qty[i];
         let discount = this.product.discount[i];
+        let addition = this.product.addition[i];
 
         form.append("product_id[" + i + "]", product_id);
         form.append("product_name[" + i + "]", product_name);
         form.append("product_price[" + i + "]", product_price);
         form.append("qty[" + i + "]", qty);
         form.append("discount[" + i + "]", discount);
+        form.append("addition[" + i + "]", addition);
       }
 
       this.postTransaction(form)
@@ -1062,6 +1084,7 @@ export default {
             product_price: [0],
             qty: [0],
             discount: [0],
+            addition: [0],
           };
           this.ongkir = {
             provinsi: "",

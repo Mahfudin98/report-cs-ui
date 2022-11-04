@@ -57,7 +57,9 @@ import moment from "moment";
         </div>
       </div>
 
-      <div class="overflow-x-auto relative px-5 sm:px-16 py-10 sm:py-20">
+      <div
+        class="relative px-5 sm:px-16 py-10 sm:py-20 overflow-x-scroll scrollbar hover:scrollbar-thin hover:scrollbar-thumb-slate-700 hover:scrollbar-track-transparent hover:overflow-y-scroll hover:scrollbar-thumb-rounded-full hover:scrollbar-track-rounded-full"
+      >
         <table
           class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
         >
@@ -69,6 +71,7 @@ import moment from "moment";
               <th scope="col" class="py-3 px-6">Qty</th>
               <th scope="col" class="py-3 px-6">Price</th>
               <th scope="col" class="py-3 px-6">Discount</th>
+              <th scope="col" class="py-3 px-6">Addition</th>
               <th scope="col" class="py-3 px-6 rounded-r-lg">Total Harga</th>
             </tr>
           </thead>
@@ -87,8 +90,14 @@ import moment from "moment";
               <td class="py-4 px-6">{{ row.qty }}</td>
               <td class="py-4 px-6">Rp. {{ currency(row.product_price) }}</td>
               <td class="py-4 px-6">{{ row.discount }}</td>
+              <td class="py-4 px-6">{{ row.addition }}</td>
               <td class="py-4 px-6">
-                Rp. {{ currency(row.qty * row.product_price - row.discount) }}
+                Rp.
+                {{
+                  currency(
+                    row.qty * row.product_price - row.discount + row.addition
+                  )
+                }}
               </td>
             </tr>
           </tbody>
@@ -98,7 +107,7 @@ import moment from "moment";
             >
               <th scope="row" class="py-3 px-6 text-base">Total</th>
               <td class="py-3 px-6">{{ totalQty }} Produk</td>
-              <th colspan="2"></th>
+              <th colspan="3"></th>
               <td class="py-3 px-6">Rp. {{ currency(data.total_harga) }}</td>
             </tr>
           </tfoot>
