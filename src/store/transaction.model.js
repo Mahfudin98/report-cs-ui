@@ -3,6 +3,7 @@ import $axios from "../service/api";
 
 const state = () => ({
   transactions: [],
+  allTR: [],
   detailTR: "",
   page: 1,
 });
@@ -10,6 +11,9 @@ const state = () => ({
 const mutations = {
   ASSIGN_TRANSACTION_LIST(state, payload) {
     state.transactions = payload;
+  },
+  ASSIGN_ALL_TR(state, payload) {
+    state.allTR = payload;
   },
   ASSIGN_DETAIL_TR(state, payload) {
     state.detailTR = payload;
@@ -27,6 +31,17 @@ const actions = {
         .get(`/transaction-index?page=${state.page}&date=${dateRange}`)
         .then((response) => {
           commit("ASSIGN_TRANSACTION_LIST", response.data);
+          resolve(response.data);
+        });
+    });
+  },
+  getAllTR({ commit }, payload) {
+    let dateRange = typeof payload != "undefined" && payload != "NaN-aN-aN+-+NaN-aN-aN" ? payload : "";
+    return new Promise((resolve) => {
+      $axios
+        .get(`/all-transaction?date=${dateRange}`)
+        .then((response) => {
+          commit("ASSIGN_ALL_TR", response.data.data);
           resolve(response.data);
         });
     });
