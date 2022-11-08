@@ -79,6 +79,13 @@ const actions = {
       });
     });
   },
+  updateOrder({ dispatch }, payload) {
+    return new Promise((resolve) => {
+      $axios.post(`/update-order/${payload}`).then(() => {
+        dispatch("getAllTR").then(() => resolve());
+      });
+    });
+  }
 };
 
 export default {

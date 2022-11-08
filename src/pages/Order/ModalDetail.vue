@@ -67,9 +67,6 @@ import moment from "moment";
                     <div class="text-xs mb-1">Customer：{{ index.nama }}</div>
                     <div class="text-xs mb-1">Phone：{{ index.phone }}</div>
                     <div class="text-xs mb-1">Alamat：{{ index.alamat }}</div>
-                    <div class="text-xs mb-1">
-                      Tipe Customer: {{ index.type_customer }}
-                    </div>
                     <div>OrderNumber：{{ index.nomor_pesanan }}</div>
                   </div>
                   <div
