@@ -52,7 +52,7 @@ import moment from "moment";
                 class="flex justify-center items-center h-screen bg-gray-200 text-gray-900 px-4 rounded-md"
               >
                 <div
-                  class="rounded-md relative w-[650px] shadow-2xl p-3 bg-white"
+                  class="rounded-md relative md:w-full lg:w-[850px] xl:w-[1080px] shadow-2xl p-3 bg-white"
                 >
                   <div class="py-2">
                     <div class="text-center text-xl font-bold">ORDER</div>
@@ -73,7 +73,7 @@ import moment from "moment";
                     class="border-double border-t-4 border-b-4 border-l-0 border-r-0 border-gray-900 my-3"
                   >
                     <div class="flex text-sm pt-1 px-1">
-                      <span class="w-2/6">Name</span>
+                      <span class="w-4/6">Name</span>
                       <span class="w-2/6 text-right">Price</span>
                       <span class="w-2/6 text-right">Discount</span>
                       <span class="w-2/6 text-right">QTY</span>
@@ -87,7 +87,7 @@ import moment from "moment";
                         v-for="row in index.produk"
                         :key="row"
                       >
-                        <span class="w-2/6 truncate">{{
+                        <span class="w-4/6 truncate">{{
                           row.product_name
                         }}</span>
                         <span class="w-2/6 text-right">{{
@@ -125,9 +125,7 @@ import moment from "moment";
                         }}
                       </div>
                       <div class="font-bold text-sm">
-                        Total Harga：{{
-                          getTotal
-                        }}
+                        Total Harga：{{ getTotal }}
                       </div>
                     </div>
                   </div>
