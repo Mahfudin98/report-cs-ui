@@ -60,10 +60,17 @@ import moment from "moment";
                       CS {{ index.user }}
                     </div>
                   </div>
-                  <div class="text-center text-xs font-bold mb-1">
+                  <div class="text-center text-xs font-bold">
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                   </div>
+                  <div class="text-center text-md font-bold mb-2">
+                    Tanggal Transaksi (
+                    {{ moment(index.tanggal).format("DD-MM-YYYY") }} )
+                  </div>
                   <div class="text-xs pl-2">
+                    <div class="text-md mb-1 font-semibold">
+                      Origin Order: {{ index.origin_customer }}
+                    </div>
                     <div class="text-xs mb-1">Customer：{{ index.nama }}</div>
                     <div class="text-xs mb-1">Phone：{{ index.phone }}</div>
                     <div class="text-xs mb-1">Alamat：{{ index.alamat }}</div>
@@ -102,7 +109,7 @@ import moment from "moment";
                     </div>
                   </div>
                   <div class="text-xs">
-                    <div class="mb-1">
+                    <div class="mb-1 text-md font-semibold">
                       Tipe Transaksi: {{ index.type_transaction }}
                     </div>
                     <div
@@ -120,9 +127,7 @@ import moment from "moment";
                     <div class="text-right">
                       <div>
                         Tanggal:
-                        {{
-                          moment(index.tanggal).format("DD-MM-YYYY")
-                        }}
+                        {{ moment(index.tanggal).format("DD-MM-YYYY") }}
                       </div>
                       <div class="font-bold text-sm">
                         Total Harga：{{ getTotal }}

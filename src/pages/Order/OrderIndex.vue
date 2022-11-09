@@ -101,6 +101,7 @@ import Swal from "sweetalert2";
                     </th>
                     <th scope="col" class="py-3 px-6">Qty</th>
                     <th scope="col" class="py-3 px-6">Date</th>
+                    <th scope="col" class="py-3 px-6">Origin</th>
                     <th scope="col" class="py-3 px-6">Status</th>
                     <th scope="col" class="py-3 px-6 rounded-r-lg">Action</th>
                   </tr>
@@ -118,8 +119,15 @@ import Swal from "sweetalert2";
                       {{ item.nama }}
                     </th>
                     <td class="py-4 px-6">{{ item.produk.length }}</td>
-                    <td class="py-4 px-6 font-semibold">
+                    <td
+                      class="py-4 px-6 font-semibold text-slate-800 whitespace-nowrap"
+                    >
                       {{ moment(item.tanggal).format("DD-MM-YYYY") }}
+                    </td>
+                    <td
+                      class="py-4 px-6 font-semibold text-slate-800 whitespace-nowrap"
+                    >
+                      {{ item.origin_customer }}
                     </td>
                     <td class="py-4 px-6">
                       <span
