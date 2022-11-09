@@ -125,7 +125,9 @@ import moment from "moment";
                         }}
                       </div>
                       <div class="font-bold text-sm">
-                        Total Harga：{{ index.total_harga }}
+                        Total Harga：{{
+                          getTotal
+                        }}
                       </div>
                     </div>
                   </div>
@@ -172,6 +174,17 @@ export default {
       } else {
         const biaya = (3 / 100) * harga;
         return biaya;
+      }
+    },
+    getTotal() {
+      let harga = this.index.total_harga;
+      let biayacod = this.getBiayaCOD;
+      let ongkir = this.index.ongkir;
+      let type = this.index.type_transaction;
+      if (type == "COD") {
+        return harga + biayacod + ongkir;
+      } else {
+        return harga + ongkir;
       }
     },
   },
