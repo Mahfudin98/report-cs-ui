@@ -57,7 +57,7 @@ import moment from "moment";
                   <div class="py-2">
                     <div class="text-center text-xl font-bold">ORDER</div>
                     <div class="text-center text-xs font-bold">
-                      The order details
+                      CS {{ index.user }}
                     </div>
                   </div>
                   <div class="text-center text-xs font-bold mb-1">
@@ -121,7 +121,7 @@ import moment from "moment";
                       <div>
                         Tanggal:
                         {{
-                          moment(index.tanggal_transaksi).format("DD-MM-YYYY")
+                          moment(index.tanggal).format("DD-MM-YYYY")
                         }}
                       </div>
                       <div class="font-bold text-sm">

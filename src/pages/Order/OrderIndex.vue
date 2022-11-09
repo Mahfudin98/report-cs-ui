@@ -17,12 +17,12 @@ import Swal from "sweetalert2";
     </div>
 
     <div class="w-full grid grid-cols-12 gap-6 px-4 pt-1">
-      <div class="col-span-12 2xl:col-span-9">
+      <div class="col-span-12 2xl:col-span-9 xxl:col-span-12">
         <div class="grid grid-cols-12 gap-6">
           <div class="col-span-12 sm:col-span-4">
             <div class="flex flex-col min-h-screen bg-center bg-cover pt-2">
               <div
-                class="max-w-md w-full h-full mx-auto z-10 bg-theme-bg-light rounded-3xl p-4"
+                class="max-w-full w-full h-full mx-auto z-10 bg-theme-bg-light rounded-3xl p-4"
               >
                 <div class="grid gap-2 w-full bg-white rounded-lg p-4">
                   <DaterangeLayout v-model="data.dateRange" />
@@ -100,6 +100,7 @@ import Swal from "sweetalert2";
                       Nama Customers
                     </th>
                     <th scope="col" class="py-3 px-6">Qty</th>
+                    <th scope="col" class="py-3 px-6">Date</th>
                     <th scope="col" class="py-3 px-6">Status</th>
                     <th scope="col" class="py-3 px-6 rounded-r-lg">Action</th>
                   </tr>
@@ -117,6 +118,9 @@ import Swal from "sweetalert2";
                       {{ item.nama }}
                     </th>
                     <td class="py-4 px-6">{{ item.produk.length }}</td>
+                    <td class="py-4 px-6 font-semibold">
+                      {{ moment(item.tanggal).format("DD-MM-YYYY") }}
+                    </td>
                     <td class="py-4 px-6">
                       <span
                         :class="[item.status == 1 ? 'block' : 'hidden']"
