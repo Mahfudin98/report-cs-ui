@@ -166,13 +166,13 @@ export default {
       let ongkir = this.index.ongkir;
       let expedisi = this.index.expedisi;
       if (expedisi == "jne") {
-        const biaya = ((harga + ongkir) * 3) / 100;
+        const biaya = ((parseInt(harga) + parseInt(ongkir)) * 3) / 100;
         return biaya;
       } else if (expedisi == "jnt") {
-        const biaya = (harga * 3) / 100;
+        const biaya = (parseInt(harga) * 3) / 100;
         return biaya;
       } else {
-        const biaya = (3 / 100) * harga;
+        const biaya = (3 / 100) * parseInt(harga);
         return biaya;
       }
     },
