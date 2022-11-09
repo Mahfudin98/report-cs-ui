@@ -182,9 +182,9 @@ export default {
       let ongkir = this.index.ongkir;
       let type = this.index.type_transaction;
       if (type == "COD") {
-        return harga + biayacod + ongkir;
+        return parseInt(harga) + parseInt(biayacod) + parseInt(ongkir);
       } else {
-        return harga + ongkir;
+        return parseInt(harga) + parseInt(ongkir);
       }
     },
   },
