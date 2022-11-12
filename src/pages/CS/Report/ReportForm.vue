@@ -741,10 +741,32 @@ import Swal from "sweetalert2";
               </div>
               <button
                 type="submit"
+                :disabled="data.load"
                 class="text-white bottom-0 right-0 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                :class="[!data.load ? '' : 'cursor-not-allowed']"
               >
-                <i class="fa-solid fa-circle-plus mr-2 -ml-1 w-5 h-5"></i>
-                Add Transaction
+                <svg
+                  :class="[data.load ? '' : 'hidden']"
+                  class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                {{ !data.load ? "Add Report" : "Processing..." }}
               </button>
             </div>
           </div>
@@ -803,6 +825,9 @@ export default {
         kecamatan: "",
       },
       url: "",
+      data: {
+        load: false,
+      },
     };
   },
   created() {
@@ -1043,9 +1068,10 @@ export default {
         form.append("discount[" + i + "]", discount);
         form.append("addition[" + i + "]", addition);
       }
-
+      this.data.load = true;
       this.postTransaction(form)
         .then(() => {
+          this.data.load = false;
           Swal.fire("Good job!", "You clicked the button!", "success");
           this.transaction = {
             tanggal_transaksi: "",
