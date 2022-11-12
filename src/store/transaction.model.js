@@ -36,10 +36,10 @@ const actions = {
     });
   },
   getAllTR({ commit }, payload) {
-    let dateRange = typeof payload != "undefined" && payload != "NaN-aN-aN+-+NaN-aN-aN" ? payload : "";
+    let date = typeof payload != "undefined" ? payload : "";
     return new Promise((resolve) => {
       $axios
-        .get(`/all-transaction?date=${dateRange}`)
+        .get(`/all-transaction?date=${date}`)
         .then((response) => {
           commit("ASSIGN_ALL_TR", response.data.data);
           resolve(response.data);

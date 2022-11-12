@@ -1,5 +1,4 @@
 <script setup>
-import DaterangeLayout from "@/components/Widget/DateRange/DaterangeLayout.vue";
 import moment from "moment";
 import ModalDetail from "./ModalDetail.vue";
 import LoadingScreenVue from "../../components/Widget/LoadingScreen.vue";
@@ -25,7 +24,25 @@ import Swal from "sweetalert2";
                 class="max-w-full w-full h-full mx-auto z-10 bg-theme-bg-light rounded-3xl p-4"
               >
                 <div class="grid gap-2 w-full bg-white rounded-lg p-4">
-                  <DaterangeLayout v-model="data.dateRange" />
+                  <form class="sm:flex items-center">
+                    <div class="relative w-full">
+                      <div
+                        class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
+                      >
+                        <i
+                          class="fa-solid fa-calendar-days w-5 h-5 text-gray-500 dark:text-gray-400"
+                        ></i>
+                      </div>
+                      <input
+                        v-model="data.date"
+                        type="date"
+                        id="simple-search"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Search"
+                        required
+                      />
+                    </div>
+                  </form>
                   <div
                     class="bg-theme-bg-light/85 text-white rounded-2xl shadow-xl py-5 px-3 w-full"
                   >
@@ -234,7 +251,7 @@ export default {
   data() {
     return {
       data: {
-        dateRange: [],
+        date: "",
       },
       isOpen: false,
       value: "",
@@ -242,18 +259,14 @@ export default {
     };
   },
   watch: {
-    dateRange() {
-      this.getAllTR(
-        this.convert(this.data.dateRange[0]) +
-          "+-+" +
-          this.convert(this.data.dateRange[1])
-      );
+    date() {
+      this.getAllTR(this.data.date);
     },
   },
   computed: {
     ...mapState("transaction", { allTR: (state) => state.allTR }),
-    dateRange() {
-      return this.data.dateRange;
+    date() {
+      return this.data.date;
     },
     dataFilter() {
       return this[this.dataFilterKey];
