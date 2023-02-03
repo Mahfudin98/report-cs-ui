@@ -94,7 +94,7 @@ import Swal from "sweetalert2";
           </div>
           <!-- table -->
           <div
-            class="overflow-x-scroll relative scrollbar hover:scrollbar-thin hover:scrollbar-thumb-slate-700 hover:scrollbar-track-transparent h-[650px] hover:overflow-y-scroll hover:scrollbar-thumb-rounded-full hover:scrollbar-track-rounded-full"
+            class="overflow-x-scroll relative scrollbar hover:scrollbar-thin hover:scrollbar-thumb-slate-700 hover:scrollbar-track-transparent max-h-screen hover:overflow-y-scroll hover:scrollbar-thumb-rounded-full hover:scrollbar-track-rounded-full"
           >
             <table
               v-if="all != undefined"
