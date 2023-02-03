@@ -25,11 +25,11 @@ import { mapActions, mapState } from "vuex";
 
     <!-- content -->
     <div class="w-full grid grid-cols-12 gap-6 px-4 pt-1">
-      <div class="col-span-12 2xl:col-span-9">
-        <div class="grid grid-cols-12 gap-6">
+      <div class="col-span-12">
+        <div class="w-full grid grid-cols-12 gap-6">
           <!-- BEGIN: General Report -->
           <div class="col-span-12">
-            <div class="grid grid-cols-12 gap-6">
+            <div class="w-full grid grid-cols-12 gap-6">
               <StatusCard
                 :title="'Omset Hari Ini'"
                 :data="currency(cardStatus.today_omset)"

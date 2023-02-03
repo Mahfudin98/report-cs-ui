@@ -309,6 +309,8 @@ export default {
       form.append("member_phone", this.member.member_phone);
       form.append("member_alamat", this.member.member_alamat);
       form.append("image", this.member.image);
+      form.append("province_id", this.ongkir.provinsi);
+      form.append("city_id", this.ongkir.kota);
       form.append("district_id", this.ongkir.kecamatan);
       form.append("join_on", this.member.join_on);
       form.append("member_type", this.member.member_type);

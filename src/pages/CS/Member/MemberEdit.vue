@@ -33,6 +33,46 @@ import Swal from "sweetalert2";
 
             <div class="flex-auto px-4 py-5 pt-5 rounded-b bg-slate-200">
               <div class="flex flex-wrap">
+                <!-- username state -->
+                <div class="w-full lg:w-6/12 px-4 mb-5">
+                  <div class="relative z-0">
+                    <input
+                      type="text"
+                      id="username"
+                      class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-slate-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=" "
+                      required
+                      v-model="member.username"
+                      :disabled="member.username == 'Loading...'"
+                    />
+                    <label
+                      for="username"
+                      class="absolute text-sm text-slate-600 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >Username Member</label
+                    >
+                  </div>
+                </div>
+                <!-- phone state -->
+                <div class="w-full lg:w-6/12 px-4 mb-5">
+                  <div class="relative z-0">
+                    <input
+                      type="text"
+                      id="password"
+                      class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-slate-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=" "
+                      v-model="member.password"
+                      :disabled="member.member_name == 'Loading...'"
+                    />
+                    <label
+                      for="password"
+                      class="absolute text-sm text-slate-600 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >Password Member</label
+                    >
+                  </div>
+                  <p class="mt-1 text-xs text-gray-500" id="file_input_help">
+                    kosongkan jika tidak ingin mengisi.
+                  </p>
+                </div>
                 <!-- name state -->
                 <div class="w-full lg:w-6/12 px-4 mb-5">
                   <div class="relative z-0">
@@ -271,12 +311,19 @@ export default {
     this.getKecamatan();
     this.getMemberEdit(this.$route.params.id).then((res) => {
       this.member = {
+        username: res.data.username,
         member_name: res.data.member_name,
         member_phone: res.data.member_phone,
         member_alamat: res.data.member_alamat,
         join_on: res.data.join_on,
         member_type: res.data.member_type,
         image: "",
+      };
+
+      this.ongkir = {
+        provinsi: res.data.province_id,
+        kota: res.data.city_id,
+        kecamatan: res.data.district_id,
       };
     });
   },
@@ -286,6 +333,8 @@ export default {
         member_name: "Loading...",
         member_phone: "Loading...",
         member_alamat: "Loading...",
+        username: "Loading...",
+        password: "",
         join_on: "",
         image: "",
         member_type: "",
@@ -331,10 +380,14 @@ export default {
     submit() {
       var form = new FormData();
 
+      form.append("username", this.member.username);
+      form.append("password", this.member.password);
       form.append("member_name", this.member.member_name);
       form.append("member_phone", this.member.member_phone);
       form.append("member_alamat", this.member.member_alamat);
       form.append("image", this.member.image);
+      form.append("province_id", this.ongkir.provinsi);
+      form.append("city_id", this.ongkir.kota);
       form.append("district_id", this.ongkir.kecamatan);
       form.append("join_on", this.member.join_on);
       form.append("member_type", this.member.member_type);

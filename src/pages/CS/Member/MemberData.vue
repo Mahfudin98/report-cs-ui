@@ -87,7 +87,9 @@ import LoadingScreenVue from "../../../components/Widget/LoadingScreen.vue";
             <div
               class="lg:ml-2 lg:mr-auto text-center lg:text-left mt-3 lg:mt-0"
             >
-              <a href="" class="font-medium">{{ row.nama }}</a>
+              <a href="" class="font-medium"
+                >{{ row.nama }} ({{ row.username }})
+              </a>
               <div class="text-slate-500 text-xs mt-0.5">
                 {{ row.alamat }}
               </div>
