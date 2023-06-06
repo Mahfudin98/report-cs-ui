@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-
+import VueTailwindDatepicker from "vue-tailwind-datepicker";
 import "./assets/main.css";
 import { library, dom } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -13,7 +13,7 @@ library.add(fas, far, fab);
 dom.watch();
 
 const app = createApp(App);
-
+app.use(VueTailwindDatepicker);
 app.use(router);
 app.use(store);
 

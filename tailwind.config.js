@@ -2,7 +2,13 @@
 const colors = require("tailwindcss/colors");
 const { fontFamily } = require("tailwindcss/defaultTheme");
 module.exports = {
-  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
+    "./node_modules/flowbite/**/*.js",
+    "node_modules/flowbite-vue/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/vue-tailwind-datepicker/**/*.js",
+  ],
   darkMode: "class",
   theme: {
     extend: {
@@ -32,6 +38,8 @@ module.exports = {
           "warning-dark": "#A25C06",
           "error-dark": "#F53D50",
         },
+        "vtd-primary": colors.sky, // Light mode Datepicker color
+        "vtd-secondary": colors.gray, // Dark mode Datepicker color
         cyan: colors.cyan,
         fuchsia: colors.fuchsia,
         lime: colors.lime,
@@ -70,7 +78,11 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwind-scrollbar"), require("flowbite/plugin")],
+  plugins: [
+    require("tailwind-scrollbar"),
+    require("flowbite/plugin"),
+    require("@tailwindcss/forms"),
+  ],
   variants: {
     scrollbar: ["rounded"],
     extend: {

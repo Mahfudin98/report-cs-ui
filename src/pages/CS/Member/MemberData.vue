@@ -94,7 +94,11 @@ import LoadingScreenVue from "@/components/Widget/LoadingScreen.vue";
               class="w-[100px] h-[100px] rounded-full bg-red-400 flex justify-center items-center"
             >
               <img
-                :src="row.image != 'belum ada image' ? row.image : fakeImage"
+                :src="
+                  row.image != 'belum ada image'
+                    ? row.image
+                    : `https://ui-avatars.com/api/?name=${row.nama}&background=random&size=90&bold=true`
+                "
                 class="rounded-full object-cover w-[90px] h-[90px] object-center aspect-square"
                 alt=""
               />
@@ -102,19 +106,22 @@ import LoadingScreenVue from "@/components/Widget/LoadingScreen.vue";
             <div class="mt-3">
               <a
                 href=""
-                class="font-medium text-center text-lg font-poppins capitalize"
+                class="font-medium text-center text-base 2xl:text-lg font-poppins capitalize"
               >
                 {{ row.nama }}
               </a>
             </div>
             <div class="flex justify-center items-center mt-4 lg:mt-2">
-              <button
-                type="button"
+              <router-link
+                :to="{
+                  name: 'member-detail',
+                  params: { username: `${row.username}` },
+                }"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 flex justify-center items-center font-medium rounded-lg text-sm py-1 px-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
               >
                 <EyeIcon class="h-6 w-6 mr-2" />
                 Profile
-              </button>
+              </router-link>
               <router-link
                 :to="{ name: 'member-edit', params: { id: `${row.id}` } }"
                 class="text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 flex justify-center items-center font-medium rounded-lg text-base py-1 px-2 mr-2 mb-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 focus:outline-none dark:focus:ring-yellow-800"

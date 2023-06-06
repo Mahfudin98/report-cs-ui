@@ -17,6 +17,7 @@ import MemberIndex from "@/pages/CS/Member/MemberIndex.vue";
 import MemberData from "@/pages/CS/Member/MemberData.vue";
 import MemberAdd from "@/pages/CS/Member/MemberAdd.vue";
 import MemberEdit from "@/pages/CS/Member/MemberEdit.vue";
+import MemberDetail from "@/pages/CS/Member/MemberDetail.vue";
 
 // order
 import OrderIndex from "../pages/Order/OrderIndex.vue";
@@ -117,6 +118,12 @@ const router = createRouter({
               name: "member-edit",
               component: MemberEdit,
               meta: { title: "Member Form Edit" },
+            },
+            {
+              path: "/member-detail/:username",
+              name: "member-detail",
+              component: MemberDetail,
+              meta: { title: "Member Detail" },
             },
           ],
         },
