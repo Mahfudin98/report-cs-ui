@@ -2,7 +2,8 @@
 <script setup>
 import { mapActions, mapState } from "vuex";
 import Pagination from "@/components/Widget/PaginationWidget.vue";
-import LoadingScreenVue from "../../../components/Widget/LoadingScreen.vue";
+import { PencilSquareIcon, EyeIcon } from "@heroicons/vue/24/outline";
+import LoadingScreenVue from "@/components/Widget/LoadingScreen.vue";
 </script>
 <template>
   <main>
@@ -69,42 +70,56 @@ import LoadingScreenVue from "../../../components/Widget/LoadingScreen.vue";
 
       <!-- list member -->
       <div
-        class="col-span-12 gap-3 md:col-span-6"
+        class="col-span-12 gap-3 md:col-span-6 lg:col-span-4 2xl:col-span-3"
         v-for="(row, index) in dataFilter"
         :key="index"
       >
         <div
-          class="box-border bg-white rounded-lg shadow-sm shadow-black/40 hover:scale-105"
+          class="box-border bg-white rounded-lg shadow-sm shadow-black/40 hover:scale-105 relative overflow-hidden"
         >
-          <div class="flex flex-col lg:flex-row items-center p-5">
-            <div class="w-24 h-24 lg:w-12 lg:h-12 image-fit lg:mr-1">
+          <div class="absolute top-6 -right-9">
+            <div
+              class="w-[150px] h-[30px] rotate-45 shadow-md"
+              :class="[row.type == 'Reseller' ? 'bg-red-400' : 'bg-[#996515]']"
+            >
+              <div
+                class="flex w-full h-full justify-center items-center text-white font-poppins font-medium text-base"
+              >
+                {{ row.type }}
+              </div>
+            </div>
+          </div>
+          <div class="p-5 flex flex-col justify-center items-center">
+            <div
+              class="w-[100px] h-[100px] rounded-full bg-red-400 flex justify-center items-center"
+            >
               <img
-                :src="row.image"
-                class="rounded-full object-cover object-center aspect-square"
+                :src="row.image != 'belum ada image' ? row.image : fakeImage"
+                class="rounded-full object-cover w-[90px] h-[90px] object-center aspect-square"
                 alt=""
               />
             </div>
-            <div
-              class="lg:ml-2 lg:mr-auto text-center lg:text-left mt-3 lg:mt-0"
-            >
-              <a href="" class="font-medium"
-                >{{ row.nama }} ({{ row.username }})
+            <div class="mt-3">
+              <a
+                href=""
+                class="font-medium text-center text-lg font-poppins capitalize"
+              >
+                {{ row.nama }}
               </a>
-              <div class="text-slate-500 text-xs mt-0.5">
-                {{ row.alamat }}
-              </div>
             </div>
-            <div class="flex mt-4 lg:mt-0">
+            <div class="flex justify-center items-center mt-4 lg:mt-2">
               <button
                 type="button"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm py-1 px-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 flex justify-center items-center font-medium rounded-lg text-sm py-1 px-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
               >
-                {{ row.type }}
+                <EyeIcon class="h-6 w-6 mr-2" />
+                Profile
               </button>
               <router-link
                 :to="{ name: 'member-edit', params: { id: `${row.id}` } }"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm py-1 px-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                class="text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 flex justify-center items-center font-medium rounded-lg text-base py-1 px-2 mr-2 mb-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 focus:outline-none dark:focus:ring-yellow-800"
               >
+                <PencilSquareIcon class="h-6 w-6 mr-2" />
                 Edit
               </router-link>
             </div>
@@ -145,6 +160,8 @@ export default {
         search: "",
         filterKey: "all",
       },
+      fakeImage:
+        "https://ui-avatars.com/api/?name=LS+Skincare&background=random&size=90&bold=true",
     };
   },
   computed: {
