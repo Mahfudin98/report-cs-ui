@@ -107,6 +107,20 @@ const actions = {
         });
     });
   },
+  updateMemberDetail({ state, dispatch }, payload) {
+    return new Promise((resolve) => {
+      $axios
+        .post(`/member-update-detail/${state.id}`, payload, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          resolve(response.data);
+          dispatch("getIndexMember").then(() => resolve());
+        });
+    });
+  },
   getMemberDetail({ commit }, payload) {
     return new Promise((resolve) => {
       $axios.get(`/owner-member-detail-qr/${payload}`).then((response) => {

@@ -1,11 +1,17 @@
 <script setup>
 import moment from "moment";
-import { mapActions, mapState } from "vuex";
+// eslint-disable-next-line no-unused-vars
+import { mapActions, mapState, mapMutations } from "vuex";
 import _ from "lodash";
-import { Bars2Icon } from "@heroicons/vue/24/outline";
+import {
+  Bars2Icon,
+  PencilSquareIcon,
+  XCircleIcon,
+} from "@heroicons/vue/24/outline";
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
 import LineChart from "@/components/Chart/LineChart.vue";
 import BarChart from "@/components/Chart/BarChart.vue";
+import Swal from "sweetalert2";
 </script>
 <template>
   <main>
@@ -93,11 +99,142 @@ import BarChart from "@/components/Chart/BarChart.vue";
             </div>
             <div class="w-full border-t-2 border-gray-700">
               <h1
-                class="text-xl font-poppins font-semibold my-5 text-gray-900 uppercase"
+                class="text-xl font-poppins font-semibold my-5 text-gray-900 uppercase flex justify-between items-center"
               >
                 Profile Data
+                <button
+                  @click="isEditOpen"
+                  v-if="!isEdit"
+                  type="button"
+                  class="bg-yellow-400 px-4 py-1.5 rounded-lg shadow-md hover:bg-yellow-500"
+                >
+                  <PencilSquareIcon class="h-6 w-6 text-white" />
+                </button>
+                <div class="flex gap-2" v-show="isEdit">
+                  <button
+                    @click="isEditClose"
+                    type="button"
+                    class="bg-red-500 px-4 py-1.5 rounded-lg shadow-md hover:bg-red-600"
+                  >
+                    <XCircleIcon class="h-6 w-6 text-white" />
+                  </button>
+                  <button
+                    @click.prevent="submit()"
+                    type="submit"
+                    class="bg-blue-500 px-4 py-1.5 rounded-lg shadow-md hover:bg-blue-600 pb-0"
+                  >
+                    <i class="fas fa-save h-6 w-6 text-white"></i>
+                  </button>
+                </div>
               </h1>
-              <div class="grid gap-3">
+              <div class="gap-3" :class="[isEdit ? 'grid' : 'hidden']">
+                <div
+                  class="grid grid-cols-12 place-items-center w-full justify-items-start"
+                >
+                  <div class="col-span-4">
+                    <h3
+                      class="text-start text-sm 2xl:text-lg text-gray-800 font-medium flex justify-start font-poppins items-center"
+                    >
+                      <i class="fa-brands fa-whatsapp w-5 h-5 mr-2"></i>
+                      Whatsapp
+                    </h3>
+                  </div>
+                  <div class="col-span-1 text-center">:</div>
+                  <div class="col-span-7">
+                    <input
+                      v-model="form.member_phone"
+                      type="tel"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="nomor whatsappp"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="grid grid-cols-12 place-items-center w-full justify-items-start"
+                >
+                  <div class="col-span-4">
+                    <h3
+                      class="text-start text-sm 2xl:text-lg text-gray-800 font-medium flex justify-start font-poppins items-center"
+                    >
+                      <i class="fa-brands fa-facebook w-5 h-5 mr-2"></i>
+                      Facebook
+                    </h3>
+                  </div>
+                  <div class="col-span-1 text-center">:</div>
+                  <div class="col-span-7">
+                    <input
+                      v-model="form.url_fb"
+                      type="text"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="username facebook"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="grid grid-cols-12 place-items-center w-full justify-items-start"
+                >
+                  <div class="col-span-4">
+                    <h3
+                      class="text-start text-sm 2xl:text-lg text-gray-800 font-medium flex justify-start font-poppins items-center"
+                    >
+                      <i class="fa-brands fa-instagram w-5 h-5 mr-2"></i>
+                      Instagram
+                    </h3>
+                  </div>
+                  <div class="col-span-1 text-center">:</div>
+                  <div class="col-span-7">
+                    <input
+                      v-model="form.url_ig"
+                      type="text"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="username instagram"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="grid grid-cols-12 place-items-center w-full justify-items-start"
+                >
+                  <div class="col-span-4">
+                    <h3
+                      class="text-start text-sm 2xl:text-lg text-gray-800 font-medium flex justify-start font-poppins items-center"
+                    >
+                      <i class="fa-brands fa-tiktok w-5 h-5 mr-2"></i>
+                      Tiktok
+                    </h3>
+                  </div>
+                  <div class="col-span-1 text-center">:</div>
+                  <div class="col-span-7">
+                    <input
+                      v-model="form.url_tiktok"
+                      type="text"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="username tiktok"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="grid grid-cols-12 place-items-center w-full justify-items-start"
+                >
+                  <div class="col-span-4">
+                    <h3
+                      class="text-start text-sm 2xl:text-lg text-gray-800 font-medium flex justify-start font-poppins items-center"
+                    >
+                      <i class="fa-solid fa-globe w-5 h-5 mr-2"></i>
+                      Website
+                    </h3>
+                  </div>
+                  <div class="col-span-1 text-center">:</div>
+                  <div class="col-span-7">
+                    <input
+                      v-model="form.url_website"
+                      type="text"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="link website"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="gap-3" :class="[!isEdit ? 'grid' : 'hidden']">
                 <div class="grid grid-cols-12">
                   <div class="col-span-4">
                     <h3
@@ -130,7 +267,11 @@ import BarChart from "@/components/Chart/BarChart.vue";
                     <h3
                       class="text-start text-sm 2xl:text-lg text-gray-700 font-poppins font-normal"
                     >
-                      {{ member.facebook != null ? member.facebook : "-" }}
+                      {{
+                        member.facebook != null && member.facebook != "null"
+                          ? member.facebook
+                          : "-"
+                      }}
                     </h3>
                   </div>
                 </div>
@@ -148,7 +289,11 @@ import BarChart from "@/components/Chart/BarChart.vue";
                     <h3
                       class="text-start text-sm 2xl:text-lg text-gray-700 font-poppins font-normal"
                     >
-                      {{ member.instagram != null ? member.instagram : "-" }}
+                      {{
+                        member.instagram != null && member.instagram != "null"
+                          ? member.instagram
+                          : "-"
+                      }}
                     </h3>
                   </div>
                 </div>
@@ -166,7 +311,11 @@ import BarChart from "@/components/Chart/BarChart.vue";
                     <h3
                       class="text-start text-sm 2xl:text-lg text-gray-700 font-poppins font-normal"
                     >
-                      {{ member.tiktok != null ? member.tiktok : "-" }}
+                      {{
+                        member.tiktok != null && member.tiktok != "null"
+                          ? member.tiktok
+                          : "-"
+                      }}
                     </h3>
                   </div>
                 </div>
@@ -184,7 +333,11 @@ import BarChart from "@/components/Chart/BarChart.vue";
                     <h3
                       class="text-start text-sm 2xl:text-lg text-gray-700 font-poppins font-normal"
                     >
-                      {{ member.website != null ? member.website : "-" }}
+                      {{
+                        member.website != null && member.website != "null"
+                          ? member.website
+                          : "-"
+                      }}
                     </h3>
                   </div>
                 </div>
@@ -335,7 +488,7 @@ import BarChart from "@/components/Chart/BarChart.vue";
                 >
                   <Bars2Icon class="h-5 w-5" />
                 </button>
-                <div v-if="isOpen">
+                <div v-show="isOpen">
                   <transition
                     enter-active-class="transition duration-100 ease-out"
                     enter-from-class="transform scale-95 opacity-0"
@@ -460,6 +613,25 @@ export default {
         year: this.data.year,
         month: this.data.month,
       });
+      this.form = {
+        member_phone: this.member.member_phone,
+        url_fb:
+          this.member.facebook != null && this.member.facebook != "null"
+            ? this.member.facebook
+            : "",
+        url_ig:
+          this.member.instagram != null && this.member.instagram != "null"
+            ? this.member.instagram
+            : "",
+        url_tiktok:
+          this.member.tiktok != null && this.member.tiktok != "null"
+            ? this.member.tiktok
+            : "",
+        url_website:
+          this.member.website != null && this.member.website != "null"
+            ? this.member.website
+            : "",
+      };
     });
   },
   data() {
@@ -471,6 +643,7 @@ export default {
       },
       isLoading: true,
       isOpen: false,
+      isEdit: false,
       formatter: {
         date: "DD MMM YYYY",
         month: "MMM",
@@ -480,6 +653,13 @@ export default {
           apply: "Terapkan",
           cancel: "Batal",
         },
+      },
+      form: {
+        member_phone: "",
+        url_fb: "",
+        url_ig: "",
+        url_tiktok: "",
+        url_website: "",
       },
     };
   },
@@ -578,6 +758,82 @@ export default {
     },
     isClose() {
       this.isOpen = false;
+    },
+    isEditOpen() {
+      this.isEdit = true;
+    },
+    isEditClose() {
+      this.isEdit = false;
+    },
+    ...mapActions("member", ["updateMemberDetail"]),
+    ...mapMutations("member", ["SET_ID_UPDATE"]),
+    submit() {
+      let form = new FormData();
+      form.append("member_phone", this.form.member_phone);
+      form.append("facebook", this.form.url_fb);
+      form.append("instagram", this.form.url_ig);
+      form.append("tiktok", this.form.url_tiktok);
+      form.append("website", this.form.url_website);
+
+      this.SET_ID_UPDATE(this.member.member_id);
+      this.updateMemberDetail(form)
+        .then(() => {
+          Swal.fire("Good job!", "You clicked the button!", "success");
+          this.form = {
+            member_phone: "",
+            url_fb: "",
+            url_ig: "",
+            url_tiktok: "",
+            url_website: "",
+          };
+          this.isLoading = true;
+          this.getMemberDetail(this.$route.params.username).then(() => {
+            setTimeout(() => {
+              this.isLoading = false;
+            }, 300);
+            this.getPoint({
+              idMember: this.member.member_id,
+              from: moment(this.data.dateRange[0]).format("YYYY-MM-DD"),
+              to: moment(this.data.dateRange[1]).format("YYYY-MM-DD"),
+            });
+            this.getBarChart({
+              idMember: this.member.member_id,
+              year: this.data.year,
+            });
+            this.getLineChart({
+              idMember: this.member.member_id,
+              year: this.data.year,
+              month: this.data.month,
+            });
+            this.form = {
+              url_fb:
+                this.member.facebook != null && this.member.facebook != "null"
+                  ? this.member.facebook
+                  : "",
+              url_ig:
+                this.member.instagram != null && this.member.instagram != "null"
+                  ? this.member.instagram
+                  : "",
+              url_tiktok:
+                this.member.tiktok != null && this.member.tiktok != "null"
+                  ? this.member.tiktok
+                  : "",
+              url_website:
+                this.member.website != null && this.member.website != "null"
+                  ? this.member.website
+                  : "",
+            };
+          });
+          this.isEdit = false;
+        })
+        .catch(() => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+            footer: '<a href="">Why do I have this issue?</a>',
+          });
+        });
     },
   },
 };

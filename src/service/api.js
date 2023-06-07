@@ -7,7 +7,7 @@ const $axios = axios.create({
   headers: {
     // Authorization: localStorage.getItem('token') != 'null' ? 'Bearer ' + localStorage.getItem('token'):'',
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    Accept: "application/json",
   },
 });
 $axios.interceptors.request.use(
