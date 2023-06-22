@@ -7,16 +7,16 @@ import LoadingScreenVue from "@/components/Widget/LoadingScreen.vue";
 </script>
 <template>
   <main>
-    <div class="w-full flex py-3 px-4">
-      <h2 class="flex-none font-poppins font-semibold text-xl text-slate-800">
+    <div class="flex w-full px-4 py-3">
+      <h2 class="flex-none text-xl font-semibold font-poppins text-slate-800">
         Member Data
       </h2>
     </div>
 
     <!-- content -->
-    <div class="w-full grid grid-cols-12 gap-6 mt-5 px-4">
+    <div class="grid w-full grid-cols-12 gap-6 px-4 mt-5">
       <div
-        class="col-span-12 flex flex-wrap justify-between sm:flex-nowrap items-center mt-2"
+        class="flex flex-wrap items-center justify-between col-span-12 mt-2 sm:flex-nowrap"
       >
         <router-link
           :to="{ name: 'member-add' }"
@@ -29,7 +29,7 @@ import LoadingScreenVue from "@/components/Widget/LoadingScreen.vue";
             <label for="simple-search" class="sr-only">Search</label>
             <div class="relative w-full">
               <div
-                class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
+                class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
               >
                 <svg
                   aria-hidden="true"
@@ -75,7 +75,7 @@ import LoadingScreenVue from "@/components/Widget/LoadingScreen.vue";
         :key="index"
       >
         <div
-          class="box-border bg-white rounded-lg shadow-sm shadow-black/40 hover:scale-105 relative overflow-hidden"
+          class="box-border relative overflow-hidden bg-white rounded-lg shadow-sm shadow-black/40 hover:scale-105"
         >
           <div class="absolute top-6 -right-9">
             <div
@@ -83,13 +83,13 @@ import LoadingScreenVue from "@/components/Widget/LoadingScreen.vue";
               :class="[row.type == 'Reseller' ? 'bg-red-400' : 'bg-[#996515]']"
             >
               <div
-                class="flex w-full h-full justify-center items-center text-white font-poppins font-medium text-base"
+                class="flex items-center justify-center w-full h-full text-base font-medium text-white font-poppins"
               >
                 {{ row.type }}
               </div>
             </div>
           </div>
-          <div class="p-5 flex flex-col justify-center items-center">
+          <div class="flex flex-col items-center justify-center p-5">
             <div
               class="w-[100px] h-[100px] rounded-full bg-red-400 flex justify-center items-center"
             >
@@ -106,27 +106,27 @@ import LoadingScreenVue from "@/components/Widget/LoadingScreen.vue";
             <div class="mt-3">
               <a
                 href=""
-                class="font-medium text-center text-base 2xl:text-lg font-poppins capitalize"
+                class="text-base font-medium text-center capitalize 2xl:text-lg font-poppins"
               >
                 {{ row.nama }}
               </a>
             </div>
-            <div class="flex justify-center items-center mt-4 lg:mt-2">
+            <div class="flex items-center justify-center mt-4 lg:mt-2">
               <router-link
                 :to="{
                   name: 'member-detail',
                   params: { username: `${row.username}` },
                 }"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 flex justify-center items-center font-medium rounded-lg text-sm py-1 px-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                class="flex items-center justify-center px-2 py-1 mb-2 mr-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
               >
-                <EyeIcon class="h-6 w-6 mr-2" />
+                <EyeIcon class="w-6 h-6 mr-2" />
                 Profile
               </router-link>
               <router-link
                 :to="{ name: 'member-edit', params: { id: `${row.id}` } }"
-                class="text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 flex justify-center items-center font-medium rounded-lg text-base py-1 px-2 mr-2 mb-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 focus:outline-none dark:focus:ring-yellow-800"
+                class="flex items-center justify-center px-2 py-1 mb-2 mr-2 text-base font-medium text-white bg-yellow-400 rounded-lg hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 dark:bg-yellow-600 dark:hover:bg-yellow-700 focus:outline-none dark:focus:ring-yellow-800"
               >
-                <PencilSquareIcon class="h-6 w-6 mr-2" />
+                <PencilSquareIcon class="w-6 h-6 mr-2" />
                 Edit
               </router-link>
             </div>
@@ -140,7 +140,7 @@ import LoadingScreenVue from "@/components/Widget/LoadingScreen.vue";
       />
       <!-- pagination -->
       <div
-        class="col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
+        class="flex flex-wrap items-center col-span-12 sm:flex-row sm:flex-nowrap"
       >
         <div class="grid mb-4">
           <Pagination
@@ -160,6 +160,7 @@ import LoadingScreenVue from "@/components/Widget/LoadingScreen.vue";
 export default {
   created() {
     this.getIndexMember();
+    this.getUsersLogin();
   },
   data() {
     return {
@@ -173,6 +174,7 @@ export default {
   },
   computed: {
     ...mapState("member", { members: (state) => state.member_index }),
+    ...mapState("user", { userLogin: (state) => state.userLogin }),
     page: {
       get() {
         return this.$store.state.member.page;
@@ -210,7 +212,8 @@ export default {
     },
   },
   methods: {
-    ...mapActions("member", ["getIndexMember"]),
+    ...mapActions("member", ["getIndexMember", "getSelectMember"]),
+    ...mapActions("user", ["getUsersLogin"]),
     showMore(page) {
       this.page = page;
       this.members.current_page = page;

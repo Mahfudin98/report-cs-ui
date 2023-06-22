@@ -55,9 +55,9 @@ const actions = {
         });
     });
   },
-  getSelectMember({ commit }) {
+  getSelectMember({ commit }, payload) {
     return new Promise((resolve) => {
-      $axios.get(`/member-select`).then((response) => {
+      $axios.get(`/member-select/${payload}`).then((response) => {
         commit("ASSIGN_MEMBER_SELECT", response.data.data);
         resolve(response.data);
       });

@@ -5,16 +5,16 @@ import Swal from "sweetalert2";
 </script>
 <template>
   <main>
-    <div class="w-full flex py-3 px-4">
-      <h2 class="flex-none font-poppins font-semibold text-xl text-slate-800">
+    <div class="flex w-full px-4 py-3">
+      <h2 class="flex-none text-xl font-semibold font-poppins text-slate-800">
         Report Form
       </h2>
       <a
         href=""
-        class="w-full flex gap-2 justify-end self-center text-theme-primary"
+        class="flex self-center justify-end w-full gap-2 text-theme-primary"
       >
-        <i class="fa-solid fa-rotate w-5 h-5"></i>
-        <p class="font-poppins text-sm">Reload Data</p>
+        <i class="w-5 h-5 fa-solid fa-rotate"></i>
+        <p class="text-sm font-poppins">Reload Data</p>
       </a>
     </div>
     <!-- content -->
@@ -29,11 +29,11 @@ import Swal from "sweetalert2";
           "
         >
           <div
-            class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0 bg-slate-200"
+            class="relative flex flex-col w-full min-w-0 mb-6 break-words border-0 rounded-lg shadow-lg bg-blueGray-100 bg-slate-200"
           >
-            <div class="rounded-t bg-slate-800 mb-0 px-6 py-6">
-              <div class="text-center flex justify-between">
-                <h6 class="text-white text-xl font-semibold">Pilih Customer</h6>
+            <div class="px-6 py-6 mb-0 rounded-t bg-slate-800">
+              <div class="flex justify-between text-center">
+                <h6 class="text-xl font-semibold text-white">Pilih Customer</h6>
               </div>
             </div>
 
@@ -52,6 +52,31 @@ import Swal from "sweetalert2";
                     <option value="0">Reseller</option>
                     <option value="1">Agen</option>
                     <option value="2">End User</option>
+                  </select>
+                </div>
+                <div
+                  class="w-full mb-5"
+                  :class="[
+                    transaction.type_customer == 2 ||
+                    transaction.type_customer == ''
+                      ? 'hidden'
+                      : 'block',
+                  ]"
+                >
+                  <label for="cs_id" class="sr-only"> Pilih CS </label>
+                  <select
+                    v-model="cs.cs_id"
+                    class="bg-gray-50 border border-slate-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required
+                  >
+                    <option value="">Pilih CS</option>
+                    <option
+                      v-for="(item, index) in usersCS"
+                      :key="index"
+                      :value="item.user_id"
+                    >
+                      {{ item.nama_depan }} {{ item.nama_belakang }}
+                    </option>
                   </select>
                 </div>
                 <div class="w-full mb-5">
@@ -84,26 +109,32 @@ import Swal from "sweetalert2";
           "
         >
           <div
-            class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0 bg-slate-200"
+            class="relative flex flex-col w-full min-w-0 mb-6 break-words border-0 rounded-lg shadow-lg bg-blueGray-100 bg-slate-200"
           >
-            <div class="rounded-t bg-slate-800 mb-0 px-6 py-6">
-              <div class="text-center flex justify-between">
-                <h6 class="text-white text-xl font-semibold">Data Reseller</h6>
+            <div class="px-6 py-6 mb-0 rounded-t bg-slate-800">
+              <div class="flex justify-between text-center">
+                <h6 class="text-xl font-semibold text-white">Data Reseller</h6>
               </div>
             </div>
 
             <div class="flex-auto px-4 py-5 pt-5 rounded-b bg-slate-200">
               <div class="flex flex-wrap">
-                <div class="w-full lg:w-6/12 px-4 mb-5">
-                  <label for="reseller" class="sr-only">Pilih Reseller</label>
+                <div class="w-full px-4 mb-5 lg:w-6/12">
+                  <label for="reseller" class="sr-only">
+                    {{ data.isLoad ? "Loading..." : "Pilih Reseller" }}
+                  </label>
                   <select
                     v-model="reseller.reseller_id"
                     @click="setReseller($event)"
                     :required="transaction.type_customer == 0"
                     id="reseller"
                     class="block py-2.5 px-0 w-full text-sm text-slate-600 bg-transparent border-0 border-b-2 border-slate-300 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-slate-300 peer"
+                    :class="{ 'cursor-not-allowed': data.isLoad }"
+                    :disabled="data.isLoad"
                   >
-                    <option value="">Pilih Reseller</option>
+                    <option value="">
+                      {{ data.isLoad ? "Loading..." : "Pilih Reseller" }}
+                    </option>
                     <option
                       v-for="(reseller, index) in getReseller"
                       :key="index"
@@ -114,7 +145,7 @@ import Swal from "sweetalert2";
                   </select>
                 </div>
 
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <div class="relative z-0">
                     <input
                       type="text"
@@ -132,7 +163,7 @@ import Swal from "sweetalert2";
                   </div>
                 </div>
 
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <div class="relative z-0">
                     <input
                       type="text"
@@ -150,7 +181,7 @@ import Swal from "sweetalert2";
                   </div>
                 </div>
 
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <div class="relative z-0">
                     <input
                       type="text"
@@ -182,26 +213,32 @@ import Swal from "sweetalert2";
           "
         >
           <div
-            class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0 bg-slate-200"
+            class="relative flex flex-col w-full min-w-0 mb-6 break-words border-0 rounded-lg shadow-lg bg-blueGray-100 bg-slate-200"
           >
-            <div class="rounded-t bg-slate-800 mb-0 px-6 py-6">
-              <div class="text-center flex justify-between">
-                <h6 class="text-white text-xl font-semibold">Data Agen</h6>
+            <div class="px-6 py-6 mb-0 rounded-t bg-slate-800">
+              <div class="flex justify-between text-center">
+                <h6 class="text-xl font-semibold text-white">Data Agen</h6>
               </div>
             </div>
 
             <div class="flex-auto px-4 py-5 pt-5 rounded-b bg-slate-200">
               <div class="flex flex-wrap">
-                <div class="w-full lg:w-6/12 px-4 mb-5">
-                  <label for="agen" class="sr-only">Pilih Agen</label>
+                <div class="w-full px-4 mb-5 lg:w-6/12">
+                  <label for="agen" class="sr-only">
+                    {{ data.isLoad ? "Loading..." : "Pilih Agen" }}
+                  </label>
                   <select
                     :required="transaction.type_customer == 1"
                     v-model="agen.agen_id"
                     @click="setAgen($event)"
                     id="agen"
                     class="block py-2.5 px-0 w-full text-sm text-slate-600 bg-transparent border-0 border-b-2 border-slate-300 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-slate-300 peer"
+                    :class="{ 'cursor-not-allowed': data.isLoad }"
+                    :disabled="data.isLoad"
                   >
-                    <option value="">Pilih Agen</option>
+                    <option value="">
+                      {{ data.isLoad ? "Loading..." : "Pilih Agen" }}
+                    </option>
                     <option
                       v-for="(agen, index) in getAgen"
                       :key="index"
@@ -212,7 +249,7 @@ import Swal from "sweetalert2";
                   </select>
                 </div>
 
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <div class="relative z-0">
                     <input
                       type="text"
@@ -230,7 +267,7 @@ import Swal from "sweetalert2";
                   </div>
                 </div>
 
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <div class="relative z-0">
                     <input
                       type="text"
@@ -248,7 +285,7 @@ import Swal from "sweetalert2";
                   </div>
                 </div>
 
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <div class="relative z-0">
                     <input
                       type="text"
@@ -280,17 +317,17 @@ import Swal from "sweetalert2";
           "
         >
           <div
-            class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0 bg-slate-200"
+            class="relative flex flex-col w-full min-w-0 mb-6 break-words border-0 rounded-lg shadow-lg bg-blueGray-100 bg-slate-200"
           >
-            <div class="rounded-t bg-slate-800 mb-0 px-6 py-6">
-              <div class="text-center flex justify-between">
-                <h6 class="text-white text-xl font-semibold">Data Customer</h6>
+            <div class="px-6 py-6 mb-0 rounded-t bg-slate-800">
+              <div class="flex justify-between text-center">
+                <h6 class="text-xl font-semibold text-white">Data Customer</h6>
               </div>
             </div>
 
             <div class="flex-auto px-4 py-5 pt-5 rounded-b bg-slate-200">
               <div class="flex flex-wrap">
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <div class="relative z-0">
                     <input
                       type="text"
@@ -308,7 +345,7 @@ import Swal from "sweetalert2";
                   </div>
                 </div>
 
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <div class="relative z-0">
                     <input
                       type="text"
@@ -326,7 +363,7 @@ import Swal from "sweetalert2";
                   </div>
                 </div>
 
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <label for="provinsi" class="sr-only">Provinsi</label>
                   <select
                     id="provinsi"
@@ -346,7 +383,7 @@ import Swal from "sweetalert2";
                   </select>
                 </div>
 
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <label for="kota" class="sr-only">Kota</label>
                   <select
                     id="kota"
@@ -366,7 +403,7 @@ import Swal from "sweetalert2";
                   </select>
                 </div>
 
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <label for="district_id" class="sr-only">Kecamatan</label>
                   <select
                     id="district_id"
@@ -385,7 +422,7 @@ import Swal from "sweetalert2";
                   </select>
                 </div>
 
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <div class="relative z-0">
                     <input
                       type="text"
@@ -417,18 +454,18 @@ import Swal from "sweetalert2";
           "
         >
           <div
-            class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0 bg-slate-200"
+            class="relative flex flex-col w-full min-w-0 mb-6 break-words border-0 rounded-lg shadow-lg bg-blueGray-100 bg-slate-200"
           >
-            <div class="rounded-t bg-slate-800 mb-0 px-6 py-6">
-              <div class="text-center flex justify-between">
-                <h6 class="text-white text-xl font-semibold">Pilih Produk</h6>
+            <div class="px-6 py-6 mb-0 rounded-t bg-slate-800">
+              <div class="flex justify-between text-center">
+                <h6 class="text-xl font-semibold text-white">Pilih Produk</h6>
                 <button
-                  class="bg-emerald-500 text-white active:bg-emerald-600 font-semibold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  class="px-4 py-2 mr-1 text-xs font-semibold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-md focus:outline-none"
                   type="button"
                   @click="addProduct"
                 >
                   Add product
-                  <i class="fa-solid fa-circle-plus ml-1"></i>
+                  <i class="ml-1 fa-solid fa-circle-plus"></i>
                 </button>
               </div>
             </div>
@@ -440,22 +477,22 @@ import Swal from "sweetalert2";
             >
               <div class="relative">
                 <div
-                  class="absolute -top-3 -right-1 bg-emerald-500 rounded-md shadow-md px-4 py-1 text-white"
+                  class="absolute px-4 py-1 text-white rounded-md shadow-md -top-3 -right-1 bg-emerald-500"
                 >
                   Produk {{ index + 1 }}
                 </div>
               </div>
               <div class="relative">
-                <div class="absolute -top-3 -left-3 h-8 w-8 text-red-500">
+                <div class="absolute w-8 h-8 text-red-500 -top-3 -left-3">
                   <button type="button" @click="removeProduct(index)">
                     <i
-                      class="fa-solid fa-circle-xmark h-8 w-8 rounded-full shadow-md"
+                      class="w-8 h-8 rounded-full shadow-md fa-solid fa-circle-xmark"
                     ></i>
                   </button>
                 </div>
               </div>
               <div
-                class="p-6 bg-slate-800 rounded-lg border border-gray-200 shadow-md"
+                class="p-6 border border-gray-200 rounded-lg shadow-md bg-slate-800"
               >
                 <div class="flex flex-wrap">
                   <div class="w-full px-4">
@@ -487,7 +524,7 @@ import Swal from "sweetalert2";
                     </div>
                   </div>
 
-                  <div class="w-full lg:w-6/12 px-4">
+                  <div class="w-full px-4 lg:w-6/12">
                     <div class="relative w-full mb-5">
                       <label
                         for="qty"
@@ -504,7 +541,7 @@ import Swal from "sweetalert2";
                     </div>
                   </div>
 
-                  <div class="w-full lg:w-6/12 px-4">
+                  <div class="w-full px-4 lg:w-6/12">
                     <div class="relative w-full mb-5">
                       <label
                         for="product_weight"
@@ -522,7 +559,7 @@ import Swal from "sweetalert2";
                     </div>
                   </div>
 
-                  <div class="w-full lg:w-12/12 px-4">
+                  <div class="w-full px-4 lg:w-12/12">
                     <div class="relative w-full mb-5">
                       <label
                         for="product_price"
@@ -540,7 +577,7 @@ import Swal from "sweetalert2";
                     </div>
                   </div>
 
-                  <div class="w-full lg:w-6/12 px-4">
+                  <div class="w-full px-4 lg:w-6/12">
                     <div class="relative w-full mb-5">
                       <label
                         for="discount"
@@ -557,7 +594,7 @@ import Swal from "sweetalert2";
                     </div>
                   </div>
 
-                  <div class="w-full lg:w-6/12 px-4">
+                  <div class="w-full px-4 lg:w-6/12">
                     <div class="relative w-full mb-5">
                       <label
                         for="addition"
@@ -589,17 +626,17 @@ import Swal from "sweetalert2";
           "
         >
           <div
-            class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0 bg-slate-200"
+            class="relative flex flex-col w-full min-w-0 mb-6 break-words border-0 rounded-lg shadow-lg bg-blueGray-100 bg-slate-200"
           >
-            <div class="rounded-t bg-slate-800 mb-0 px-6 py-6">
-              <div class="text-center flex justify-between">
-                <h6 class="text-white text-xl font-semibold">Data Transaksi</h6>
+            <div class="px-6 py-6 mb-0 rounded-t bg-slate-800">
+              <div class="flex justify-between text-center">
+                <h6 class="text-xl font-semibold text-white">Data Transaksi</h6>
               </div>
             </div>
 
             <div class="flex-auto px-4 py-5 pt-5 rounded-b bg-slate-200">
               <div class="flex flex-wrap">
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <label
                     for="tanggal_transaksi"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -613,7 +650,7 @@ import Swal from "sweetalert2";
                     required
                   />
                 </div>
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <label
                     for="countries"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
@@ -634,7 +671,7 @@ import Swal from "sweetalert2";
                     <option value="anteraja">ANTER AJA</option>
                   </select>
                 </div>
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <label
                     for="product_price"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -649,7 +686,7 @@ import Swal from "sweetalert2";
                     v-model="transaction.ongkir"
                   />
                 </div>
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <label
                     for="type"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
@@ -673,7 +710,7 @@ import Swal from "sweetalert2";
                     >Bukti Transfer</label
                   >
                   <input
-                    class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                     id="file_input"
                     type="file"
                     accept="image/*"
@@ -684,22 +721,22 @@ import Swal from "sweetalert2";
                     kosongkan jika tidak ingin mengisi.
                   </p>
                 </div>
-                <div class="w-full px-4 mx-auto mb-5 object-center" v-if="url">
+                <div class="object-center w-full px-4 mx-auto mb-5" v-if="url">
                   <div class="relative">
-                    <div class="absolute -top-3 -left-3 h-8 w-8 text-red-500">
+                    <div class="absolute w-8 h-8 text-red-500 -top-3 -left-3">
                       <button @click="removeImage()" type="button">
                         <i
-                          class="fa-solid fa-circle-xmark h-8 w-8 rounded-full shadow-md"
+                          class="w-8 h-8 rounded-full shadow-md fa-solid fa-circle-xmark"
                         ></i>
                       </button>
                     </div>
                   </div>
                   <div
-                    class="hero bg-slate-800 rounded-lg container max-w-screen-lg mx-auto"
+                    class="container max-w-screen-lg mx-auto rounded-lg hero bg-slate-800"
                   >
                     <img
                       :src="url"
-                      class="object-contain mx-auto h-48 w-48"
+                      class="object-contain w-48 h-48 mx-auto"
                       alt="Bukti Transfer"
                     />
                   </div>
@@ -732,8 +769,8 @@ import Swal from "sweetalert2";
               : 'hidden'
           "
         >
-          <div class="bg-slate-800 flex-auto px-4 py-3 shadow-lg rounded-lg">
-            <div class="text-center flex justify-between">
+          <div class="flex-auto px-4 py-3 rounded-lg shadow-lg bg-slate-800">
+            <div class="flex justify-between text-center">
               <div
                 class="text-white bottom-0 right-0 font-medium rounded-lg text-sm py-2.5 text-center inline-flex items-center mr-2"
               >
@@ -747,7 +784,7 @@ import Swal from "sweetalert2";
               >
                 <svg
                   :class="[data.load ? '' : 'hidden']"
-                  class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  class="w-5 h-5 mr-3 -ml-1 text-white animate-spin"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -790,6 +827,9 @@ export default {
         type_transaction: "",
         catatan: "",
       },
+      cs: {
+        cs_id: "",
+      },
       customer: {
         customer_name: "",
         customer_phone: "",
@@ -827,19 +867,23 @@ export default {
       url: "",
       data: {
         load: false,
+        isLoad: false,
       },
     };
   },
   created() {
     this.getProductSelect();
-    this.getSelectMember();
     this.getProvinsi();
     this.getKota();
     this.getKecamatan();
+    this.getUsersCS();
   },
   computed: {
     ...mapState("product", {
       products: (state) => state.select_products,
+    }),
+    ...mapState("user", {
+      usersCS: (state) => state.usersCS,
     }),
     ...mapState("member", {
       members: (state) => state.select_member,
@@ -885,9 +929,36 @@ export default {
 
       return sum;
     },
+    csID() {
+      return this.cs.cs_id;
+    },
   },
-  watch: {},
+  watch: {
+    csID() {
+      this.data.isLoad = true;
+      this.getSelectMember(this.cs.cs_id).then(() => {
+        setTimeout(() => {
+          this.data.isLoad = false;
+        }, 300);
+        this.reseller = {
+          reseller_id: "",
+          district_id: "",
+          reseller_name: "",
+          reseller_alamat: "",
+          reseller_phone: "",
+        };
+        this.agen = {
+          agen_id: "",
+          district_id: "",
+          agen_name: "",
+          agen_alamat: "",
+          agen_phone: "",
+        };
+      });
+    },
+  },
   methods: {
+    ...mapActions("user", ["getUsersCS"]),
     ...mapActions("product", ["getProductSelect"]),
     ...mapActions("member", ["getSelectMember"]),
     ...mapActions("ongkir", [
