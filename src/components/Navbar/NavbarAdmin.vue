@@ -30,6 +30,31 @@ import { RouterLink } from "vue-router";
           </a>
         </li>
       </router-link>
+      <router-link
+        :to="{ name: 'report-mp-data' }"
+        v-slot="{ href, navigate, isActive }"
+      >
+        <li
+          :class="[isActive ? 'nav-active' : '']"
+          class="ml-5 py-3 flex items-center self-center"
+        >
+          <a
+            :href="href"
+            @click="navigate"
+            class="flex mx-4 gap-3 font-poppins text-md"
+          >
+            <div :class="[isActive ? 'text-slate-800' : 'text-slate-100']">
+              <i class="fa-solid fa-store w-5 h-5"></i>
+            </div>
+            <div
+              :class="[isActive ? 'text-slate-800' : 'text-slate-100']"
+              class="hidden lg:block"
+            >
+              Report MP
+            </div>
+          </a>
+        </li>
+      </router-link>
       <div
         :class="{
           block:

@@ -9,38 +9,40 @@ import transaction from "./transaction.model";
 import dashboardPR from "./dashboard/profile.model";
 import dashboard from "./dashboard/dashboard.model";
 import activity from "./dashboard/activity.model";
+import orderMP from "./ordermp.model";
 const store = createStore({
-    modules: {
-        auth,
-        user,
-        product,
-        member,
-        ongkir,
-        transaction,
-        dashboardPR,
-        dashboard,
-        activity
+  modules: {
+    auth,
+    user,
+    product,
+    member,
+    ongkir,
+    transaction,
+    dashboardPR,
+    dashboard,
+    activity,
+    orderMP,
+  },
+  state: {
+    token: localStorage.getItem("token"),
+    errors: [],
+  },
+  getters: {
+    isAuth: (state) => {
+      return state.token != "null" && state.token != null;
     },
-    state: {
-        token: localStorage.getItem('token'),
-        errors: []
+  },
+  mutations: {
+    SET_TOKEN(state, payload) {
+      state.token = payload;
     },
-    getters: {
-        isAuth: state => {
-            return state.token != "null" && state.token != null
-        }
+    SET_ERRORS(state, payload) {
+      state.errors = payload;
     },
-    mutations: {
-        SET_TOKEN(state, payload){
-            state.token = payload
-        },
-        SET_ERRORS(state, payload){
-            state.errors = payload
-        },
-        CLEAR_ERRORS(state){
-            state.errors = []
-        }
-    }
-})
+    CLEAR_ERRORS(state) {
+      state.errors = [];
+    },
+  },
+});
 
 export default store;

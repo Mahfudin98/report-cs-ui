@@ -12,6 +12,11 @@ import ReportDataCS from "@/pages/CS/Report/ReportData.vue";
 import ReportFormCS from "@/pages/CS/Report/ReportForm.vue";
 import ReportDetailCS from "@/pages/CS/Report/ReportDetail.vue";
 
+// report mp
+import ReportMPIndex from "@/pages/Report/ReportMPIndex.vue";
+import ReportMPData from "@/pages/Report/ReportMPData.vue";
+import ReportMPForm from "@/pages/Report/ReportMPForm.vue";
+
 // member
 import MemberIndex from "@/pages/CS/Member/MemberIndex.vue";
 import MemberData from "@/pages/CS/Member/MemberData.vue";
@@ -92,6 +97,26 @@ const router = createRouter({
               name: "report-detail-cs",
               component: ReportDetailCS,
               meta: { title: "Report Detail" },
+            },
+          ],
+        },
+        // report mp
+        {
+          path: "/report-mp",
+          name: "report-mp",
+          component: ReportMPIndex,
+          children: [
+            {
+              path: "",
+              name: "report-mp-data",
+              component: ReportMPData,
+              meta: { title: "Report MP Data" },
+            },
+            {
+              path: "/report-mp-form",
+              name: "report-mp-form",
+              component: ReportMPForm,
+              meta: { title: "Report MP Form" },
             },
           ],
         },
