@@ -4,6 +4,7 @@ import $axios from "../service/api";
 const state = () => ({
   listMP: [],
   listOrderMP: [],
+  lineChart: [],
 });
 
 const mutations = {
@@ -12,6 +13,9 @@ const mutations = {
   },
   ASSIGN_LIST_ORDER_MP(state, payload) {
     state.listOrderMP = payload;
+  },
+  ASSIGN_LINE_CHART(state, payload) {
+    state.lineChart = payload;
   },
 };
 
@@ -76,6 +80,18 @@ const actions = {
       $axios.delete(`/marketplace-destroy-order/${payload}`).then(() => {
         dispatch("getListOrderMP").then(() => resolve());
       });
+    });
+  },
+  getLineChart({ commit }, payload) {
+    return new Promise((resolve) => {
+      $axios
+        .get(
+          `/marketplace-order-line?year=${payload.year}&month=${payload.month}`
+        )
+        .then((response) => {
+          commit("ASSIGN_LINE_CHART", response.data.data);
+          resolve(response.data);
+        });
     });
   },
 };

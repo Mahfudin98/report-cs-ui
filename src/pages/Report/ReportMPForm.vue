@@ -3,6 +3,8 @@ import { mapActions, mapState } from "vuex";
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
 import Swal from "sweetalert2";
 import moment from "moment";
+import InputNumberVue from "@/components/Widget/InputNumber.vue";
+import { SignalIcon } from "@heroicons/vue/24/outline";
 </script>
 <template>
   <main>
@@ -66,12 +68,15 @@ import moment from "moment";
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Order product</label
               >
-              <input
+              <InputNumberVue
                 v-model="forms.order_product"
-                type="number"
-                id="order_product"
+                :options="{
+                  currency: 'QTY',
+                  hideCurrencySymbolOnFocus: true,
+                  hideGroupingSeparatorOnFocus: false,
+                  hideNegligibleDecimalDigitsOnFocus: false,
+                }"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required
               />
             </div>
             <div>
@@ -80,12 +85,12 @@ import moment from "moment";
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Order Omset</label
               >
-              <input
+              <InputNumberVue
                 v-model="forms.order_omset"
-                type="number"
-                id="order-omset"
+                :options="{
+                  currency: 'IDR',
+                }"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required
               />
             </div>
           </div>
@@ -106,10 +111,24 @@ import moment from "moment";
           <div class="self-end">
             <button
               type="submit"
-              class="text-white flex justify-center items-center bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2"
+              class="text-white flex bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2"
+              :class="{ 'cursor-not-allowed': isLoading }"
+              :disabled="isLoading"
             >
-              Simpan
-              <i class="fa-solid fa-floppy-disk ml-2"></i>
+              <span
+                class="flex justify-center items-center"
+                :class="{ hidden: isLoading }"
+              >
+                Simpan
+                <i class="fa-solid fa-floppy-disk ml-2"></i>
+              </span>
+              <span
+                class="flex justify-center items-center"
+                :class="{ hidden: !isLoading }"
+              >
+                Loading
+                <SignalIcon class="h-6 w-6 self-center ml-2 animate-spin" />
+              </span>
             </button>
           </div>
         </div>
@@ -135,6 +154,7 @@ export default {
         order_date: [],
         description: "",
       },
+      isLoading: false,
     };
   },
   computed: {
@@ -158,7 +178,7 @@ export default {
         moment(this.forms.order_date[0]).format("YYYY-MM-DD")
       );
       form.append("description", this.forms.description);
-
+      this.isLoading = true;
       this.storeOrderMP(form)
         .then(() => {
           Swal.fire("Good job!", "You clicked the button!", "success");
@@ -169,6 +189,7 @@ export default {
             order_date: "",
             description: "",
           };
+          this.isLoading = false;
           this.$router.push({
             name: "report-mp-data",
           });

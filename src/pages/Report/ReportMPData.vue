@@ -2,6 +2,10 @@
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
 import { mapActions, mapState } from "vuex";
 import ReportMPTable from "./ReportMPTable.vue";
+import moment from "moment";
+import _ from "lodash";
+import MultiLine from "@/components/Chart/MultiLine.vue";
+import LodaingData from "@/components/Widget/LoadingData.vue";
 </script>
 <template>
   <main>
@@ -10,6 +14,63 @@ import ReportMPTable from "./ReportMPTable.vue";
         Report Order Marketplace
       </h2>
     </div>
+    <section class="w-full px-4 mb-3">
+      <div class="flex gap-2 w-fit mb-3">
+        <button
+          type="button"
+          class="lg:ml-4 font-poppins w-full lg:w-fit font-medium block px-4 flex-none bg-blue-50 text-blue-400 hover:text-blue-900 leading-6 py-2 sm:px-6 border border-blue-200 rounded-lg items-center justify-center space-x-2 sm:space-x-4 focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-300 focus:outline-none transition ease-out duration-300"
+        >
+          <i class="fa-solid fa-filter"></i>
+          Filter
+        </button>
+        <select
+          v-model="filter.year"
+          class="bg-gray-50 border w-full pr-10 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        >
+          <option v-for="(y, i) in years" :key="i" :value="y">
+            {{ y }}
+          </option>
+        </select>
+        <select
+          v-model="filter.month"
+          class="bg-gray-50 border w-fit border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        >
+          <option value="01">Januari</option>
+          <option value="02">Februari</option>
+          <option value="03">Maret</option>
+          <option value="04">April</option>
+          <option value="05">Mei</option>
+          <option value="06">Juni</option>
+          <option value="07">Juli</option>
+          <option value="08">Agustus</option>
+          <option value="09">September</option>
+          <option value="10">Oktober</option>
+          <option value="11">November</option>
+          <option value="12">Desember</option>
+        </select>
+      </div>
+      <div class="grid grid-cols-12 gap-6">
+        <div class="col-span-8">
+          <div class="w-full h-[350px] bg-white rounded-xl shadow-md p-4">
+            <MultiLine
+              :data="lineChart"
+              :labels="labels"
+              :chartClass="'h-full'"
+              v-if="!isLoading"
+            />
+            <div
+              v-if="isLoading"
+              class="w-full h-full flex items-center justify-center"
+            >
+              <LodaingData />
+            </div>
+          </div>
+        </div>
+        <div class="col-span-4">
+          <div class="w-full h-[350px] bg-white rounded-xl shadow-md p-4"></div>
+        </div>
+      </div>
+    </section>
     <section class="w-full px-4">
       <div class="block lg:flex justify-between items-center mb-3">
         <div class="flex items-center justify-center mb-3 lg:mb-0">
@@ -138,6 +199,10 @@ export default {
         this.isLoading = false;
       }, 300);
     });
+    this.getLineChart({
+      month: this.filter.month,
+      year: this.filter.year,
+    });
   },
   data() {
     return {
@@ -145,6 +210,8 @@ export default {
         dateRange: [],
         pageViews: 20,
         page: 1,
+        month: moment().format("MM"),
+        year: moment().format("Y"),
       },
       options: {
         footer: {
@@ -183,11 +250,33 @@ export default {
         }, 300);
       });
     },
+    month() {
+      this.getLineChart({
+        month: this.filter.month,
+        year: this.filter.year,
+      });
+    },
+    year() {
+      this.getLineChart({
+        month: this.filter.month,
+        year: this.filter.year,
+      });
+    },
   },
   computed: {
     ...mapState("orderMP", {
       listOrderMP: (state) => state.listOrderMP,
+      lineChart: (state) => state.lineChart,
     }),
+    year() {
+      return this.filter.year;
+    },
+    month() {
+      return this.filter.month;
+    },
+    years() {
+      return _.range(2019, moment().add(1, "years").format("Y"));
+    },
     setPages() {
       var numberOfPages = Math.ceil(
         this.listOrderMP.length / this.filter.pageViews
@@ -203,9 +292,12 @@ export default {
     shortDataType() {
       return this.shortData;
     },
+    labels() {
+      return _.range(1, moment().daysInMonth() + 1);
+    },
   },
   methods: {
-    ...mapActions("orderMP", ["getListOrderMP"]),
+    ...mapActions("orderMP", ["getListOrderMP", "getLineChart"]),
     paginate(order) {
       let page = this.filter.page;
       let perPage = this.filter.pageViews;
@@ -228,5 +320,6 @@ export default {
       this.isLoading = true;
     },
   },
+  components: { MultiLine },
 };
 </script>
