@@ -2,77 +2,18 @@
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
 import { mapActions, mapState } from "vuex";
 import ReportMPTable from "./ReportMPTable.vue";
-import moment from "moment";
-import _ from "lodash";
-import MultiLine from "@/components/Chart/MultiLine.vue";
-import LodaingData from "@/components/Widget/LoadingData.vue";
+import ReportMPChart from "./ReportMPChart.vue";
 </script>
 <template>
   <main>
-    <div class="w-full py-3 px-4">
-      <h2 class="font-poppins font-semibold text-xl text-slate-800">
+    <div class="w-full px-4 py-3">
+      <h2 class="text-xl font-semibold font-poppins text-slate-800">
         Report Order Marketplace
       </h2>
     </div>
-    <section class="w-full px-4 mb-3">
-      <div class="flex gap-2 w-fit mb-3">
-        <button
-          type="button"
-          class="lg:ml-4 font-poppins w-full lg:w-fit font-medium block px-4 flex-none bg-blue-50 text-blue-400 hover:text-blue-900 leading-6 py-2 sm:px-6 border border-blue-200 rounded-lg items-center justify-center space-x-2 sm:space-x-4 focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-300 focus:outline-none transition ease-out duration-300"
-        >
-          <i class="fa-solid fa-filter"></i>
-          Filter
-        </button>
-        <select
-          v-model="filter.year"
-          class="bg-gray-50 border w-full pr-10 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        >
-          <option v-for="(y, i) in years" :key="i" :value="y">
-            {{ y }}
-          </option>
-        </select>
-        <select
-          v-model="filter.month"
-          class="bg-gray-50 border w-fit border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        >
-          <option value="01">Januari</option>
-          <option value="02">Februari</option>
-          <option value="03">Maret</option>
-          <option value="04">April</option>
-          <option value="05">Mei</option>
-          <option value="06">Juni</option>
-          <option value="07">Juli</option>
-          <option value="08">Agustus</option>
-          <option value="09">September</option>
-          <option value="10">Oktober</option>
-          <option value="11">November</option>
-          <option value="12">Desember</option>
-        </select>
-      </div>
-      <div class="grid grid-cols-12 gap-6">
-        <div class="col-span-8">
-          <div class="w-full h-[350px] bg-white rounded-xl shadow-md p-4">
-            <MultiLine
-              :data="lineChart"
-              :labels="labels"
-              :chartClass="'h-full'"
-              v-if="!isLoading"
-            />
-            <div
-              v-if="isLoading"
-              class="w-full h-full flex items-center justify-center"
-            >
-              <LodaingData />
-            </div>
-          </div>
-        </div>
-        <div class="col-span-4">
-          <div class="w-full h-[350px] bg-white rounded-xl shadow-md p-4"></div>
-        </div>
-      </div>
-    </section>
+    <ReportMPChart />
     <section class="w-full px-4">
-      <div class="block lg:flex justify-between items-center mb-3">
+      <div class="items-center justify-between block mb-3 lg:flex">
         <div class="flex items-center justify-center mb-3 lg:mb-0">
           <vue-tailwind-datepicker
             v-model="filter.dateRange"
@@ -82,7 +23,7 @@ import LodaingData from "@/components/Widget/LoadingData.vue";
               <div class="flex-1 mb-3 lg:mb-0">
                 <button
                   type="button"
-                  class="block w-full bg-gray-50 text-gray-400 hover:text-gray-900 leading-6 py-2 sm:px-6 border border-gray-200 rounded-lg items-center justify-center space-x-2 sm:space-x-4 focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-gray-300 focus:outline-none transition ease-out duration-300"
+                  class="items-center justify-center block w-full py-2 space-x-2 leading-6 text-gray-400 transition duration-300 ease-out border border-gray-200 rounded-lg bg-gray-50 hover:text-gray-900 sm:px-6 sm:space-x-4 focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-gray-300 focus:outline-none"
                 >
                   <span class="text-gray-900">
                     {{ value || placeholder }}
@@ -92,7 +33,7 @@ import LodaingData from "@/components/Widget/LoadingData.vue";
               <div class="flex-shrink-0">
                 <button
                   type="button"
-                  class="lg:ml-4 font-poppins w-full lg:w-fit font-medium block px-4 flex-none bg-blue-50 text-blue-400 hover:text-blue-900 leading-6 py-2 sm:px-6 border border-blue-200 rounded-lg items-center justify-center space-x-2 sm:space-x-4 focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-300 focus:outline-none transition ease-out duration-300"
+                  class="items-center justify-center flex-none block w-full px-4 py-2 space-x-2 font-medium leading-6 text-blue-400 transition duration-300 ease-out border border-blue-200 rounded-lg lg:ml-4 font-poppins lg:w-fit bg-blue-50 hover:text-blue-900 sm:px-6 sm:space-x-4 focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-300 focus:outline-none"
                   @click="clear"
                 >
                   <i class="fa-solid fa-filter"></i>
@@ -104,7 +45,7 @@ import LodaingData from "@/components/Widget/LoadingData.vue";
           <button
             @click="shortUp()"
             type="button"
-            class="lg:ml-2 font-poppins w-full lg:w-fit font-medium block px-4 text-lg flex-none bg-blue-50 text-blue-400 hover:text-blue-900 leading-6 py-2 border border-blue-200 rounded-lg items-center justify-center space-x-2 sm:space-x-4 focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-300 focus:outline-none transition ease-out duration-300"
+            class="items-center justify-center flex-none block w-full px-4 py-2 space-x-2 text-lg font-medium leading-6 text-blue-400 transition duration-300 ease-out border border-blue-200 rounded-lg lg:ml-2 font-poppins lg:w-fit bg-blue-50 hover:text-blue-900 sm:space-x-4 focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-300 focus:outline-none"
             :class="{ hidden: shortData }"
           >
             <i class="fa-solid fa-arrow-down-9-1"></i>
@@ -112,7 +53,7 @@ import LodaingData from "@/components/Widget/LoadingData.vue";
           <button
             @click="shortDown()"
             type="button"
-            class="lg:ml-2 font-poppins w-full lg:w-fit font-medium block px-4 text-lg flex-none bg-blue-50 text-blue-400 hover:text-blue-900 leading-6 py-2 border border-blue-200 rounded-lg items-center justify-center space-x-2 sm:space-x-4 focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-300 focus:outline-none transition ease-out duration-300"
+            class="items-center justify-center flex-none block w-full px-4 py-2 space-x-2 text-lg font-medium leading-6 text-blue-400 transition duration-300 ease-out border border-blue-200 rounded-lg lg:ml-2 font-poppins lg:w-fit bg-blue-50 hover:text-blue-900 sm:space-x-4 focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-300 focus:outline-none"
             :class="{ hidden: !shortData }"
           >
             <i class="fa-solid fa-arrow-up-1-9"></i>
@@ -125,14 +66,14 @@ import LodaingData from "@/components/Widget/LoadingData.vue";
           <span
             class="relative px-5 py-2.5 transition-all flex justify-center items-center ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0"
           >
-            Add Order <i class="fa-solid fa-cart-plus ml-2"></i>
+            Add Order <i class="ml-2 fa-solid fa-cart-plus"></i>
           </span>
         </router-link>
       </div>
 
       <ReportMPTable :orderData="displayedOrder" :isLoading="isLoading" />
 
-      <div class="flex justify-end items-center">
+      <div class="flex items-center justify-end">
         <nav class="mr-2">
           <ul class="inline-flex items-center -space-x-px">
             <li>
@@ -144,7 +85,7 @@ import LodaingData from "@/components/Widget/LoadingData.vue";
                 :class="{ 'cursor-not-allowed': filter.page == 1 }"
               >
                 <span class="sr-only">Previous</span>
-                <i class="fa-solid fa-circle-arrow-left w-4 h-4"></i>
+                <i class="w-4 h-4 fa-solid fa-circle-arrow-left"></i>
               </button>
             </li>
             <li v-for="(item, index) in setPages" :key="index">
@@ -169,14 +110,14 @@ import LodaingData from "@/components/Widget/LoadingData.vue";
                 :class="{ 'cursor-not-allowed': filter.page >= setPages }"
               >
                 <span class="sr-only">Next</span>
-                <i class="fa-solid fa-circle-arrow-right w-4 h-4"></i>
+                <i class="w-4 h-4 fa-solid fa-circle-arrow-right"></i>
               </button>
             </li>
           </ul>
         </nav>
         <select
           v-model="filter.pageViews"
-          class="block w-fit p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          class="block p-2 text-sm text-gray-900 border border-gray-300 rounded-lg w-fit bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
           <option value="10">10</option>
           <option value="20">20</option>
@@ -199,10 +140,6 @@ export default {
         this.isLoading = false;
       }, 300);
     });
-    this.getLineChart({
-      month: this.filter.month,
-      year: this.filter.year,
-    });
   },
   data() {
     return {
@@ -210,8 +147,6 @@ export default {
         dateRange: [],
         pageViews: 20,
         page: 1,
-        month: moment().format("MM"),
-        year: moment().format("Y"),
       },
       options: {
         footer: {
@@ -250,33 +185,11 @@ export default {
         }, 300);
       });
     },
-    month() {
-      this.getLineChart({
-        month: this.filter.month,
-        year: this.filter.year,
-      });
-    },
-    year() {
-      this.getLineChart({
-        month: this.filter.month,
-        year: this.filter.year,
-      });
-    },
   },
   computed: {
     ...mapState("orderMP", {
       listOrderMP: (state) => state.listOrderMP,
-      lineChart: (state) => state.lineChart,
     }),
-    year() {
-      return this.filter.year;
-    },
-    month() {
-      return this.filter.month;
-    },
-    years() {
-      return _.range(2019, moment().add(1, "years").format("Y"));
-    },
     setPages() {
       var numberOfPages = Math.ceil(
         this.listOrderMP.length / this.filter.pageViews
@@ -292,12 +205,9 @@ export default {
     shortDataType() {
       return this.shortData;
     },
-    labels() {
-      return _.range(1, moment().daysInMonth() + 1);
-    },
   },
   methods: {
-    ...mapActions("orderMP", ["getListOrderMP", "getLineChart"]),
+    ...mapActions("orderMP", ["getListOrderMP"]),
     paginate(order) {
       let page = this.filter.page;
       let perPage = this.filter.pageViews;
@@ -320,6 +230,5 @@ export default {
       this.isLoading = true;
     },
   },
-  components: { MultiLine },
 };
 </script>

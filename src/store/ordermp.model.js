@@ -5,6 +5,7 @@ const state = () => ({
   listMP: [],
   listOrderMP: [],
   lineChart: [],
+  donatChart: [],
 });
 
 const mutations = {
@@ -16,6 +17,9 @@ const mutations = {
   },
   ASSIGN_LINE_CHART(state, payload) {
     state.lineChart = payload;
+  },
+  ASSIGN_DONAT_CHART(state, payload) {
+    state.donatChart = payload;
   },
 };
 
@@ -90,6 +94,18 @@ const actions = {
         )
         .then((response) => {
           commit("ASSIGN_LINE_CHART", response.data.data);
+          resolve(response.data);
+        });
+    });
+  },
+  getDonatChart({ commit }, payload) {
+    return new Promise((resolve) => {
+      $axios
+        .get(
+          `/marketplace-order-donat?year=${payload.year}&month=${payload.month}`
+        )
+        .then((response) => {
+          commit("ASSIGN_DONAT_CHART", response.data.data);
           resolve(response.data);
         });
     });

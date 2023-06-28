@@ -1,5 +1,4 @@
 <script setup>
-import _ from "lodash";
 import { Line } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -36,20 +35,7 @@ export default {
     chartData() {
       return {
         labels: this.labels,
-        datasets: _.map(this.data, function (o, u) {
-          var colors = ["#025464", "#E57C23", "#E8AA42", "#1F8A70"];
-          return {
-            label: o.market_place_name,
-            data: _.map(o.orders, function (i) {
-              return i.order_omset;
-            }),
-            fill: false,
-            borderColor: colors[u],
-            tension: 0.1,
-            linePercentage: 0.5,
-            lineThickness: 6,
-          };
-        }),
+        datasets: this.data,
       };
     },
     optionsChart() {
