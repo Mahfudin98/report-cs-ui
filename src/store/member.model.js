@@ -44,15 +44,13 @@ const mutations = {
 };
 
 const actions = {
-  getIndexMember({ commit, state }, payload) {
+  getIndexMember({ commit }, payload) {
     let search = typeof payload != "undefined" ? payload : "";
     return new Promise((resolve) => {
-      $axios
-        .get(`/member-index-cs?page=${state.page}&q=${search}`)
-        .then((response) => {
-          commit("ASSIGN_DATA", response.data);
-          resolve(response.data);
-        });
+      $axios.get(`/member-index-cs?q=${search}`).then((response) => {
+        commit("ASSIGN_DATA", response.data);
+        resolve(response.data);
+      });
     });
   },
   getSelectMember({ commit }, payload) {

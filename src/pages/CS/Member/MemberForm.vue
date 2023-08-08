@@ -5,16 +5,16 @@ import Swal from "sweetalert2";
 </script>
 <template>
   <main>
-    <div class="w-full flex py-3 px-4">
-      <h2 class="flex-none font-poppins font-semibold text-xl text-slate-800">
+    <div class="flex w-full px-4 py-3">
+      <h2 class="flex-none text-xl font-semibold font-poppins text-slate-800">
         Member Form
       </h2>
       <a
         href=""
-        class="w-full flex gap-2 justify-end self-center text-theme-primary"
+        class="flex self-center justify-end w-full gap-2 text-theme-primary"
       >
-        <i class="fa-solid fa-rotate w-5 h-5"></i>
-        <p class="font-poppins text-sm">Reload Data</p>
+        <i class="w-5 h-5 fa-solid fa-rotate"></i>
+        <p class="text-sm font-poppins">Reload Data</p>
       </a>
     </div>
 
@@ -23,18 +23,18 @@ import Swal from "sweetalert2";
         <!-- Data member -->
         <div class="w-full px-4">
           <div
-            class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0 bg-slate-200"
+            class="relative flex flex-col w-full min-w-0 mb-6 break-words border-0 rounded-lg shadow-lg bg-blueGray-100 bg-slate-200"
           >
-            <div class="rounded-t bg-slate-800 mb-0 px-6 py-6">
-              <div class="text-center flex justify-between">
-                <h6 class="text-white text-xl font-semibold">Data member</h6>
+            <div class="px-6 py-6 mb-0 rounded-t bg-slate-800">
+              <div class="flex justify-between text-center">
+                <h6 class="text-xl font-semibold text-white">Data member</h6>
               </div>
             </div>
 
             <div class="flex-auto px-4 py-5 pt-5 rounded-b bg-slate-200">
               <div class="flex flex-wrap">
                 <!-- name state -->
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <div class="relative z-0">
                     <input
                       type="text"
@@ -52,7 +52,7 @@ import Swal from "sweetalert2";
                   </div>
                 </div>
                 <!-- phone state -->
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <div class="relative z-0">
                     <input
                       type="text"
@@ -70,7 +70,7 @@ import Swal from "sweetalert2";
                   </div>
                 </div>
                 <!-- province state -->
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <label for="provinsi" class="sr-only">Provinsi</label>
                   <select
                     id="provinsi"
@@ -90,7 +90,7 @@ import Swal from "sweetalert2";
                   </select>
                 </div>
                 <!-- city state -->
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <label for="kota" class="sr-only">Kota</label>
                   <select
                     id="kota"
@@ -110,7 +110,7 @@ import Swal from "sweetalert2";
                   </select>
                 </div>
                 <!-- district state -->
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <label for="district_id" class="sr-only">Kecamatan</label>
                   <select
                     id="district_id"
@@ -129,7 +129,7 @@ import Swal from "sweetalert2";
                   </select>
                 </div>
                 <!-- alamat state -->
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <div class="relative z-0">
                     <input
                       type="text"
@@ -147,7 +147,7 @@ import Swal from "sweetalert2";
                   </div>
                 </div>
                 <!-- join on state -->
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <div class="relative z-0">
                     <input
                       type="date"
@@ -165,7 +165,7 @@ import Swal from "sweetalert2";
                   </div>
                 </div>
                 <!-- type state -->
-                <div class="w-full lg:w-6/12 px-4 mb-5">
+                <div class="w-full px-4 mb-5 lg:w-6/12">
                   <label for="member_type" class="sr-only">Tipe Member</label>
                   <select
                     id="member_type"
@@ -186,7 +186,7 @@ import Swal from "sweetalert2";
                     >Foto Member</label
                   >
                   <input
-                    class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                     id="file_input"
                     type="file"
                     accept="image/*"
@@ -198,24 +198,24 @@ import Swal from "sweetalert2";
                   </p>
                 </div>
                 <div
-                  class="w-full px-4 mx-auto mb-5 object-center"
+                  class="object-center w-full px-4 mx-auto mb-5"
                   v-if="data.url"
                 >
                   <div class="relative">
-                    <div class="absolute -top-3 -left-3 h-8 w-8 text-red-500">
+                    <div class="absolute w-8 h-8 text-red-500 -top-3 -left-3">
                       <button @click="removeImage()" type="button">
                         <i
-                          class="fa-solid fa-circle-xmark h-8 w-8 rounded-full shadow-md"
+                          class="w-8 h-8 rounded-full shadow-md fa-solid fa-circle-xmark"
                         ></i>
                       </button>
                     </div>
                   </div>
                   <div
-                    class="hero bg-slate-800 rounded-lg container max-w-screen-lg mx-auto"
+                    class="container max-w-screen-lg mx-auto rounded-lg hero bg-slate-800"
                   >
                     <img
                       :src="data.url"
-                      class="object-contain mx-auto h-48 w-48"
+                      class="object-contain w-48 h-48 mx-auto"
                       alt="Bukti Transfer"
                     />
                   </div>
@@ -227,8 +227,8 @@ import Swal from "sweetalert2";
 
         <!-- Submit Button -->
         <div class="px-4 lg:w-full">
-          <div class="bg-slate-800 flex-auto px-4 py-3 shadow-lg rounded-lg">
-            <div class="text-center flex justify-between">
+          <div class="flex-auto px-4 py-3 rounded-lg shadow-lg bg-slate-800">
+            <div class="flex justify-between text-center">
               <div
                 class="text-white bottom-0 right-0 font-medium rounded-lg text-sm py-2.5 text-center inline-flex items-center mr-2"
               >
@@ -238,7 +238,7 @@ import Swal from "sweetalert2";
                 type="submit"
                 class="text-white bottom-0 right-0 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                <i class="fa-solid fa-circle-plus mr-2 -ml-1 w-5 h-5"></i>
+                <i class="w-5 h-5 mr-2 -ml-1 fa-solid fa-circle-plus"></i>
                 Add Member
               </button>
             </div>

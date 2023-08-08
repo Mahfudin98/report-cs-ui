@@ -1,7 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
 import { mapActions, mapState } from "vuex";
-import Pagination from "@/components/Widget/PaginationWidget.vue";
 import { PencilSquareIcon, EyeIcon } from "@heroicons/vue/24/outline";
 import LoadingScreenVue from "@/components/Widget/LoadingScreen.vue";
 </script>
@@ -75,17 +74,38 @@ import LoadingScreenVue from "@/components/Widget/LoadingScreen.vue";
         :key="index"
       >
         <div
-          class="box-border relative overflow-hidden bg-white rounded-lg shadow-sm shadow-black/40 hover:scale-105"
+          class="box-border relative overflow-hidden rounded-lg shadow-sm shadow-black/40 hover:scale-105"
+          :class="[
+            row.member_provinsi == null || row.member_provinsi == 'Belum diatur'
+              ? 'bg-red-600 text-white'
+              : 'bg-white',
+          ]"
         >
+          <div class="absolute top-0 left-0">
+            <div
+              class="flex items-center p-2 font-medium text-white rounded-br-lg font-poppins"
+              :class="[row.member_status == 1 ? 'bg-blue-500' : 'bg-slate-500']"
+            >
+              {{ row.member_status == 1 ? "Aktif" : "Tidak Aktif" }}
+              <span
+                v-if="row.member_status == 1"
+                class="flex w-3 h-3 ml-2 bg-green-500 border rounded-full"
+              ></span>
+              <span
+                v-if="row.member_status == 0"
+                class="flex w-3 h-3 ml-2 bg-yellow-500 border rounded-full"
+              ></span>
+            </div>
+          </div>
           <div class="absolute top-6 -right-9">
             <div
               class="w-[150px] h-[30px] rotate-45 shadow-md"
-              :class="[row.type == 'Reseller' ? 'bg-red-400' : 'bg-[#996515]']"
+              :class="[row.member_type == 0 ? 'bg-red-400' : 'bg-[#996515]']"
             >
               <div
                 class="flex items-center justify-center w-full h-full text-base font-medium text-white font-poppins"
               >
-                {{ row.type }}
+                {{ row.member_type == 0 ? "Reseller" : "Agen" }}
               </div>
             </div>
           </div>
@@ -95,27 +115,47 @@ import LoadingScreenVue from "@/components/Widget/LoadingScreen.vue";
             >
               <img
                 :src="
-                  row.image != 'belum ada image'
-                    ? row.image
-                    : `https://ui-avatars.com/api/?name=${row.nama}&background=random&size=90&bold=true`
+                  row.member_image != null
+                    ? row.member_image
+                    : `https://ui-avatars.com/api/?name=${row.member_name}&background=random&size=90&bold=true`
                 "
                 class="rounded-full object-cover w-[90px] h-[90px] object-center aspect-square"
                 alt=""
               />
             </div>
             <div class="mt-3">
-              <a
-                href=""
+              <p
                 class="text-base font-medium text-center capitalize 2xl:text-lg font-poppins"
               >
-                {{ row.nama }}
-              </a>
+                {{ row.member_name }}
+              </p>
+              <div class="">
+                {{
+                  row.member_provinsi == null ||
+                  row.member_provinsi == "Belum diatur"
+                    ? "Harus Update!"
+                    : row.member_provinsi
+                }}
+                -
+                {{
+                  row.member_kota == null || row.member_kota == "Belum diatur"
+                    ? "Harus Update!"
+                    : row.member_kota
+                }}
+                -
+                {{
+                  row.member_kecamatan == null ||
+                  row.member_kecamatan == "Belum diatur"
+                    ? "Harus Update!"
+                    : row.member_kecamatan
+                }}
+              </div>
             </div>
             <div class="flex items-center justify-center mt-4 lg:mt-2">
               <router-link
                 :to="{
                   name: 'member-detail',
-                  params: { username: `${row.username}` },
+                  params: { username: `${row.member_username}` },
                 }"
                 class="flex items-center justify-center px-2 py-1 mb-2 mr-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
               >
@@ -123,7 +163,10 @@ import LoadingScreenVue from "@/components/Widget/LoadingScreen.vue";
                 Profile
               </router-link>
               <router-link
-                :to="{ name: 'member-edit', params: { id: `${row.id}` } }"
+                :to="{
+                  name: 'member-edit',
+                  params: { id: `${row.member_id}` },
+                }"
                 class="flex items-center justify-center px-2 py-1 mb-2 mr-2 text-base font-medium text-white bg-yellow-400 rounded-lg hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 dark:bg-yellow-600 dark:hover:bg-yellow-700 focus:outline-none dark:focus:ring-yellow-800"
               >
                 <PencilSquareIcon class="w-6 h-6 mr-2" />
@@ -142,16 +185,7 @@ import LoadingScreenVue from "@/components/Widget/LoadingScreen.vue";
       <div
         class="flex flex-wrap items-center col-span-12 sm:flex-row sm:flex-nowrap"
       >
-        <div class="grid mb-4">
-          <Pagination
-            :total-pages="members.last_page"
-            :total="members.total"
-            :per-page="members.per_page"
-            :current-page="members.current_page"
-            :has-more-pages="hasMorePages"
-            @pagechanged="showMore"
-          />
-        </div>
+        <div class="grid mb-4"></div>
       </div>
     </div>
   </main>
@@ -175,14 +209,6 @@ export default {
   computed: {
     ...mapState("member", { members: (state) => state.member_index }),
     ...mapState("user", { userLogin: (state) => state.userLogin }),
-    page: {
-      get() {
-        return this.$store.state.member.page;
-      },
-      set(val) {
-        this.$store.commit("member/SET_PAGE", val);
-      },
-    },
     dataFilter() {
       return this[this.data.filterKey];
     },
@@ -191,12 +217,12 @@ export default {
     },
     agen() {
       return this.members.data.filter((item) => {
-        return item.type.indexOf("Agen") > -1;
+        return item.member_type == 1;
       });
     },
     reseller() {
       return this.members.data.filter((item) => {
-        return item.type.indexOf("Reseller") > -1;
+        return item.member_type == 0;
       });
     },
     search() {
@@ -204,9 +230,6 @@ export default {
     },
   },
   watch: {
-    page() {
-      this.getIndexMember();
-    },
     search() {
       this.getIndexMember(this.data.search);
     },
@@ -214,10 +237,6 @@ export default {
   methods: {
     ...mapActions("member", ["getIndexMember", "getSelectMember"]),
     ...mapActions("user", ["getUsersLogin"]),
-    showMore(page) {
-      this.page = page;
-      this.members.current_page = page;
-    },
   },
 };
 </script>
