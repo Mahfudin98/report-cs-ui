@@ -5,71 +5,72 @@ import moment from "moment";
 import Pagination from "@/components/Widget/PaginationWidget.vue";
 import LoadingScreenVue from "../../../components/Widget/LoadingScreen.vue";
 import Swal from "sweetalert2";
+import { EyeIcon, TrashIcon } from "@heroicons/vue/24/outline";
 // import { ref } from "vue";
 
 // const date = ref([]);
 </script>
 <template>
   <main>
-    <div class="w-full py-3 px-4">
-      <h2 class="font-poppins font-semibold text-xl text-slate-800">
+    <div class="w-full px-4 py-3">
+      <h2 class="text-xl font-semibold font-poppins text-slate-800">
         Transaction
       </h2>
     </div>
     <!-- content -->
-    <div class="w-full grid grid-cols-12 px-2 gap-6 mt-8 md:mt-2">
+    <div class="grid w-full grid-cols-12 gap-6 px-2 mt-8 md:mt-2">
       <div class="col-span-12 lg:col-span-3 2xl:col-span-2">
         <div
-          class="grid grid-cols-1 gap-y-2 py-5 px-2 bg-white shadow-md shadow-black/40 rounded-lg"
+          class="grid grid-cols-1 px-2 py-5 bg-white rounded-lg shadow-md gap-y-2 shadow-black/40"
         >
           <router-link
             :to="{ name: 'report-form-cs' }"
             class="w-full text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 mr-2 mb-2"
           >
-            <i class="fa-solid fa-circle-plus mr-2 -ml-1 w-4 h-4"></i>
+            <i class="w-4 h-4 mr-2 -ml-1 fa-solid fa-circle-plus"></i>
             Tambah Report
           </router-link>
           <hr class="mb-3 opacity-20" />
           <button
             v-on:click="dataFilterKey = 'all'"
             type="button"
-            class="flex gap-2 rounded-xl place-items-center hover:bg-slate-700/10 mx-3 py-3 px-3"
+            class="flex gap-2 px-3 py-3 mx-3 rounded-xl place-items-center hover:bg-slate-700/10"
             :class="{
               'drop-shadow-lg bg-slate-700/10': dataFilterKey == 'all',
             }"
           >
-            <i class="fa-solid fa-rectangle-list h-5 w-5"></i>
-            <h2 class="font-normal text-base">All Report</h2>
+            <i class="w-5 h-5 fa-solid fa-rectangle-list"></i>
+            <h2 class="text-base font-normal">All Report</h2>
           </button>
           <button
             v-on:click="dataFilterKey = 'member'"
             type="button"
-            class="flex gap-2 rounded-xl place-items-center hover:bg-slate-700/10 mx-3 py-3 px-3"
+            class="flex gap-2 px-3 py-3 mx-3 rounded-xl place-items-center hover:bg-slate-700/10"
             :class="{
               'drop-shadow-lg bg-slate-700/10': dataFilterKey == 'member',
             }"
           >
-            <i class="fa-solid fa-users-rectangle w-5 h-5"></i>
-            <h2 class="font-normal text-base">Member</h2>
+            <i class="w-5 h-5 fa-solid fa-users-rectangle"></i>
+            <h2 class="text-base font-normal">Member</h2>
           </button>
           <button
             v-on:click="dataFilterKey = 'customer'"
             type="button"
-            class="flex gap-2 rounded-xl place-items-center hover:bg-slate-700/10 mx-3 py-3 px-3"
+            class="flex gap-2 px-3 py-3 mx-3 rounded-xl place-items-center hover:bg-slate-700/10"
             :class="{
               'drop-shadow-lg bg-slate-700/10': dataFilterKey == 'customer',
             }"
           >
-            <i class="fa-regular fa-circle-user w-5 h-5"></i>
-            <h2 class="font-normal text-base">Customer</h2>
+            <i class="w-5 h-5 fa-regular fa-circle-user"></i>
+            <h2 class="text-base font-normal">Customer</h2>
           </button>
         </div>
       </div>
       <div class="col-span-12 lg:col-span-9 2xl:col-span-10">
         <div
-          class="bg-white grid grid-cols-1 gap-5 shadow-md shadow-black/40 rounded-lg"
+          class="grid grid-cols-1 gap-5 bg-white rounded-lg shadow-md shadow-black/40"
         >
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 gap-y-5 px-4 pt-5">
+          <div class="grid grid-cols-1 gap-5 px-4 pt-5 lg:grid-cols-2 gap-y-5">
             <form>
               <DateRangeLayout v-model="data.dateRange" />
             </form>
@@ -85,47 +86,44 @@ import Swal from "sweetalert2";
                   </button>
                 </div>
               </div>
-              <div class="flex justify-end self-center">
+              <div class="flex self-center justify-end">
                 <button>
-                  <i class="fa-solid fa-gear w-5 h-5"></i>
+                  <i class="w-5 h-5 fa-solid fa-gear"></i>
                 </button>
               </div>
             </div>
           </div>
           <!-- table -->
           <div
-            class="overflow-x-scroll relative scrollbar hover:scrollbar-thin hover:scrollbar-thumb-slate-700 hover:scrollbar-track-transparent max-h-screen hover:overflow-y-scroll hover:scrollbar-thumb-rounded-full hover:scrollbar-track-rounded-full"
+            class="relative max-h-screen overflow-x-scroll scrollbar hover:scrollbar-thin hover:scrollbar-thumb-slate-700 hover:scrollbar-track-transparent hover:overflow-y-scroll hover:scrollbar-thumb-rounded-full hover:scrollbar-track-rounded-full"
           >
             <table
               v-if="all != undefined"
-              class="w-full text-xs text-left text-gray-500 dark:text-gray-400 border-t"
+              class="w-full text-xs text-left text-gray-500 border-t dark:text-gray-400"
             >
               <thead
                 class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400"
               >
                 <tr>
-                  <th scope="col" class="py-3 px-6 whitespace-nowrap">
+                  <th scope="col" class="px-6 py-3 whitespace-nowrap">
                     Customer Data
                   </th>
-                  <th scope="col" class="py-3 px-6 whitespace-nowrap">
+                  <th scope="col" class="px-6 py-3 whitespace-nowrap">
                     Membership
                   </th>
-                  <th scope="col" class="py-3 px-6 whitespace-nowrap">
-                    Kode Transaksi
-                  </th>
-                  <th scope="col" class="py-3 px-6 whitespace-nowrap">
+                  <th scope="col" class="px-6 py-3 whitespace-nowrap">
                     Ongkir
                   </th>
-                  <th scope="col" class="py-3 px-6 whitespace-nowrap">
+                  <th scope="col" class="px-6 py-3 whitespace-nowrap">
                     Tipe Transaksi
                   </th>
-                  <th scope="col" class="py-3 px-6 whitespace-nowrap">
-                    Produk
+                  <th scope="col" class="px-6 py-3 whitespace-nowrap">
+                    Harga Produk
                   </th>
-                  <th scope="col" class="py-3 px-6 whitespace-nowrap">
+                  <th scope="col" class="px-6 py-3 whitespace-nowrap">
                     Tanggal Transaksi
                   </th>
-                  <th scope="col" class="py-3 px-6 whitespace-nowrap">Aksi</th>
+                  <th scope="col" class="px-6 py-3 whitespace-nowrap">Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -134,50 +132,25 @@ import Swal from "sweetalert2";
                   :key="index"
                   class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 group"
                 >
-                  <th
-                    scope="row"
-                    class="flex items-center py-4 px-6 text-gray-900 whitespace-nowrap dark:text-white"
-                  >
+                  <th scope="row" class="px-6 py-4">
                     <div
-                      class="grid place-items-center w-10 h-10 rounded-full border border-slate-800"
+                      class="w-[250px] text-gray-900 whitespace-nowrap dark:text-white"
                     >
-                      <i
-                        :class="{
-                          'fa-regular fa-face-laugh-squint w-8 h-8 group-hover:hidden':
-                            transaction.type_customer == 'Agen',
-                          'fa-regular fa-face-laugh-wink w-8 h-8 group-hover:hidden':
-                            transaction.type_customer == 'Reseller',
-                          'fa-regular fa-face-smile-beam w-8 h-8 group-hover:hidden':
-                            transaction.type_customer == 'Customer',
-                        }"
-                      ></i>
-                      <router-link
-                        :to="{
-                          name: 'report-detail-cs',
-                          params: { kode: transaction.nomor_pesanan },
-                        }"
-                      >
-                        <i
-                          class="fa-solid fa-eyes hidden cursor-pointer group-hover:block w-8 h-8"
-                        ></i>
-                      </router-link>
-                    </div>
-                    <div class="pl-3">
-                      <div class="text-base font-semibold">
+                      <div class="font-normal text-gray-500 truncate">
+                        {{ transaction.nomor_pesanan }}
+                      </div>
+                      <div class="text-base font-semibold truncate">
                         {{ transaction.nama }}
                       </div>
-                      <div class="font-normal text-gray-500">
+                      <div class="font-normal text-gray-500 truncate">
                         {{ transaction.alamat }}
                       </div>
                     </div>
                   </th>
-                  <td class="py-3 px-6 whitespace-nowrap">
+                  <td class="px-6 py-3 whitespace-nowrap">
                     {{ transaction.type_customer }}
                   </td>
-                  <td class="py-3 px-6 whitespace-nowrap">
-                    {{ transaction.nomor_pesanan }}
-                  </td>
-                  <td class="py-3 px-6 whitespace-nowrap">
+                  <td class="px-6 py-3 whitespace-nowrap">
                     <div class="text-base font-semibold">
                       Rp. {{ currency(transaction.ongkir) }}
                     </div>
@@ -185,7 +158,7 @@ import Swal from "sweetalert2";
                       {{ transaction.expedisi }}
                     </div>
                   </td>
-                  <td class="py-3 px-6 whitespace-nowrap">
+                  <td class="px-6 py-3 whitespace-nowrap">
                     <div class="text-base font-semibold">
                       {{ transaction.type_transaction }}
                     </div>
@@ -193,24 +166,36 @@ import Swal from "sweetalert2";
                       {{ transaction.origin_customer }}
                     </div>
                   </td>
-                  <td class="py-3 px-6 whitespace-nowrap">
-                    <div class="text-base font-semibold">
+                  <td class="px-6 py-3 whitespace-nowrap">
+                    <div class="text-base font-semibold text-gray-800">
                       Rp. {{ currency(transaction.total_harga) }}
                     </div>
                     <div class="font-normal text-gray-500">
                       {{ transaction.produk.length }} Produk
                     </div>
                   </td>
-                  <td class="py-3 px-6 whitespace-nowrap">
+                  <td
+                    class="px-6 py-3 text-base font-semibold text-gray-800 font-poppins whitespace-nowrap"
+                  >
                     {{ moment(transaction.tanggal).format("MMM DD, YYYY") }}
                   </td>
-                  <td class="py-3 px-6 whitespace-nowrap">
+                  <td class="flex items-center px-6 py-3">
+                    <router-link
+                      :to="{
+                        name: 'report-detail-cs',
+                        params: { kode: transaction.nomor_pesanan },
+                      }"
+                      class="text-white bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-3 py-1.5 text-center mr-2"
+                    >
+                      <EyeIcon class="w-6 h-6" />
+                    </router-link>
+
                     <button
                       @click="deleteData(transaction.nomor_pesanan)"
                       type="button"
-                      class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                      class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-3 py-1.5 text-center"
                     >
-                      <i class="fa-regular fa-trash-can"></i>
+                      <TrashIcon class="w-6 h-6" />
                     </button>
                   </td>
                 </tr>
@@ -220,7 +205,7 @@ import Swal from "sweetalert2";
                 >
                   <td
                     colspan="9"
-                    class="py-3 px-6 whitespace-nowrap font-semibold text-lg text-center"
+                    class="px-6 py-3 text-lg font-semibold text-center whitespace-nowrap"
                   >
                     Data Kosong
                   </td>

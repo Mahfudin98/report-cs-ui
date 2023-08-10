@@ -483,7 +483,10 @@ import Swal from "sweetalert2";
                 </div>
               </div>
               <div class="relative">
-                <div class="absolute w-8 h-8 text-red-500 -top-3 -left-3">
+                <div
+                  class="absolute w-8 h-8 text-red-500 -top-3 -left-3"
+                  :class="{ hidden: index == 0 }"
+                >
                   <button type="button" @click="removeProduct(index)">
                     <i
                       class="w-8 h-8 rounded-full shadow-md fa-solid fa-circle-xmark"
@@ -503,7 +506,7 @@ import Swal from "sweetalert2";
                         >Pilih Produk</label
                       >
                       <select
-                        v-model="product.product_id[index]"
+                        v-model="item.product_id"
                         @change="
                           setHarga($event, index),
                             setBerat($event, index),
@@ -535,7 +538,7 @@ import Swal from "sweetalert2";
                         type="number"
                         id="qty"
                         class="bg-gray-50 border border-slate-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        v-model="product.qty[index]"
+                        v-model="item.qty"
                         required
                       />
                     </div>
@@ -553,7 +556,7 @@ import Swal from "sweetalert2";
                         id="product_weight"
                         aria-label="disabled input"
                         class="mb-6 bg-gray-100 border border-slate-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        v-model="product.product_weight[index]"
+                        v-model="item.product_weight"
                         disabled
                       />
                     </div>
@@ -571,7 +574,7 @@ import Swal from "sweetalert2";
                         id="product_price"
                         aria-label="disabled input"
                         class="mb-6 bg-gray-100 border border-slate-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        v-model="product.product_price[index]"
+                        v-model="item.product_price"
                         disabled
                       />
                     </div>
@@ -588,7 +591,7 @@ import Swal from "sweetalert2";
                         type="number"
                         id="discount"
                         class="bg-gray-50 border border-slate-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        v-model="product.discount[index]"
+                        v-model="item.discount"
                         required
                       />
                     </div>
@@ -605,9 +608,22 @@ import Swal from "sweetalert2";
                         type="number"
                         id="addition"
                         class="bg-gray-50 border border-slate-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        v-model="product.addition[index]"
+                        v-model="item.addition"
                         required
                       />
+                    </div>
+                  </div>
+                  <div class="w-full px-4">
+                    <label
+                      class="block mb-2 text-sm font-medium text-white dark:text-gray-300"
+                    >
+                      Total Harga
+                    </label>
+                    <div
+                      class="bg-gray-50 border cursor-not-allowed border-slate-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
+                      Rp.
+                      {{ currency(totalHargaItem(index)) }}
                     </div>
                   </div>
                 </div>
@@ -631,6 +647,9 @@ import Swal from "sweetalert2";
             <div class="px-6 py-6 mb-0 rounded-t bg-slate-800">
               <div class="flex justify-between text-center">
                 <h6 class="text-xl font-semibold text-white">Data Transaksi</h6>
+                <p class="text-xl font-semibold text-white">
+                  Rp. {{ currency(totalHarga) }}
+                </p>
               </div>
             </div>
 
@@ -849,16 +868,17 @@ export default {
         agen_alamat: "",
         agen_phone: "",
       },
-      productArr: [],
-      product: {
-        product_id: [""],
-        product_name: [""],
-        product_weight: [0],
-        product_price: [0],
-        qty: [0],
-        discount: [0],
-        addition: [0],
-      },
+      productArr: [
+        {
+          product_id: "",
+          product_name: "",
+          product_weight: 0,
+          product_price: 0,
+          qty: 0,
+          discount: 0,
+          addition: 0,
+        },
+      ],
       ongkir: {
         provinsi: "",
         kota: "",
@@ -911,24 +931,27 @@ export default {
     },
 
     getWeight() {
-      var weight = this.product.product_weight;
-      Object.keys(weight).map(function (key) {
-        return parseInt(weight[key]);
-      });
-
-      var jumlah = this.product.qty;
-      var qty = Object.keys(jumlah).map(function (key) {
-        return parseInt(jumlah[key]);
-      });
-
-      var multi = weight.map(function (w, i) {
-        return w * qty[i];
+      var multi = this.productArr.map(function (i) {
+        return parseInt(i.product_weight) * parseInt(i.qty);
       });
 
       var sum = multi.reduce((acc, item) => acc + item);
 
       return sum;
     },
+    totalHarga() {
+      let total = 0;
+      let data = this.productArr.map((i) => {
+        return (
+          parseInt(i.qty) * parseInt(i.product_price) +
+          parseInt(i.addition) -
+          parseInt(i.discount)
+        );
+      });
+      total = data.reduce((acc, item) => acc + item);
+      return total;
+    },
+
     csID() {
       return this.cs.cs_id;
     },
@@ -980,20 +1003,16 @@ export default {
     },
     addProduct() {
       this.productArr.push({
-        value: "",
+        product_id: "",
+        product_name: "",
+        product_weight: 0,
+        product_price: 0,
+        qty: 0,
+        discount: 0,
+        addition: 0,
       });
     },
     removeProduct(index) {
-      this.product = {
-        product_id: [""],
-        product_name: [""],
-        product_weight: [0],
-        product_price: [0],
-        qty: [0],
-        discount: [0],
-        addition: [0],
-        total: [0],
-      };
       this.productArr.splice(index, 1);
     },
     setHarga(event, index) {
@@ -1003,13 +1022,13 @@ export default {
           return item.product_id == event.target.value;
         });
         if (this.transaction.type_customer == 0) {
-          this.product.product_price[index] = filtered[0].reseller;
+          this.productArr[index].product_price = filtered[0].reseller;
         } else if (this.transaction.type_customer == 1) {
-          this.product.product_price[index] = filtered[0].agen;
+          this.productArr[index].product_price = filtered[0].agen;
         } else if (this.transaction.type_customer == 2) {
-          this.product.product_price[index] = filtered[0].end_user;
+          this.productArr[index].product_price = filtered[0].end_user;
         }
-        return this.product.product_price[index];
+        return this.productArr[index].product_price;
       }
     },
     setBerat(event, index) {
@@ -1018,8 +1037,8 @@ export default {
         let filtered = data.filter((item) => {
           return item.product_id == event.target.value;
         });
-        this.product.product_weight[index] = filtered[0].product_weight;
-        return this.product.product_weight[index];
+        this.productArr[index].product_weight = filtered[0].product_weight;
+        return this.productArr[index].product_weight;
       }
     },
     setNama(event, index) {
@@ -1028,8 +1047,8 @@ export default {
         let filtered = data.filter((item) => {
           return item.product_id == event.target.value;
         });
-        this.product.product_name[index] = filtered[0].product_name;
-        return this.product.product_name[index];
+        this.productArr[index].product_name = filtered[0].product_name;
+        return this.productArr[index].product_name;
       }
     },
 
@@ -1097,7 +1116,18 @@ export default {
         this.transaction.ongkir = this.cost.data;
       });
     },
-
+    currency(data) {
+      return new Intl.NumberFormat("id-ID", {
+        maximumSignificantDigits: 6,
+      }).format(data);
+    },
+    totalHargaItem(index) {
+      let qty = this.productArr[index].qty;
+      let harga = this.productArr[index].product_price;
+      let discount = this.productArr[index].discount;
+      let addition = this.productArr[index].addition;
+      return qty * harga + addition - discount;
+    },
     submit() {
       var form = new FormData();
 
@@ -1124,13 +1154,13 @@ export default {
         form.append("customer_alamat", this.customer.customer_alamat);
       }
 
-      for (let i = 0; i < this.product.qty.length; i++) {
-        let product_id = this.product.product_id[i];
-        let product_name = this.product.product_name[i];
-        let product_price = this.product.product_price[i];
-        let qty = this.product.qty[i];
-        let discount = this.product.discount[i];
-        let addition = this.product.addition[i];
+      for (let i = 0; i < this.productArr.length; i++) {
+        let product_id = this.productArr[i].product_id;
+        let product_name = this.productArr[i].product_name;
+        let product_price = this.productArr[i].product_price;
+        let qty = this.productArr[i].qty;
+        let discount = this.productArr[i].discount;
+        let addition = this.productArr[i].addition;
 
         form.append("product_id[" + i + "]", product_id);
         form.append("product_name[" + i + "]", product_name);
@@ -1173,16 +1203,17 @@ export default {
             agen_alamat: "",
             agen_phone: "",
           };
-          this.productArr = [];
-          this.product = {
-            product_id: [""],
-            product_name: [""],
-            product_weight: [0],
-            product_price: [0],
-            qty: [0],
-            discount: [0],
-            addition: [0],
-          };
+          this.productArr = [
+            {
+              product_id: "",
+              product_name: "",
+              product_weight: 0,
+              product_price: 0,
+              qty: 0,
+              discount: 0,
+              addition: 0,
+            },
+          ];
           this.ongkir = {
             provinsi: "",
             kota: "",
