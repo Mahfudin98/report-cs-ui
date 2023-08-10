@@ -263,7 +263,7 @@ export default {
       let data = 0;
       if (!this.isLoading) {
         let harga = this.detailData.total_harga;
-        let biaya = (3 / 100) * harga;
+        let biaya = (3 / 100) * parseInt(harga);
         data = Math.trunc(biaya);
       }
       return data;
@@ -274,9 +274,12 @@ export default {
         let harga = this.detailData.total_harga;
         let biaya = (3 / 100) * harga;
         if (this.detailData.type_transaction == "COD") {
-          data = harga + this.detailData.ongkir + biaya;
+          data =
+            parseInt(harga) +
+            parseInt(this.detailData.ongkir) +
+            parseInt(biaya);
         }
-        data = harga + this.detailData.ongkir;
+        data = parseInt(harga) + parseInt(this.detailData.ongkir);
       }
       return data;
     },
